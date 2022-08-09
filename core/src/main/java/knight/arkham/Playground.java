@@ -2,11 +2,10 @@ package knight.arkham;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+//import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Playground extends Game {
 	public static Playground INSTANCE;
 
@@ -29,11 +28,11 @@ public class Playground extends Game {
 
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+//
+//		OrthographicCamera globalCamera = new OrthographicCamera();
+//		globalCamera.setToOrtho(false, screenWidth, screenHeight);
 
-		OrthographicCamera globalCamera = new OrthographicCamera();
-		globalCamera.setToOrtho(false, screenWidth, screenHeight);
-
-		setScreen(new FirstScreen(globalCamera));
+		setScreen(new FirstScreen());
 	}
 
 
