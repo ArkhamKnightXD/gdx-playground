@@ -1,4 +1,4 @@
-package knight.arkham;
+package knight.arkham.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,8 +10,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import knight.arkham.Playground;
 
-public class FirstScreen extends ScreenAdapter {
+public class BasicPlaygroundScreen extends ScreenAdapter {
 
 	private final Playground game = Playground.INSTANCE;
 	private int screenClickCounter;
@@ -36,7 +37,7 @@ public class FirstScreen extends ScreenAdapter {
 //	private final OrthographicCamera camera;
 
 
-	public FirstScreen(/*OrthographicCamera globalCamera*/) {
+	public BasicPlaygroundScreen(/*OrthographicCamera globalCamera*/) {
 
 		//		camera = globalCamera;
 
