@@ -28,12 +28,17 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 	private int textureWidth;
 	private int textureHeight;
 
-	private final int playerSpeed;
+	private int playerSpeed;
 	
 	private final Sound clickSound;
 
 	private final Array<Rectangle> randomRectangles;
-	
+
+	private boolean isGoingUp;
+
+	private boolean isRandomMovementActive;
+
+
 //	private final OrthographicCamera camera;
 
 
@@ -42,7 +47,7 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 		//		camera = globalCamera;
 
 		positionX = 275;
-		positionY = 300;
+		positionY = 240;
 		textureWidth = 32;
 		textureHeight = 32;
 		initialTexture = new Texture("images/initial.png");
@@ -52,6 +57,10 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("fx/drop.wav"));
 
 		randomRectangles = new Array<>();
+
+		isGoingUp = true;
+
+		isRandomMovementActive = false;
 	}
 
 	@Override
@@ -71,11 +80,12 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 
 		game.batch.draw(initialTexture, positionX, positionY, textureWidth, textureHeight);
 
-		game.font.draw(game.batch, "Playground", 275, 250);
-		game.font.draw(game.batch, "Screen Touched: " + screenClickCounter, 275, 220);
-		game.font.draw(game.batch, "Mouse Position: " + "X: " +mousePositionX+ " Y: " +mousePositionY, 275, 200);
-		game.font.draw(game.batch, "Screen Height: " + game.getScreenHeight(), 275, 180);
-		game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(), 275, 150);
+		game.font.draw(game.batch, "Screen Touched: " + screenClickCounter, 420, 470);
+		game.font.draw(game.batch, "Mouse Position: " + "X: " +mousePositionX+ " Y: " +mousePositionY, 420, 450);
+		game.font.draw(game.batch, "Screen Height: " + game.getScreenHeight(), 420, 430);
+		game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(), 420, 410);
+		game.font.draw(game.batch, "Player Position: " + "X: " +positionX+ " Y: " +positionY, 420, 390);
+		game.font.draw(game.batch, "Player Speed: " + playerSpeed, 420, 370);
 
 		for (Rectangle rectangle: randomRectangles) {
 
@@ -85,6 +95,19 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 
 		game.batch.end();
 
+		manageUserInput();
+
+		if (isRandomMovementActive)
+			randomMovement(delta);
+
+		playerMovement(delta);
+
+		closeGame();
+
+	}
+
+	private void manageUserInput() {
+
 		if (Gdx.input.justTouched()){
 
 			clickSound.play(0.1f);
@@ -92,7 +115,7 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 			screenClickCounter++;
 		}
 
-		if (Gdx.input.isKeyJustPressed(Input.Keys.R))
+		if (Gdx.input.isKeyPressed(Input.Keys.R))
 			generateRandomRectangles();
 
 
@@ -111,10 +134,11 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 
 		}
 
-		playerMovement(delta);
+		if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+			isRandomMovementActive = true;
 
-		closeGame();
-
+		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE))
+			isRandomMovementActive = false;
 	}
 
 
@@ -156,6 +180,34 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 			positionY -= playerSpeed * deltaTime;
 
 		screenBoundary();
+	}
+
+	private void randomMovement(float deltaTime){
+
+		if (positionY < game.getScreenHeight() - textureHeight && isGoingUp){
+
+			positionY += playerSpeed * deltaTime;
+
+			if (positionY > game.getScreenHeight() - textureHeight){
+
+				isGoingUp = false;
+
+//				Cada vez que el bloque choque con la parte superior o inferior aumentare la velocidad de este
+				playerSpeed *= 1.05;
+			}
+		}
+
+		if (positionY > 0 && !isGoingUp){
+
+			positionY -= playerSpeed * deltaTime;
+
+			if (positionY < 0){
+
+				isGoingUp = true;
+
+				playerSpeed *= 1.05;
+			}
+		}
 	}
 
 	private void screenBoundary() {

@@ -33,7 +33,7 @@ public class MainMenuScreen extends ScreenAdapter {
         game.batch.begin();
 
         game.font.draw(game.batch, "Press Enter Basic Playground", 300-100, 250-50);
-        game.font.draw(game.batch, "Press Space Box2D Playground", 300-100, 250-100);
+        game.font.draw(game.batch, "Press Space Shape Playground", 300-100, 250-100);
 
         game.batch.end();
 
@@ -50,7 +50,13 @@ public class MainMenuScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
 
-            game.setScreen(new Box2DPlayGroundScreen());
+            game.setScreen(new ShapeRendererPlaygroundScreen());
+            dispose();
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
+
+            game.setScreen(new Box2DPlaygroundScreen());
             dispose();
         }
     }
