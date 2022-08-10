@@ -68,9 +68,21 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 		// Prepare your screen here.
 	}
 
+	private void update(float deltaTime){
+
+		manageUserInput();
+
+		playerMovement(deltaTime);
+
+		if (isRandomMovementActive)
+			randomMovement(deltaTime);
+	}
+
 //	La variable delta es mi deltaTime, osea el tiempo que hay entre el frame actual y el frame anterior
 	@Override
 	public void render(float delta) {
+
+		update(delta);
 
 		ScreenUtils.clear(0,0,0,0);
 
@@ -92,17 +104,7 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 			game.batch.draw(initialTexture, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 		}
 
-
 		game.batch.end();
-
-		manageUserInput();
-
-		if (isRandomMovementActive)
-			randomMovement(delta);
-
-		playerMovement(delta);
-
-		closeGame();
 
 	}
 
@@ -139,6 +141,13 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE))
 			isRandomMovementActive = false;
+
+
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+
+			Gdx.app.exit();
+			dispose();
+		}
 	}
 
 
@@ -154,14 +163,6 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 		randomRectangles.add(rectangle);
 	}
 
-	private void closeGame() {
-
-		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-
-			Gdx.app.exit();
-			dispose();
-		}
-	}
 
 	private void playerMovement(float deltaTime) {
 
