@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 
-public class BasicPlaygroundScreen extends ScreenAdapter {
+public class BasicScreen extends ScreenAdapter {
 
 	private final Playground game = Playground.INSTANCE;
 	private int screenClickCounter;
@@ -42,7 +42,7 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 //	private final OrthographicCamera camera;
 
 
-	public BasicPlaygroundScreen(/*OrthographicCamera globalCamera*/) {
+	public BasicScreen(/*OrthographicCamera globalCamera*/) {
 
 		//		camera = globalCamera;
 
@@ -92,12 +92,12 @@ public class BasicPlaygroundScreen extends ScreenAdapter {
 
 		game.batch.draw(initialTexture, positionX, positionY, textureWidth, textureHeight);
 
-		game.font.draw(game.batch, "Screen Touched: " + screenClickCounter, 420, 470);
-		game.font.draw(game.batch, "Mouse Position: " + "X: " +mousePositionX+ " Y: " +mousePositionY, 420, 450);
-		game.font.draw(game.batch, "Screen Height: " + game.getScreenHeight(), 420, 430);
-		game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(), 420, 410);
-		game.font.draw(game.batch, "Player Position: " + "X: " +positionX+ " Y: " +positionY, 420, 390);
-		game.font.draw(game.batch, "Player Speed: " + playerSpeed, 420, 370);
+		game.font.draw(game.batch, "Screen Touched: " + screenClickCounter, 400, 470);
+		game.font.draw(game.batch, "Mouse Position: " + "X: " +mousePositionX+" Y: " +mousePositionY, 400, 450);
+		game.font.draw(game.batch, "Screen Height: " + game.getScreenHeight(), 400, 430);
+		game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(), 400, 410);
+		game.font.draw(game.batch, "Player Position: " + "X: " +positionX+ " Y: " +positionY, 400, 390);
+		game.font.draw(game.batch, "Player Speed: " + playerSpeed, 400, 370);
 
 		for (Rectangle rectangle: randomRectangles) {
 

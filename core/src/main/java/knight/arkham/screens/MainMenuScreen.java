@@ -44,19 +44,19 @@ public class MainMenuScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)){
 
-            game.setScreen(new BasicPlaygroundScreen());
+            game.setScreen(new BasicScreen());
             dispose();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
 
-            game.setScreen(new ShapeRendererPlaygroundScreen());
+            game.setScreen(new ShapeRendererScreen());
             dispose();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.F1)){
 
-            game.setScreen(new Box2DPlaygroundScreen());
+            game.setScreen(new Box2DScreen());
             dispose();
         }
     }

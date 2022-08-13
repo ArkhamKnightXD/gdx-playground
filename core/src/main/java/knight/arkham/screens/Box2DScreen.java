@@ -4,12 +4,12 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 
-public class Box2DPlaygroundScreen extends ScreenAdapter {
+public class Box2DScreen extends ScreenAdapter {
 
     private final Playground game;
 
 
-    public Box2DPlaygroundScreen() {
+    public Box2DScreen() {
 
         game = Playground.INSTANCE;
     }

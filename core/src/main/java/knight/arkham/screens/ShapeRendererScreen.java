@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 import knight.arkham.objects.Ball;
 
-public class ShapeRendererPlaygroundScreen extends ScreenAdapter {
+public class ShapeRendererScreen extends ScreenAdapter {
 
     private final Playground game = Playground.INSTANCE;
 
@@ -22,7 +22,7 @@ public class ShapeRendererPlaygroundScreen extends ScreenAdapter {
     private final Ball ball;
 
 
-    public ShapeRendererPlaygroundScreen() {
+    public ShapeRendererScreen() {
 
         positionX = 50;
         positionY = 50;
