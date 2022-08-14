@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
+import static knight.arkham.helpers.Constants.MID_SCREEN_HEIGHT;
+import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
 
 public class MainMenuScreen extends ScreenAdapter {
 
@@ -32,8 +34,9 @@ public class MainMenuScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.font.draw(game.batch, "Press Enter Basic Playground", 300-100, 250-50);
-        game.font.draw(game.batch, "Press Space Shape Playground", 300-100, 250-100);
+        game.font.draw(game.batch, "Press F1 Basic Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT);
+        game.font.draw(game.batch, "Press F2 Shape Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-20);
+        game.font.draw(game.batch, "Press F3 Box2D Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-40);
 
         game.batch.end();
 
@@ -42,19 +45,19 @@ public class MainMenuScreen extends ScreenAdapter {
 
     private void manageScreenSelection() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
 
             game.setScreen(new BasicScreen());
             dispose();
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if (Gdx.input.isKeyPressed(Input.Keys.F2)){
 
             game.setScreen(new ShapeRendererScreen());
             dispose();
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
+        if (Gdx.input.isKeyPressed(Input.Keys.F3)){
 
             game.setScreen(new Box2DScreen());
             dispose();

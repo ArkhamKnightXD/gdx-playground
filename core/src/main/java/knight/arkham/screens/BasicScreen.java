@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 
+import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
+import static knight.arkham.helpers.Constants.FULL_SCREEN_WIDTH;
+
 public class BasicScreen extends ScreenAdapter {
 
 	private final Playground game = Playground.INSTANCE;
@@ -92,12 +95,23 @@ public class BasicScreen extends ScreenAdapter {
 
 		game.batch.draw(initialTexture, positionX, positionY, textureWidth, textureHeight);
 
-		game.font.draw(game.batch, "Screen Touched: " + screenClickCounter, 400, 470);
-		game.font.draw(game.batch, "Mouse Position: " + "X: " +mousePositionX+" Y: " +mousePositionY, 400, 450);
-		game.font.draw(game.batch, "Screen Height: " + game.getScreenHeight(), 400, 430);
-		game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(), 400, 410);
-		game.font.draw(game.batch, "Player Position: " + "X: " +positionX+ " Y: " +positionY, 400, 390);
-		game.font.draw(game.batch, "Player Speed: " + playerSpeed, 400, 370);
+		game.font.draw(game.batch, "Screen Touched: " + screenClickCounter,
+				FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT - 20);
+
+		game.font.draw(game.batch, "Mouse Position: " + "X: " +mousePositionX+" Y: "
+				+mousePositionY, FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT -40);
+
+		game.font.draw(game.batch, "Screen Height: " + game.getScreenHeight(),
+				FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT -60);
+
+		game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(),
+				FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT-80);
+
+		game.font.draw(game.batch, "Player Position: " + "X: " +positionX+ " Y: "
+				+positionY, FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT-100);
+
+		game.font.draw(game.batch, "Player Speed: " + playerSpeed,
+				FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT-120);
 
 		for (Rectangle rectangle: randomRectangles) {
 
@@ -109,6 +123,8 @@ public class BasicScreen extends ScreenAdapter {
 	}
 
 	private void manageUserInput() {
+
+		game.goBackToMenu();
 
 		if (Gdx.input.justTouched()){
 

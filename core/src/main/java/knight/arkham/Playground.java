@@ -3,6 +3,7 @@ package knight.arkham;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 //import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import knight.arkham.screens.MainMenuScreen;
@@ -36,6 +37,14 @@ public class Playground extends Game {
 		setScreen(new MainMenuScreen());
 	}
 
+
+	public void goBackToMenu(){
+
+		if (Gdx.input.isKeyPressed(Input.Keys.F12)){
+
+			setScreen(new MainMenuScreen());
+		}
+	}
 
 	public int getScreenWidth() { return screenWidth; }
 

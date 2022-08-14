@@ -40,6 +40,8 @@ public class ShapeRendererScreen extends ScreenAdapter {
     
     private void update(){
 
+        game.goBackToMenu();
+
         randomMovement();
 
         ball.update();
@@ -86,6 +88,6 @@ public class ShapeRendererScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
-        shapeRenderer.dispose();
+//        shapeRenderer.dispose();
     }
 }
