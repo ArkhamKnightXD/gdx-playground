@@ -11,16 +11,17 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
-
 import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
 import static knight.arkham.helpers.Constants.FULL_SCREEN_WIDTH;
 
 public class BasicScreen extends ScreenAdapter {
 
-	private final Playground game = Playground.INSTANCE;
+	private final Playground game;
 	private int screenClickCounter;
-	
-	private final Texture initialTexture;
+
+	private final Texture playerTexture;
+
+	private final Rectangle playerBody;
 
 	private float positionX;
 	private float positionY;
@@ -28,11 +29,8 @@ public class BasicScreen extends ScreenAdapter {
 	private float mousePositionX;
 	private float mousePositionY;
 
-	private int textureWidth;
-	private int textureHeight;
-
 	private int playerSpeed;
-	
+
 	private final Sound clickSound;
 
 	private final Array<Rectangle> randomRectangles;
@@ -47,16 +45,16 @@ public class BasicScreen extends ScreenAdapter {
 
 	public BasicScreen(/*OrthographicCamera globalCamera*/) {
 
+		game = Playground.INSTANCE;
+
 		//		camera = globalCamera;
 
-		positionX = 275;
-		positionY = 240;
-		textureWidth = 32;
-		textureHeight = 32;
-		initialTexture = new Texture("images/initial.png");
+		positionX = 800;
+		positionY = 300;
+		playerTexture = new Texture("images/initial.png");
 
 		screenClickCounter = 0;
-		playerSpeed = 250;
+		playerSpeed = 400;
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("fx/drop.wav"));
 
 		randomRectangles = new Array<>();
@@ -64,6 +62,7 @@ public class BasicScreen extends ScreenAdapter {
 		isGoingUp = true;
 
 		isRandomMovementActive = false;
+		playerBody = new Rectangle(positionX, positionY, 32, 32);
 	}
 
 	@Override
@@ -73,12 +72,19 @@ public class BasicScreen extends ScreenAdapter {
 
 	private void update(float deltaTime){
 
+		playerBody.x = positionX;
+		playerBody.y = positionY;
+
 		manageUserInput();
 
 		playerMovement(deltaTime);
 
-		if (isRandomMovementActive)
-			randomMovement(deltaTime);
+		if (isRandomMovementActive){
+
+//            xAxisMovement();
+
+            randomMovement(deltaTime);
+        }
 	}
 
 //	La variable delta es mi deltaTime, osea el tiempo que hay entre el frame actual y el frame anterior
@@ -93,7 +99,7 @@ public class BasicScreen extends ScreenAdapter {
 
 		game.batch.begin();
 
-		game.batch.draw(initialTexture, positionX, positionY, textureWidth, textureHeight);
+		game.batch.draw(playerTexture, playerBody.x, playerBody.y, playerBody.width, playerBody.height);
 
 		game.font.draw(game.batch, "Screen Touched: " + screenClickCounter,
 				FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT - 20);
@@ -110,16 +116,31 @@ public class BasicScreen extends ScreenAdapter {
 		game.font.draw(game.batch, "Player Position: " + "X: " +positionX+ " Y: "
 				+positionY, FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT-100);
 
+		game.font.draw(game.batch, "Player Size: " + "Width: " +playerBody.width+ " Height: "
+				+playerBody.height, FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT-120);
+
 		game.font.draw(game.batch, "Player Speed: " + playerSpeed,
-				FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT-120);
+				FULL_SCREEN_WIDTH-300, FULL_SCREEN_HEIGHT-140);
+
+
 
 		for (Rectangle rectangle: randomRectangles) {
 
-			game.batch.draw(initialTexture, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+			game.batch.draw(playerTexture, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+
+			removeRectangles(randomRectangles, rectangle);
 		}
 
 		game.batch.end();
 
+	}
+
+//	Seguir luego
+
+	private void removeRectangles(Array<Rectangle> rectangles, Rectangle actualRectangle){
+
+		if (playerBody.overlaps(actualRectangle))
+			rectangles.pop();
 	}
 
 	private void manageUserInput() {
@@ -133,7 +154,7 @@ public class BasicScreen extends ScreenAdapter {
 			screenClickCounter++;
 		}
 
-		if (Gdx.input.isKeyPressed(Input.Keys.R))
+		if (Gdx.input.isKeyJustPressed(Input.Keys.R))
 			generateRandomRectangles();
 
 
@@ -147,16 +168,19 @@ public class BasicScreen extends ScreenAdapter {
 //			positionX = mousePositionX;
 //			positionY = mousePositionY;
 
-			textureWidth++;
-			textureHeight++;
+			playerBody.width++;
+			playerBody.height++;
 
 		}
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
 			isRandomMovementActive = true;
 
-		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE))
+		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)){
+
 			isRandomMovementActive = false;
+			playerSpeed = 400;
+		}
 
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
@@ -173,8 +197,8 @@ public class BasicScreen extends ScreenAdapter {
 
 		rectangle.width = 16;
 		rectangle.height = 16;
-		rectangle.x = MathUtils.random(0, 640-16);
-		rectangle.y = MathUtils.random(0, 480-16);
+		rectangle.x = MathUtils.random(0, 800-16);
+		rectangle.y = MathUtils.random(0, 600-16);
 
 		randomRectangles.add(rectangle);
 	}
@@ -201,11 +225,11 @@ public class BasicScreen extends ScreenAdapter {
 
 	private void randomMovement(float deltaTime){
 
-		if (positionY < game.getScreenHeight() - textureHeight && isGoingUp){
+		if (positionY < game.getScreenHeight() - playerBody.height && isGoingUp){
 
 			positionY += playerSpeed * deltaTime;
 
-			if (positionY > game.getScreenHeight() - textureHeight){
+			if (positionY > game.getScreenHeight() - playerBody.height){
 
 				isGoingUp = false;
 
@@ -225,20 +249,35 @@ public class BasicScreen extends ScreenAdapter {
 				playerSpeed *= 1.05;
 			}
 		}
+
+	}
+
+	private void xAxisMovement(){
+
+//        La forma mas facil de hacer que un elemento cambie para la direccion contraria es darle un numero negativo
+//        a la velocidad, en pocas palabras con la velocidad controlo la direccion de mi objeto
+		positionX += playerSpeed;
+
+		if (positionX > game.getScreenWidth()-playerBody.width)
+			playerSpeed = -10;
+
+		if (positionX < 0)
+			playerSpeed = 10;
+
 	}
 
 	private void screenBoundary() {
 
 //		En las posiciones superiores debo de resta el width y el height de la texture,
 //		para que la figura no salga de la pantalla
-		if (positionX > game.getScreenWidth() - textureWidth)
-			positionX = game.getScreenWidth() - textureWidth;
+		if (positionX > game.getScreenWidth() - playerBody.width)
+			positionX = game.getScreenWidth() - playerBody.width;
 
 		if (positionX < 0)
 			positionX = 0;
 
-		if (positionY > game.getScreenHeight() - textureHeight)
-			positionY = game.getScreenHeight() - textureHeight;
+		if (positionY > game.getScreenHeight() - playerBody.height)
+			positionY = game.getScreenHeight() - playerBody.height;
 
 		if (positionY < 0)
 			positionY = 0;
@@ -254,7 +293,7 @@ public class BasicScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 
-		initialTexture.dispose();
+		playerTexture.dispose();
 		clickSound.dispose();
 	}
 }
