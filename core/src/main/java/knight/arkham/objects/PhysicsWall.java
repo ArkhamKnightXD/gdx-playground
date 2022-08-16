@@ -15,7 +15,8 @@ public class PhysicsWall {
     private final Texture wallTexture;
 
 
-    public PhysicsWall(float positionY, float positionX, int width, int height, Box2DScreen gameScreen) {
+    public PhysicsWall(float positionY, float positionX, int width, int height,
+                       ContactType contactType, Box2DScreen gameScreen) {
 
         this.positionY = positionY;
         this.positionX = positionX;
@@ -24,7 +25,7 @@ public class PhysicsWall {
         wallTexture = new Texture("images/initial.png");
 
         BodyHelper.createBody(new Box2DBody(positionX, positionY, width, height,
-                true, 0, gameScreen.getGameWorld(), ContactType.WALL));
+                true, 0, gameScreen.getGameWorld(), contactType));
     }
 
     public void render(SpriteBatch batch){

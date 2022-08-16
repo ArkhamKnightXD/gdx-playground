@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
+import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.GameContactListener;
 import knight.arkham.objects.PhysicsBall;
 import knight.arkham.objects.PhysicsWall;
@@ -29,11 +30,17 @@ public class Box2DScreen extends ScreenAdapter {
         gameWorld.setContactListener(gameContactListener);
 
         physicsBall = new PhysicsBall( this);
-        topWall = new PhysicsWall(FULL_SCREEN_HEIGHT, MID_SCREEN_WIDTH, FULL_SCREEN_WIDTH, 64, this);
-        bottomWall = new PhysicsWall(0, MID_SCREEN_WIDTH, FULL_SCREEN_WIDTH, 64, this);
+        topWall = new PhysicsWall(FULL_SCREEN_HEIGHT, MID_SCREEN_WIDTH,
+                FULL_SCREEN_WIDTH, 64, ContactType.WALL, this);
 
-        rightWall = new PhysicsWall(MID_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 64, FULL_SCREEN_HEIGHT, this);
-        leftWall = new PhysicsWall(MID_SCREEN_HEIGHT, 0, 64, FULL_SCREEN_HEIGHT, this);
+        bottomWall = new PhysicsWall(0, MID_SCREEN_WIDTH,
+                FULL_SCREEN_WIDTH, 64,ContactType.WALL, this);
+
+        rightWall = new PhysicsWall(MID_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 64,
+                FULL_SCREEN_HEIGHT, ContactType.SIDEWALL, this);
+
+        leftWall = new PhysicsWall(MID_SCREEN_HEIGHT, 0, 64,
+                FULL_SCREEN_HEIGHT, ContactType.SIDEWALL, this);
     }
 
     @Override
@@ -61,7 +68,7 @@ public class Box2DScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.font.draw(game.batch, "Press F12 For Main Menu", 0, FULL_SCREEN_HEIGHT-40);
+        game.font.draw(game.batch, "Press F12 For Main Menu", 50, FULL_SCREEN_HEIGHT-40);
 
         bottomWall.render(game.batch);
 

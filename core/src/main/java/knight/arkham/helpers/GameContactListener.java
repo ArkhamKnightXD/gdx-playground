@@ -23,13 +23,18 @@ public class GameContactListener implements ContactListener {
 
 //        Trabajar contacto con las paredes izquierda y derecha, esto solo funciona
 //        bien con las paredes inferiores y superiores
-        //comprobacion de elementos, en esta comparacion no me importaria el orden de los elementos
         if (fixtureA.getUserData() == ContactType.BALL || fixtureB.getUserData() == ContactType.BALL){
 
             if (fixtureA.getUserData() == ContactType.WALL || fixtureB.getUserData() == ContactType.WALL){
 
                 gameScreen.getPhysicsBall().reverseVelocityY();
-                gameScreen.getPhysicsBall().incrementSpeed();
+                gameScreen.getPhysicsBall().incrementYSpeed();
+            }
+
+            if (fixtureA.getUserData() == ContactType.SIDEWALL || fixtureB.getUserData() == ContactType.SIDEWALL){
+
+                gameScreen.getPhysicsBall().reverseVelocityX();
+                gameScreen.getPhysicsBall().incrementXSpeed();
             }
         }
     }

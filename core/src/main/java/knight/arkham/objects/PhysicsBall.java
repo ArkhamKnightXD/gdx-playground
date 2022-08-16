@@ -71,8 +71,14 @@ public class PhysicsBall {
     }
 
 
-    public void incrementSpeed(){
+    public void incrementXSpeed(){
 
         velocityX *= 1.1f;
+    }
+
+
+    public void incrementYSpeed(){
+
+        velocityY *= 1.1f;
     }
 }
