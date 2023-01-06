@@ -18,14 +18,6 @@ public class MainMenuScreen extends ScreenAdapter {
         game = Playground.INSTANCE;
     }
 
-
-    @Override
-    public void show() {
-
-
-    }
-
-
     @Override
     public void render(float delta) {
 
@@ -45,23 +37,14 @@ public class MainMenuScreen extends ScreenAdapter {
 
     private void manageScreenSelection() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
-
+        if (Gdx.input.isKeyPressed(Input.Keys.F1))
             game.setScreen(new BasicScreen());
-            dispose();
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F2)){
-
+        if (Gdx.input.isKeyPressed(Input.Keys.F2))
             game.setScreen(new ShapeRendererScreen());
-            dispose();
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F3)){
-
+        if (Gdx.input.isKeyPressed(Input.Keys.F3))
             game.setScreen(new Box2DScreen());
-            dispose();
-        }
     }
 
 

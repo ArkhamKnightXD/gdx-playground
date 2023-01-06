@@ -6,33 +6,33 @@ import static knight.arkham.helpers.Constants.*;
 public class Ball {
     float positionX;
     float positionY;
+    int speedX;
+    int speedY;
     int radius;
-    int xSpeed;
-    int ySpeed;
 
-    public Ball(float positionX, float positionY, int radius, int xSpeed, int ySpeed) {
+
+    public Ball(float positionX, float positionY, int radius, int speedX, int speedY) {
 
         this.positionX = positionX;
         this.positionY = positionY;
+        this.speedX = speedX;
+        this.speedY = speedY;
         this.radius = radius;
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
     }
 
     public void update() {
 
-//        Le sumo a la posicion la velocidad positiva tanto en X como en Y
-        positionX += xSpeed;
-        positionY += ySpeed;
+//        Le sumo a la posición la velocidad positiva tanto en X como en Y
+        positionX += speedX;
+        positionY += speedY;
 
-//        Si la pelota llega en algun momento a los limites de la pantalla vuelvo la velocidad negativa
-//        para que la pelota cambie de direccion
-        if (positionX < 0 || positionX > FULL_SCREEN_WIDTH) {
-            xSpeed = -xSpeed;
-        }
-        if (positionY < 0 || positionY > FULL_SCREEN_HEIGHT) {
-            ySpeed = -ySpeed;
-        }
+//        Si la pelota llega en algún momento a los límites de la pantalla vuelvo la velocidad negativa
+//        para que la pelota cambie de dirección
+        if (positionX < 0 || positionX > FULL_SCREEN_WIDTH)
+            speedX = -speedX;
+
+        if (positionY < 0 || positionY > FULL_SCREEN_HEIGHT)
+            speedY = -speedY;
     }
 
     public void render(ShapeRenderer shape) {

@@ -32,11 +32,6 @@ public class ShapeRendererScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         ball = new Ball(150, 200, 50, 12, 5);
     }
-
-    @Override
-    public void show() {
-
-    }
     
     private void update(){
 
@@ -63,19 +58,17 @@ public class ShapeRendererScreen extends ScreenAdapter {
         ball.render(shapeRenderer);
 
         shapeRenderer.end();
-        
     }
 
     private void randomMovement(){
 
         positionX += xSpeed;
 
-        if (positionX > game.getScreenWidth()-radius) {
+        if (positionX > game.getScreenWidth()-radius)
             xSpeed = -5;
-        }
-        if (positionX < radius) {
+
+        if (positionX < radius)
             xSpeed = 5;
-        }
     }
 
 

@@ -38,12 +38,10 @@ public class Playground extends Game {
 	}
 
 
-	public void goBackToMenu(){
+	public void goBackToMenu() {
 
-		if (Gdx.input.isKeyPressed(Input.Keys.F12)){
-
+		if (Gdx.input.isKeyPressed(Input.Keys.F12))
 			setScreen(new MainMenuScreen());
-		}
 	}
 
 	public int getScreenWidth() { return screenWidth; }

@@ -66,10 +66,6 @@ public class BasicScreen extends ScreenAdapter {
         playerBody = new Rectangle(positionX, positionY, 32, 32);
     }
 
-    @Override
-    public void show() {
-        // Prepare your screen here.
-    }
 
     private void update(float deltaTime) {
 
@@ -132,10 +128,8 @@ public class BasicScreen extends ScreenAdapter {
         }
 
         game.batch.end();
-
     }
 
-//	Seguir luego
 
     private void removeRectangles(Array<Rectangle> rectangles, Rectangle actualRectangle) {
 

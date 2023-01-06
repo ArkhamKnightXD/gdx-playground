@@ -43,11 +43,6 @@ public class Box2DScreen extends ScreenAdapter {
                 FULL_SCREEN_HEIGHT, ContactType.SIDEWALL, this);
     }
 
-    @Override
-    public void show() {
-
-    }
-
 
     private void update(){
 
@@ -86,7 +81,7 @@ public class Box2DScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override

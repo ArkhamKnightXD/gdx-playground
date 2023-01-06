@@ -20,7 +20,6 @@ public class GameContactListener implements ContactListener {
         if ( fixtureA.getUserData() == null || fixtureB.getUserData() == null)
             return;
 
-
 //        Trabajar contacto con las paredes izquierda y derecha, esto solo funciona
 //        bien con las paredes inferiores y superiores
         if (fixtureA.getUserData() == ContactType.BALL || fixtureB.getUserData() == ContactType.BALL){
