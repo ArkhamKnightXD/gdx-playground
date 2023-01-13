@@ -2,6 +2,7 @@ package knight.arkham.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import knight.arkham.helpers.BodyHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
@@ -24,12 +25,11 @@ public class PhysicsWall {
         this.height = height;
         wallTexture = new Texture("images/initial.png");
 
-        BodyHelper.createBody(new Box2DBody(positionX, positionY, width, height,
+        BodyHelper.createBody(new Box2DBody(new Rectangle(positionX, positionY, width, height),
                 true, 0, gameScreen.getGameWorld(), contactType));
     }
 
     public void render(SpriteBatch batch){
-
         batch.draw(wallTexture, positionX - (width / 2), positionY - (height / 2), width, height);
     }
 }

@@ -12,7 +12,6 @@ public class MainMenuScreen extends ScreenAdapter {
 
     private final Playground game;
 
-
     public MainMenuScreen() {
 
         game = Playground.INSTANCE;

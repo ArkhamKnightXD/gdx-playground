@@ -160,7 +160,6 @@ public class BasicScreen extends ScreenAdapter {
 			positionY = mousePositionY;
         }
 
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isRandomMovementActive = true;
 
@@ -172,7 +171,6 @@ public class BasicScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F3))
             generateRandomRectangles();
-
 
         if (Gdx.input.isKeyPressed(Input.Keys.F4)) {
 

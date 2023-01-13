@@ -2,35 +2,35 @@ package knight.arkham.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 import knight.arkham.objects.Ball;
 
 public class ShapeRendererScreen extends ScreenAdapter {
 
-    private final Playground game = Playground.INSTANCE;
+    private final Playground game;
 
-    //    Ejerce una funcion parecida al spritebatch, pero con este puede dibujar formas geometricas
+    //Ejerce una función parecida al spritebatch, pero con este puede dibujar formas geometricas
     private final ShapeRenderer shapeRenderer;
 
-    private float positionX;
-    private final float positionY;
-
+    private final Vector2 position;
     private final float radius;
-    private float xSpeed;
+    private float velocityX;
     
     private final Ball ball;
 
 
     public ShapeRendererScreen() {
 
-        positionX = 50;
-        positionY = 50;
+        game = Playground.INSTANCE;
+
+        position = new Vector2(50, 50);
         radius = 50;
-        xSpeed = 5;
+        velocityX = 5;
 
         shapeRenderer = new ShapeRenderer();
-        ball = new Ball(150, 200, 50, 12, 5);
+        ball = new Ball(new Vector2(150, 200), new Vector2(12, 5), 50);
     }
     
     private void update(){
@@ -47,13 +47,13 @@ public class ShapeRendererScreen extends ScreenAdapter {
         
         update();
 
-        ScreenUtils.clear(0,0,0,1);
+        ScreenUtils.clear(0,0,0,0);
 
-//        Es necesario pasarle al shaperenderer este parametro inicial, para indicar si las figuras, estaran
-//        llenas del color blanca o solo se mostraran las lineas de las figuras
+//        Es necesario pasarle al shapeRenderer este parametro inicial, para indicar si las figuras, estarán
+//        llenas del color blanca o solo se mostraran las líneas de las figuras
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        shapeRenderer.circle(positionX, positionY, radius);
+        shapeRenderer.circle(position.x, position.y, radius);
 
         ball.render(shapeRenderer);
 
@@ -62,13 +62,13 @@ public class ShapeRendererScreen extends ScreenAdapter {
 
     private void randomMovement(){
 
-        positionX += xSpeed;
+        position.x += velocityX;
 
-        if (positionX > game.getScreenWidth()-radius)
-            xSpeed = -5;
+        if (position.x > game.getScreenWidth()-radius)
+            velocityX = -5;
 
-        if (positionX < radius)
-            xSpeed = 5;
+        if (position.x < radius)
+            velocityX = 5;
     }
 
 
