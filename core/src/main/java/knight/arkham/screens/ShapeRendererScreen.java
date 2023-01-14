@@ -55,7 +55,7 @@ public class ShapeRendererScreen extends ScreenAdapter {
 
         shapeRenderer.circle(position.x, position.y, radius);
 
-        ball.render(shapeRenderer);
+        ball.draw(shapeRenderer);
 
         shapeRenderer.end();
     }

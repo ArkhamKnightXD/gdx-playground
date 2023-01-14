@@ -3,8 +3,9 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import knight.arkham.helpers.BodyHelper;
+import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Constants;
 import knight.arkham.helpers.ContactType;
@@ -13,73 +14,59 @@ import knight.arkham.screens.Box2DScreen;
 public class PhysicsBall {
 
     private final Body body;
-    private float positionX;
-    private float positionY;
+    private final Rectangle bounds;
+    private final Vector2 velocity;
     private final float speed;
-    private float velocityY;
-    private float velocityX;
-    private final int width;
-    private final int height;
     private final Texture ballTexture;
 
     public PhysicsBall(Box2DScreen gameScreen) {
 
-        positionX = Constants.MID_SCREEN_WIDTH;
-        positionY = Constants.MID_SCREEN_HEIGHT;
+        bounds = new Rectangle(Constants.MID_SCREEN_WIDTH, Constants.MID_SCREEN_HEIGHT, 32, 32);
         speed = 8;
-        width = 32;
-        height = 32;
 
-//        Con velocity controlo la direcciones de la pelota
-        velocityX = getRandomDirection();
-        velocityY = getRandomDirection();
+// Con mi vector velocity controlo la direcciones de la pelota
+        velocity = new Vector2(getRandomDirection(), getRandomDirection());
 
         ballTexture = new Texture("images/initial.png");
 
-        body = BodyHelper.createBody(new Box2DBody(new Rectangle(positionX, positionY, width, height), false,
-                0, gameScreen.getGameWorld(), ContactType.BALL));
+        body = Box2DHelper.createBody(
+                new Box2DBody(bounds, false, 100, gameScreen.getGameWorld(), ContactType.BALL)
+        );
     }
 
-    private float getRandomDirection(){
-
+    private float getRandomDirection() {
         return (Math.random() < 0.5) ? 1 : -1;
     }
 
-    public void update(){
+    public void update() {
 
-        positionX = body.getPosition().x * Constants.PIXELS_PER_METER - (width / 2);
-        positionY = body.getPosition().y * Constants.PIXELS_PER_METER - (height / 2);
+        bounds.x = body.getPosition().x * Constants.PIXELS_PER_METER - (bounds.width / 2);
+        bounds.y = body.getPosition().y * Constants.PIXELS_PER_METER - (bounds.height / 2);
 
-        body.setLinearVelocity(velocityX * speed, velocityY * speed);
+//Aqui multiplico las coordenadas de mi vector velocidad con el scalar speed, para indicar la velocidad lineal al body.
+        body.setLinearVelocity(velocity.x * speed, velocity.y * speed);
     }
 
 
-    public void render(SpriteBatch batch){
-
-        batch.draw(ballTexture, positionX, positionY, width, height);
+    public void draw(SpriteBatch batch) {
+        batch.draw(ballTexture, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
-
-    public void reverseVelocityX(){
-
-        velocityX *= -1;
+    public void reverseVelocityX() {
+        velocity.x *= -1;
     }
 
-
-    public void reverseVelocityY(){
-
-        velocityY *= -1;
+    public void reverseVelocityY() {
+        velocity.y *= -1;
     }
 
-
-    public void incrementXSpeed(){
-
-        velocityX *= 1.1f;
+    public void incrementXVelocity() {
+        velocity.x *= 1.1f;
     }
 
-
-    public void incrementYSpeed(){
-
-        velocityY *= 1.1f;
+    public void incrementYVelocity() {
+        velocity.y *= 1.1f;
     }
+
+    public Texture getBallTexture() {return ballTexture;}
 }

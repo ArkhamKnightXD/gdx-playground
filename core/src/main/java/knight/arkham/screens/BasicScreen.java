@@ -24,9 +24,6 @@ public class BasicScreen extends ScreenAdapter {
 
     private final Rectangle playerBody;
 
-    private float positionX;
-    private float positionY;
-
     private float mousePositionX;
     private float mousePositionY;
 
@@ -50,8 +47,6 @@ public class BasicScreen extends ScreenAdapter {
 
         //		camera = globalCamera;
 
-        positionX = 400;
-        positionY = 300;
         playerTexture = new Texture("images/initial.png");
 
         screenClickCounter = 0;
@@ -63,14 +58,11 @@ public class BasicScreen extends ScreenAdapter {
         isGoingUp = true;
 
         isRandomMovementActive = false;
-        playerBody = new Rectangle(positionX, positionY, 32, 32);
+        playerBody = new Rectangle(400, 300, 32, 32);
     }
 
 
     private void update(float deltaTime) {
-
-        playerBody.x = positionX;
-        playerBody.y = positionY;
 
         manageUserInput();
 
@@ -78,9 +70,9 @@ public class BasicScreen extends ScreenAdapter {
 
         if (isRandomMovementActive) {
 
-//            xAxisMovement();
+//            yAxisMovement();
 
-            randomMovement(deltaTime);
+            randomMovementOnY(deltaTime);
         }
     }
 
@@ -110,8 +102,8 @@ public class BasicScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(),
                 FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 80);
 
-        game.font.draw(game.batch, "Player Position: " + "X: " + positionX + " Y: "
-                + positionY, FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 100);
+        game.font.draw(game.batch, "Player Position: " + "X: " + playerBody.x + " Y: "
+                + playerBody.y, FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 100);
 
         game.font.draw(game.batch, "Player Size: " + "Width: " + playerBody.width + " Height: "
                 + playerBody.height, FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 120);
@@ -156,8 +148,8 @@ public class BasicScreen extends ScreenAdapter {
             mousePositionX = Gdx.input.getX();
             mousePositionY = Gdx.input.getY();
 
-			positionX = mousePositionX;
-			positionY = mousePositionY;
+            playerBody.x = mousePositionX;
+            playerBody.y = mousePositionY;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
@@ -204,27 +196,27 @@ public class BasicScreen extends ScreenAdapter {
 //		Multiplicamos mi variable de velocidad por el tiempo que hubo entre el frame actual y el anterior,
 //		para obtener un mejor movimiento
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            positionX += playerSpeed * deltaTime;
+            playerBody.x += playerSpeed * deltaTime;
 
         if (Gdx.input.isKeyPressed(Input.Keys.A))
-            positionX -= playerSpeed * deltaTime;
+            playerBody.x -= playerSpeed * deltaTime;
 
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            positionY += playerSpeed * deltaTime;
+            playerBody.y += playerSpeed * deltaTime;
 
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            positionY -= playerSpeed * deltaTime;
+            playerBody.y -= playerSpeed * deltaTime;
 
         screenBoundary();
     }
 
-    private void randomMovement(float deltaTime) {
+    private void randomMovementOnY(float deltaTime) {
 
-        if (positionY < game.getScreenHeight() - playerBody.height && isGoingUp) {
+        if (playerBody.y < game.getScreenHeight() - playerBody.height && isGoingUp) {
 
-            positionY += playerSpeed * deltaTime;
+            playerBody.y += playerSpeed * deltaTime;
 
-            if (positionY > game.getScreenHeight() - playerBody.height) {
+            if (playerBody.y > game.getScreenHeight() - playerBody.height) {
 
                 isGoingUp = false;
 
@@ -233,11 +225,11 @@ public class BasicScreen extends ScreenAdapter {
             }
         }
 
-        if (positionY > 0 && !isGoingUp) {
+        if (playerBody.y > 0 && !isGoingUp) {
 
-            positionY -= playerSpeed * deltaTime;
+            playerBody.y -= playerSpeed * deltaTime;
 
-            if (positionY < 0) {
+            if (playerBody.y < 0) {
 
                 isGoingUp = true;
 
@@ -251,31 +243,42 @@ public class BasicScreen extends ScreenAdapter {
 
 //        La forma mas facil de hacer que un elemento cambie para la direccion contraria es darle un numero negativo
 //        a la velocidad, en pocas palabras con la velocidad controlo la direccion de mi objeto
-        positionX += playerSpeed;
+        playerBody.x += playerSpeed;
 
-        if (positionX > game.getScreenWidth() - playerBody.width)
+        if (playerBody.x > game.getScreenWidth() - playerBody.width)
             playerSpeed = -10;
 
-        if (positionX < 0)
+        if (playerBody.x < 0)
             playerSpeed = 10;
 
+    }
+
+    private void yAxisMovement(float deltaTime) {
+
+        playerBody.y += playerSpeed;
+
+        if (playerBody.y > game.getScreenHeight() - playerBody.height)
+            playerSpeed = -10;
+
+        if (playerBody.y < 0)
+            playerSpeed = 10;
     }
 
     private void screenBoundary() {
 
 //		En las posiciones superiores debo de resta el width y el height de la texture,
 //		para que la figura no salga de la pantalla
-        if (positionX > game.getScreenWidth() - playerBody.width)
-            positionX = game.getScreenWidth() - playerBody.width;
+        if (playerBody.x > game.getScreenWidth() - playerBody.width)
+            playerBody.x = game.getScreenWidth() - playerBody.width;
 
-        if (positionX < 0)
-            positionX = 0;
+        if (playerBody.x < 0)
+            playerBody.x = 0;
 
-        if (positionY > game.getScreenHeight() - playerBody.height)
-            positionY = game.getScreenHeight() - playerBody.height;
+        if (playerBody.y > game.getScreenHeight() - playerBody.height)
+            playerBody.y = game.getScreenHeight() - playerBody.height;
 
-        if (positionY < 0)
-            positionY = 0;
+        if (playerBody.y < 0)
+            playerBody.y = 0;
     }
 
 

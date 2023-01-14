@@ -24,14 +24,14 @@ public class GameContactListener implements ContactListener {
 
             if (fixtureA.getUserData() == ContactType.WALL || fixtureB.getUserData() == ContactType.WALL){
 
-                gameScreen.getPhysicsBall().reverseVelocityY();
-                gameScreen.getPhysicsBall().incrementYSpeed();
+                gameScreen.getBall().reverseVelocityY();
+                gameScreen.getBall().incrementYVelocity();
             }
 
             if (fixtureA.getUserData() == ContactType.SIDEWALL || fixtureB.getUserData() == ContactType.SIDEWALL){
 
-                gameScreen.getPhysicsBall().reverseVelocityX();
-                gameScreen.getPhysicsBall().incrementXSpeed();
+                gameScreen.getBall().reverseVelocityX();
+                gameScreen.getBall().incrementXVelocity();
             }
         }
     }

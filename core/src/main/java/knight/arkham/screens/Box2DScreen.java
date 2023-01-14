@@ -14,7 +14,7 @@ import static knight.arkham.helpers.Constants.*;
 public class Box2DScreen extends ScreenAdapter {
     private final Playground game;
     private final World gameWorld;
-    private final PhysicsBall physicsBall;
+    private final PhysicsBall ball;
     private final PhysicsWall bottomWall;
     private final PhysicsWall topWall;
     private final PhysicsWall rightWall;
@@ -29,7 +29,7 @@ public class Box2DScreen extends ScreenAdapter {
         gameWorld = new World(new Vector2(0, 0), false);
         gameWorld.setContactListener(gameContactListener);
 
-        physicsBall = new PhysicsBall( this);
+        ball = new PhysicsBall( this);
         topWall = new PhysicsWall(FULL_SCREEN_HEIGHT, MID_SCREEN_WIDTH,
                 FULL_SCREEN_WIDTH, 64, ContactType.WALL, this);
 
@@ -46,12 +46,12 @@ public class Box2DScreen extends ScreenAdapter {
 
     private void update(){
 
-// el 1/60 es porque el juego corre a 60fps, esta linea es fundamental para que haya movimiento en nuestra scene
+// el 1/60 es porque el juego corre a 60fps, esta línea es fundamental para que haya movimiento en nuestra scene
         gameWorld.step(1/60f, 6, 2);
 
         game.goBackToMenu();
 
-        physicsBall.update();
+        ball.update();
     }
 
     @Override
@@ -65,17 +65,16 @@ public class Box2DScreen extends ScreenAdapter {
 
         game.font.draw(game.batch, "Press F12 For Main Menu", 50, FULL_SCREEN_HEIGHT-40);
 
-        bottomWall.render(game.batch);
+        bottomWall.draw(game.batch);
 
-        physicsBall.render(game.batch);
+        ball.draw(game.batch);
 
-        topWall.render(game.batch);
+        topWall.draw(game.batch);
 
-        rightWall.render(game.batch);
-        leftWall.render(game.batch);
+        rightWall.draw(game.batch);
+        leftWall.draw(game.batch);
 
         game.batch.end();
-
     }
 
 
@@ -87,9 +86,14 @@ public class Box2DScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
+        ball.getBallTexture().dispose();
+        topWall.getWallTexture().dispose();
+        bottomWall.getWallTexture().dispose();
+        leftWall.getWallTexture().dispose();
+        rightWall.getWallTexture().dispose();
     }
 
-    public PhysicsBall getPhysicsBall() {return physicsBall;}
+    public PhysicsBall getBall() {return ball;}
 
     public World getGameWorld() {
         return gameWorld;

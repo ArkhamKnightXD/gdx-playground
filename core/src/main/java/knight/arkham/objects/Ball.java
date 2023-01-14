@@ -33,7 +33,7 @@ public class Ball {
             velocity.y = -velocity.y;
     }
 
-    public void render(ShapeRenderer shape) {
+    public void draw(ShapeRenderer shape) {
         shape.circle(position.x, position.y, radius);
     }
 }
