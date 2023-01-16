@@ -244,7 +244,7 @@ public class BasicScreen extends ScreenAdapter {
 //        a la velocidad, en pocas palabras con la velocidad controlo la direccion de mi objeto
         playerBody.x += playerSpeed;
 
-        if (playerBody.x > game.getScreenWidth() - playerBody.width)
+        if (playerBody.x > FULL_SCREEN_WIDTH - playerBody.width)
             playerSpeed = -10;
 
         if (playerBody.x < 0)
@@ -255,7 +255,7 @@ public class BasicScreen extends ScreenAdapter {
 
         playerBody.y += playerSpeed;
 
-        if (playerBody.y > game.getScreenHeight() - playerBody.height)
+        if (playerBody.y > FULL_SCREEN_HEIGHT - playerBody.height)
             playerSpeed = -10;
 
         if (playerBody.y < 0)
@@ -266,14 +266,14 @@ public class BasicScreen extends ScreenAdapter {
 
 //		En las posiciones superiores debo de resta el width y el height de la texture,
 //		para que la figura no salga de la pantalla
-        if (playerBody.x > game.getScreenWidth() - playerBody.width)
-            playerBody.x = game.getScreenWidth() - playerBody.width;
+        if (playerBody.x > FULL_SCREEN_WIDTH - playerBody.width)
+            playerBody.x = FULL_SCREEN_WIDTH - playerBody.width;
 
         if (playerBody.x < 0)
             playerBody.x = 0;
 
-        if (playerBody.y > game.getScreenHeight() - playerBody.height)
-            playerBody.y = game.getScreenHeight() - playerBody.height;
+        if (playerBody.y > FULL_SCREEN_HEIGHT - playerBody.height)
+            playerBody.y = FULL_SCREEN_HEIGHT - playerBody.height;
 
         if (playerBody.y < 0)
             playerBody.y = 0;
