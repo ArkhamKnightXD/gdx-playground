@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
@@ -24,8 +25,7 @@ public class BasicScreen extends ScreenAdapter {
 
     private final Rectangle playerBody;
 
-    private float mousePositionX;
-    private float mousePositionY;
+    private final Vector2 mousePosition;
 
     private int playerSpeed;
 
@@ -35,8 +35,7 @@ public class BasicScreen extends ScreenAdapter {
 
     private boolean isGoingUp;
 
-    private boolean isRandomMovementActive;
-
+    private boolean isUpAndDownMovementActive;
 
 //	private final OrthographicCamera camera;
 
@@ -57,8 +56,9 @@ public class BasicScreen extends ScreenAdapter {
 
         isGoingUp = true;
 
-        isRandomMovementActive = false;
+        isUpAndDownMovementActive = false;
         playerBody = new Rectangle(400, 300, 32, 32);
+        mousePosition = new Vector2(0,0);
     }
 
 
@@ -68,11 +68,13 @@ public class BasicScreen extends ScreenAdapter {
 
         playerMovement(deltaTime);
 
-        if (isRandomMovementActive) {
+        screenBoundary();
+
+        if (isUpAndDownMovementActive) {
 
 //            yAxisMovement();
 
-            randomMovementOnY(deltaTime);
+            upAndDownMovement(deltaTime);
         }
     }
 
@@ -93,13 +95,13 @@ public class BasicScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Screen Touched: " + screenClickCounter,
                 FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 20);
 
-        game.font.draw(game.batch, "Mouse Position: " + "X: " + mousePositionX + " Y: "
-                + mousePositionY, FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 40);
+        game.font.draw(game.batch, "Mouse Position: " + "X: " + mousePosition.x + " Y: "
+                + mousePosition.y, FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 40);
 
-        game.font.draw(game.batch, "Screen Height: " + game.getScreenHeight(),
+        game.font.draw(game.batch, "Screen Height: " + FULL_SCREEN_HEIGHT,
                 FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 60);
 
-        game.font.draw(game.batch, "Screen Width: " + game.getScreenWidth(),
+        game.font.draw(game.batch, "Screen Width: " + FULL_SCREEN_WIDTH,
                 FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 80);
 
         game.font.draw(game.batch, "Player Position: " + "X: " + playerBody.x + " Y: "
@@ -145,19 +147,18 @@ public class BasicScreen extends ScreenAdapter {
 
 //			Las posiciones del mouse empiezan en la esquina superior izquierda, al contrario,
 //			de cuando dibujo con el batch que su punto de origen es la esquina inferior izquierda
-            mousePositionX = Gdx.input.getX();
-            mousePositionY = Gdx.input.getY();
+            mousePosition.set(Gdx.input.getX(), Gdx.input.getY());
 
-            playerBody.x = mousePositionX;
-            playerBody.y = mousePositionY;
+            playerBody.x = mousePosition.x;
+            playerBody.y = mousePosition.y;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            isRandomMovementActive = true;
+            isUpAndDownMovementActive = true;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
 
-            isRandomMovementActive = false;
+            isUpAndDownMovementActive = false;
             playerSpeed = 400;
         }
 
@@ -206,11 +207,9 @@ public class BasicScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.S))
             playerBody.y -= playerSpeed * deltaTime;
-
-        screenBoundary();
     }
 
-    private void randomMovementOnY(float deltaTime) {
+    private void upAndDownMovement(float deltaTime) {
 
         if (playerBody.y < game.getScreenHeight() - playerBody.height && isGoingUp) {
 
@@ -250,7 +249,6 @@ public class BasicScreen extends ScreenAdapter {
 
         if (playerBody.x < 0)
             playerSpeed = 10;
-
     }
 
     private void yAxisMovement(float deltaTime) {
@@ -284,13 +282,11 @@ public class BasicScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
-
         dispose();
     }
 
     @Override
     public void dispose() {
-
         playerTexture.dispose();
         clickSound.dispose();
     }

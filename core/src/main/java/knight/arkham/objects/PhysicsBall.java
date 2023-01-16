@@ -7,9 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.Constants;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.screens.Box2DScreen;
+
+import static knight.arkham.helpers.Constants.*;
 
 public class PhysicsBall {
 
@@ -21,7 +22,7 @@ public class PhysicsBall {
 
     public PhysicsBall(Box2DScreen gameScreen) {
 
-        bounds = new Rectangle(Constants.MID_SCREEN_WIDTH, Constants.MID_SCREEN_HEIGHT, 32, 32);
+        bounds = new Rectangle(MID_SCREEN_WIDTH, MID_SCREEN_HEIGHT, 32, 32);
         speed = 8;
 
 // Con mi vector velocity controlo la direcciones de la pelota
@@ -40,8 +41,8 @@ public class PhysicsBall {
 
     public void update() {
 
-        bounds.x = body.getPosition().x * Constants.PIXELS_PER_METER - (bounds.width / 2);
-        bounds.y = body.getPosition().y * Constants.PIXELS_PER_METER - (bounds.height / 2);
+        bounds.x = body.getPosition().x * PIXELS_PER_METER - (bounds.width / 2);
+        bounds.y = body.getPosition().y * PIXELS_PER_METER - (bounds.height / 2);
 
 //Aqui multiplico las coordenadas de mi vector velocidad con el scalar speed, para indicar la velocidad lineal al body.
         body.setLinearVelocity(velocity.x * speed, velocity.y * speed);
