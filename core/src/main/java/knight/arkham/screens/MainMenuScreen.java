@@ -21,14 +21,15 @@ public class MainMenuScreen extends ScreenAdapter {
     public void render(float delta) {
 
 //        El elemento ScreenUtils.clear limpia la pantalla en cada renderizado
-        ScreenUtils.clear(0,0,0,1);
+        ScreenUtils.clear(0,0,0,0);
 
         game.batch.begin();
 
         game.font.draw(game.batch, "Press F1 Basic Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT);
         game.font.draw(game.batch, "Press F2 Shape Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-20);
         game.font.draw(game.batch, "Press F3 Box2D Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-40);
-        game.font.draw(game.batch, "Press ESC To Close The App", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-60);
+        game.font.draw(game.batch, "Press F4 Platformer Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-60);
+        game.font.draw(game.batch, "Press ESC To Close The App", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-80);
 
         game.batch.end();
 
@@ -45,6 +46,9 @@ public class MainMenuScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.F3))
             game.setScreen(new Box2DScreen());
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F4))
+            game.setScreen(new PlatformerScreen());
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
