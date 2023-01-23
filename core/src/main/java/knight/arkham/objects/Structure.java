@@ -15,9 +15,9 @@ public class Structure implements Disposable {
 
     private int speed;
 
-    public Structure(Rectangle rectangle) {
+    public Structure(Rectangle rectangle, String spritePath) {
         body = rectangle;
-        sprite = new Texture("images/wall.png");
+        sprite = new Texture(spritePath);
         speed = 1;
     }
 
@@ -30,7 +30,7 @@ public class Structure implements Disposable {
         body.x += speed;
         playerBody.x += speed;
 
-        if (body.x < 0)
+        if (body.x < 32)
             speed = 1;
 
         if (body.x > FULL_SCREEN_WIDTH - body.width)
@@ -45,7 +45,7 @@ public class Structure implements Disposable {
         if (body.y < 0)
             speed = 1;
 
-        if (body.y > FULL_SCREEN_HEIGHT - body.height)
+        if (body.y > FULL_SCREEN_HEIGHT - body.height*2)
             speed = -1;
     }
 

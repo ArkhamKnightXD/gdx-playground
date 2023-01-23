@@ -170,12 +170,6 @@ public class BasicScreen extends ScreenAdapter {
             playerBody.width++;
             playerBody.height++;
         }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-
-            Gdx.app.exit();
-            dispose();
-        }
     }
 
 
