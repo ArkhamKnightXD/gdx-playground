@@ -28,41 +28,58 @@ public class PlatformerScreen extends ScreenAdapter {
         floor3 = new Structure(new Rectangle(200, 0, 200, 32));
     }
 
-    private void update(float deltaTime){
+    private void update(){
 
-        player.update(deltaTime);
+        player.update();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
-            player.getBounds().x = 200;
-            player.getBounds().y = 600;
-        }
+        resetGamePositions();
 
-        checkIfPlayerIsGrounded();
+        managePlayerFloorCollision();
 
-        game.goBackToMenu();
+        game.manageExitTheGame();
     }
 
-    private void checkIfPlayerIsGrounded() {
+    private void resetGamePositions() {
+        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
 
-        if (player.getBounds().overlaps(floor.getBounds()))
+            player.getBody().setPosition(200, 600);
+
+            floor2.getBody().x = 400;
+        }
+    }
+
+    private void managePlayerFloorCollision() {
+
+        if (player.getBody().overlaps(floor.getBody()))
             player.setPlayerGrounded(true);
 
-        else if (player.getBounds().overlaps(floor2.getBounds()))
+        else if (player.getBody().overlaps(floor2.getBody())){
+
             player.setPlayerGrounded(true);
 
-        else player.setPlayerGrounded(player.getBounds().overlaps(floor3.getBounds()));
+            floor2.floorXAxisMovement(player.getBody());
+        }
+
+        else if (player.getBody().overlaps(floor3.getBody())){
+            player.setPlayerGrounded(true);
+
+            floor3.floorYAxisMovement(player.getBody());
+        }
+
+        else
+            player.setPlayerGrounded(false);
     }
 
     @Override
     public void render(float delta) {
 
-        update(delta);
+        update();
 
         ScreenUtils.clear(0,0,0,0);
 
         game.batch.begin();
 
-        game.font.draw(game.batch, "Is player Grounded: " + player.isPlayerGrounded(), MID_SCREEN_WIDTH-100, FULL_SCREEN_HEIGHT-10);
+        game.font.draw(game.batch, "Is player Grounded? : " + player.isPlayerGrounded(), MID_SCREEN_WIDTH-100, FULL_SCREEN_HEIGHT-10);
 
         player.draw(game.batch);
 

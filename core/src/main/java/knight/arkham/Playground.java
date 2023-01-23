@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import knight.arkham.screens.MainMenuScreen;
+import knight.arkham.screens.PlatformerScreen;
 
 public class Playground extends Game {
 	public static Playground INSTANCE;
@@ -34,14 +35,17 @@ public class Playground extends Game {
 //		OrthographicCamera globalCamera = new OrthographicCamera();
 //		globalCamera.setToOrtho(false, screenWidth, screenHeight);
 
-		setScreen(new MainMenuScreen());
+		setScreen(new PlatformerScreen());
 	}
 
 
-	public void goBackToMenu() {
+	public void manageExitTheGame() {
 
 		if (Gdx.input.isKeyPressed(Input.Keys.F12))
 			setScreen(new MainMenuScreen());
+
+		else if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+			Gdx.app.exit();
 	}
 
 	public int getScreenWidth() { return screenWidth; }

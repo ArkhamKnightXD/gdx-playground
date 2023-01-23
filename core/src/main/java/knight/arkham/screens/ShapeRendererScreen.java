@@ -35,7 +35,7 @@ public class ShapeRendererScreen extends ScreenAdapter {
     
     private void update(){
 
-        game.goBackToMenu();
+        game.manageExitTheGame();
 
         randomMovement();
 

@@ -133,7 +133,7 @@ public class BasicScreen extends ScreenAdapter {
 
     private void manageUserInput() {
 
-        game.goBackToMenu();
+        game.manageExitTheGame();
 
         if (Gdx.input.justTouched()) {
 
