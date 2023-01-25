@@ -13,7 +13,8 @@ public class Player implements Disposable {
     private final Texture sprite;
     private final int speed;
     private boolean isPlayerGrounded;
-
+    private boolean canPlayerMoveRight;
+    private boolean canPlayerMoveLeft;
 
     public Player(Rectangle rectangle) {
         body = rectangle;
@@ -21,6 +22,8 @@ public class Player implements Disposable {
         sprite = new Texture("images/initial.png");
 
         isPlayerGrounded = false;
+        canPlayerMoveRight = true;
+        canPlayerMoveLeft = true;
     }
 
     public void update() {
@@ -28,10 +31,10 @@ public class Player implements Disposable {
         if (!isPlayerGrounded)
             body.y -= speed;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
+        if (canPlayerMoveRight && Gdx.input.isKeyPressed(Input.Keys.D))
             body.x += speed;
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.A))
+        else if (canPlayerMoveLeft && Gdx.input.isKeyPressed(Input.Keys.A))
             body.x -= speed;
 
         if (isPlayerGrounded && Gdx.input.isKeyPressed(Input.Keys.SPACE))
@@ -52,6 +55,14 @@ public class Player implements Disposable {
 
     public void setPlayerGrounded(boolean playerGrounded) {
         isPlayerGrounded = playerGrounded;
+    }
+
+    public void setCanPlayerMoveRight(boolean canPlayerMoveRight) {
+        this.canPlayerMoveRight = canPlayerMoveRight;
+    }
+
+    public void setCanPlayerMoveLeft(boolean canPlayerMoveLeft) {
+        this.canPlayerMoveLeft = canPlayerMoveLeft;
     }
 
     @Override

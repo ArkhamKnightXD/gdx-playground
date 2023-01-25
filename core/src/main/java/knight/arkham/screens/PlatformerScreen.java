@@ -17,8 +17,8 @@ public class PlatformerScreen extends ScreenAdapter {
     private final Structure floor;
     private final Structure floor2;
     private final Structure floor3;
-    private final Structure wall;
-    private final Structure wall2;
+    private final Structure floor4;
+    private final Structure warpPipe;
     private final Player player;
     private final OrthographicCamera camera;
 
@@ -29,9 +29,10 @@ public class PlatformerScreen extends ScreenAdapter {
 
         floor = new Structure(new Rectangle(100, 400, 200, 32), "images/wall.png");
         floor2 = new Structure(new Rectangle(400, 200, 200, 32), "images/wall.png");
-        floor3 = new Structure(new Rectangle(200, 0, 200, 32), "images/wall.png");
-        wall = new Structure(new Rectangle(FULL_SCREEN_WIDTH, 0, 32, FULL_SCREEN_HEIGHT), "images/initial.png");
-        wall2 = new Structure(new Rectangle(0, 0, 32, FULL_SCREEN_HEIGHT), "images/initial.png");
+        floor3 = new Structure(new Rectangle(225, 75, 200, 32), "images/wall.png");
+        floor4 = new Structure(new Rectangle(0, 0, FULL_SCREEN_WIDTH, 32), "images/wall.png");
+
+        warpPipe = new Structure(new Rectangle(80, 30, 128, 128), "images/pipe.png");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
@@ -82,9 +83,28 @@ public class PlatformerScreen extends ScreenAdapter {
         }
 
         else if (player.getBody().overlaps(floor3.getBody())){
+
             player.setPlayerGrounded(true);
 
             floor3.floorYAxisMovement(player.getBody());
+        }
+
+        else if (player.getBody().overlaps(floor4.getBody())){
+
+            player.setPlayerGrounded(true);
+
+            if (player.getBody().overlaps(warpPipe.getBody()))
+                player.setCanPlayerMoveLeft(false);
+
+            else
+                player.setCanPlayerMoveLeft(true);
+        }
+
+        else if (player.getBody().overlaps(warpPipe.getBody())){
+            player.setPlayerGrounded(true);
+
+            if (Gdx.input.isKeyPressed(Input.Keys.S))
+                player.getBody().setPosition(floor.getBody().x,floor.getBody().y + player.getBody().height);
         }
 
         else
@@ -120,9 +140,9 @@ public class PlatformerScreen extends ScreenAdapter {
         floor.draw(game.batch);
         floor2.draw(game.batch);
         floor3.draw(game.batch);
+        floor4.draw(game.batch);
 
-        wall.draw(game.batch);
-        wall2.draw(game.batch);
+        warpPipe.draw(game.batch);
 
         game.batch.end();
     }
@@ -140,7 +160,6 @@ public class PlatformerScreen extends ScreenAdapter {
         floor.dispose();
         floor2.dispose();
         floor3.dispose();
-        wall.dispose();
-        wall2.dispose();
+        warpPipe.dispose();
     }
 }
