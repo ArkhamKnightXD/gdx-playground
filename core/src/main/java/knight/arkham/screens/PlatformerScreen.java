@@ -93,11 +93,7 @@ public class PlatformerScreen extends ScreenAdapter {
 
             player.setPlayerGrounded(true);
 
-            if (player.getBody().overlaps(warpPipe.getBody()))
-                player.setCanPlayerMoveLeft(false);
-
-            else
-                player.setCanPlayerMoveLeft(true);
+            player.setCanPlayerMoveLeft(!player.getBody().overlaps(warpPipe.getBody()));
         }
 
         else if (player.getBody().overlaps(warpPipe.getBody())){

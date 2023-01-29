@@ -3,19 +3,19 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
-import knight.arkham.screens.Box2DScreen;
 
-public class PhysicsWall {
+public class Box2DStructure {
     private final float positionX;
     private final float positionY;
     private final int width;
     private final int height;
     private final Texture wallTexture;
 
-    public PhysicsWall(float positionY, float positionX, int width, int height, ContactType contactType, Box2DScreen gameScreen) {
+    public Box2DStructure(float positionY, float positionX, int width, int height, ContactType contactType, World world) {
 
         this.positionY = positionY;
         this.positionX = positionX;
@@ -23,8 +23,8 @@ public class PhysicsWall {
         this.height = height;
         wallTexture = new Texture("images/initial.png");
 
-        Box2DHelper.createBody(new Box2DBody(new Rectangle(positionX, positionY, width, height),
-                true, 0, gameScreen.getGameWorld(), contactType));
+        Box2DHelper.createNewBody(new Box2DBody(new Rectangle(positionX, positionY, width, height),
+                true, 0, world, contactType));
     }
 
     public void draw(SpriteBatch batch){
