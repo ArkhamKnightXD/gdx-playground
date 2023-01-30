@@ -32,7 +32,7 @@ public class Playground extends Game {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 
-		setScreen(new ViewPortScreen());
+		setScreen(new PlatformerBox2DScreen());
 	}
 
 

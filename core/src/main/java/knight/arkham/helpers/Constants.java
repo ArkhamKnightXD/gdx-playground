@@ -4,6 +4,8 @@ import knight.arkham.Playground;
 
 public class Constants {
 
+//    Para saber cual seria mi ppm ideal, debería de tomar en cuenta la altura de mi personaje, si su altura es 32,
+//    pues asi sera mi ppm
     public static final float PIXELS_PER_METER = 32.0f;
 
     public static final int FULL_SCREEN_HEIGHT = Playground.INSTANCE.getScreenHeight();

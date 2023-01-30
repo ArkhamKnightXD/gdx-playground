@@ -31,7 +31,7 @@ public class PhysicsBall {
         ballTexture = new Texture("images/initial.png");
 
         body = Box2DHelper.createBody(
-                new Box2DBody(bounds, false, 100, gameScreen.getGameWorld(), ContactType.BALL)
+                    new Box2DBody(bounds, false, 100, gameScreen.getGameWorld(), ContactType.BALL)
         );
     }
 

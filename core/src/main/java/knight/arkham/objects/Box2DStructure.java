@@ -4,11 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DStructure {
+public class Box2DStructure implements Disposable {
     private final float positionX;
     private final float positionY;
     private final int width;
@@ -23,7 +24,7 @@ public class Box2DStructure {
         this.height = height;
         wallTexture = new Texture("images/initial.png");
 
-        Box2DHelper.createNewBody(new Box2DBody(new Rectangle(positionX, positionY, width, height),
+        Box2DHelper.createBody(new Box2DBody(new Rectangle(positionX, positionY, width, height),
                 true, 0, world, contactType));
     }
 
@@ -32,4 +33,9 @@ public class Box2DStructure {
     }
 
     public Texture getWallTexture() {return wallTexture;}
+
+    @Override
+    public void dispose() {
+        wallTexture.dispose();
+    }
 }

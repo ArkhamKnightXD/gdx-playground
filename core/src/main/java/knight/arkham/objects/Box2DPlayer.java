@@ -18,17 +18,11 @@ public class Box2DPlayer implements Disposable {
     private final Body body;
     private final Rectangle bounds;
     private final Texture sprite;
-    private final int speed;
-    private boolean isPlayerGrounded;
-
 
     public Box2DPlayer(Rectangle rectangle, World world) {
-        speed = 3;
         sprite = new Texture("images/initial.png");
 
-        isPlayerGrounded = false;
-
-        body = Box2DHelper.createNewBody(new Box2DBody(rectangle, false,100,world, ContactType.PLAYER));
+        body = Box2DHelper.createBody(new Box2DBody(rectangle, false,5,world, ContactType.PLAYER));
         bounds = rectangle;
     }
 

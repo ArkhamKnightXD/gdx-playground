@@ -1,7 +1,5 @@
 package knight.arkham.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,8 +12,7 @@ import knight.arkham.helpers.ContactType;
 import knight.arkham.objects.Box2DPlayer;
 import knight.arkham.objects.Box2DStructure;
 
-import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
-import static knight.arkham.helpers.Constants.FULL_SCREEN_WIDTH;
+import static knight.arkham.helpers.Constants.*;
 
 public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Playground game;
@@ -37,8 +34,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         floor = new Box2DStructure(25, 200, 600, 32, ContactType.WALL, world);
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
+//Debo indicarle a mi camara las dimensiones de mi pantalla divididas por mi PPM sino se veria muy pequeño
+        camera = new OrthographicCamera(FULL_SCREEN_WIDTH / PIXELS_PER_METER,
+                FULL_SCREEN_HEIGHT/PIXELS_PER_METER);
     }
 
     private void update(){
@@ -48,8 +46,6 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         updateCameraPosition();
 
         player.update();
-
-        resetGamePositions();
 
         game.manageExitTheGame();
     }
@@ -61,10 +57,6 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         camera.update();
     }
 
-    private void resetGamePositions() {
-        if (Gdx.input.isKeyPressed(Input.Keys.F1))
-            player.getBody().getPosition().set(200, 600);
-    }
 
     @Override
     public void render(float delta) {
@@ -77,9 +69,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        player.draw(game.batch);
-
-        floor.draw(game.batch);
+//        player.draw(game.batch);
+//
+//        floor.draw(game.batch);
 
         game.batch.end();
 
@@ -96,5 +88,6 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public void dispose() {
 
         player.dispose();
+        floor.dispose();
     }
 }
