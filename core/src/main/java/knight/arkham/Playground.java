@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import knight.arkham.screens.MainMenuScreen;
 import knight.arkham.screens.PlatformerBox2DScreen;
-import knight.arkham.screens.ViewPortScreen;
 
 public class Playground extends Game {
 	public static Playground INSTANCE;

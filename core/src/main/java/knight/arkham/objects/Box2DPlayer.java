@@ -20,23 +20,30 @@ public class Box2DPlayer implements Disposable {
     private final Texture sprite;
 
     public Box2DPlayer(Rectangle rectangle, World world) {
+        bounds = rectangle;
+
         sprite = new Texture("images/initial.png");
 
-        body = Box2DHelper.createBody(new Box2DBody(rectangle, false,5,world, ContactType.PLAYER));
-        bounds = rectangle;
+        body = Box2DHelper.createBody(new Box2DBody(rectangle, false,10,world, ContactType.PLAYER));
     }
 
     public void update() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
             body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7)
             body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+            body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
     }
 
     public void draw(Batch batch) {
-        batch.draw(sprite, body.getPosition().x - (bounds.width / 2), body.getPosition().y - (bounds.height / 2),bounds.width  , bounds.height);
+
+        Rectangle actualBounds = Box2DHelper.getBoundsWithPPMCalculation(body, bounds);
+
+        batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
     }
 
     public Body getBody() {

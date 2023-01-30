@@ -5,5 +5,6 @@ public enum ContactType {
     WALL,
     BALL,
     PLAYER,
+    STRUCTURE,
     SIDEWALL,
 }

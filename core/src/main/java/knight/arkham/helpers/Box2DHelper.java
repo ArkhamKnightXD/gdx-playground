@@ -1,5 +1,6 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -42,5 +43,12 @@ public class Box2DHelper {
         bodyDef.fixedRotation = true;
 
         return box2DBody.world.createBody(bodyDef);
+    }
+
+    public static Rectangle getBoundsWithPPMCalculation(Body body, Rectangle bounds){
+
+        return new Rectangle(body.getPosition().x - (bounds.width / 2 / PIXELS_PER_METER),
+                body.getPosition().y - (bounds.height / 2 / PIXELS_PER_METER), bounds.width / PIXELS_PER_METER,
+                bounds.height /PIXELS_PER_METER);
     }
 }

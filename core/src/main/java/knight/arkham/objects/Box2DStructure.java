@@ -3,36 +3,32 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.Box2DBody;
+import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.ContactType;
 
 public class Box2DStructure implements Disposable {
-    private final float positionX;
-    private final float positionY;
-    private final int width;
-    private final int height;
+    private final Body body;
+    private final Rectangle bounds;
     private final Texture wallTexture;
 
-    public Box2DStructure(float positionY, float positionX, int width, int height, ContactType contactType, World world) {
+    public Box2DStructure(Rectangle bounds, World world) {
 
-        this.positionY = positionY;
-        this.positionX = positionX;
-        this.width = width;
-        this.height = height;
-        wallTexture = new Texture("images/initial.png");
+        this.bounds = bounds;
 
-        Box2DHelper.createBody(new Box2DBody(new Rectangle(positionX, positionY, width, height),
-                true, 0, world, contactType));
+        wallTexture = new Texture("images/wall.png");
+
+        body = Box2DHelper.createBody(new Box2DBody(bounds, true, 0, world, ContactType.STRUCTURE));
     }
 
     public void draw(SpriteBatch batch){
-        batch.draw(wallTexture, positionX - (width / 2), positionY - (height / 2), width, height);
-    }
+        Rectangle actualBounds = Box2DHelper.getBoundsWithPPMCalculation(body, bounds);
 
-    public Texture getWallTexture() {return wallTexture;}
+        batch.draw(wallTexture, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
+    }
 
     @Override
     public void dispose() {

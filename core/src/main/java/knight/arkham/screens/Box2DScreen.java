@@ -8,17 +8,17 @@ import knight.arkham.Playground;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.GameContactListener;
 import knight.arkham.objects.PhysicsBall;
-import knight.arkham.objects.Box2DStructure;
+import knight.arkham.objects.PhysicsWall;
 import static knight.arkham.helpers.Constants.*;
 
 public class Box2DScreen extends ScreenAdapter {
     private final Playground game;
     private final World gameWorld;
     private final PhysicsBall ball;
-    private final Box2DStructure bottomWall;
-    private final Box2DStructure topWall;
-    private final Box2DStructure rightWall;
-    private final Box2DStructure leftWall;
+    private final PhysicsWall bottomWall;
+    private final PhysicsWall topWall;
+    private final PhysicsWall rightWall;
+    private final PhysicsWall leftWall;
 
     public Box2DScreen() {
 
@@ -30,16 +30,16 @@ public class Box2DScreen extends ScreenAdapter {
         gameWorld.setContactListener(gameContactListener);
 
         ball = new PhysicsBall( this);
-        topWall = new Box2DStructure(FULL_SCREEN_HEIGHT, MID_SCREEN_WIDTH,
+        topWall = new PhysicsWall(FULL_SCREEN_HEIGHT, MID_SCREEN_WIDTH,
                 FULL_SCREEN_WIDTH, 64, ContactType.WALL, gameWorld);
 
-        bottomWall = new Box2DStructure(0, MID_SCREEN_WIDTH,
+        bottomWall = new PhysicsWall(0, MID_SCREEN_WIDTH,
                 FULL_SCREEN_WIDTH, 64,ContactType.WALL, gameWorld);
 
-        rightWall = new Box2DStructure(MID_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 64,
+        rightWall = new PhysicsWall(MID_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 64,
                 FULL_SCREEN_HEIGHT, ContactType.SIDEWALL, gameWorld);
 
-        leftWall = new Box2DStructure(MID_SCREEN_HEIGHT, 0, 64,
+        leftWall = new PhysicsWall(MID_SCREEN_HEIGHT, 0, 64,
                 FULL_SCREEN_HEIGHT, ContactType.SIDEWALL, gameWorld);
     }
 

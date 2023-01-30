@@ -17,7 +17,7 @@ public class GameContactListener implements ContactListener {
        Fixture fixtureA = contact.getFixtureA();
        Fixture fixtureB = contact.getFixtureB();
 
-        if ( fixtureA.getUserData() == null || fixtureB.getUserData() == null)
+        if (fixtureA.getUserData() == null || fixtureB.getUserData() == null)
             return;
 
         if (fixtureA.getUserData() == ContactType.BALL || fixtureB.getUserData() == ContactType.BALL){
