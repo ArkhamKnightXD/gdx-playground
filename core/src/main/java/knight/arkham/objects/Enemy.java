@@ -24,7 +24,7 @@ public class Enemy implements Disposable {
 
         isMovingRight = true;
 
-        sprite = new Texture("images/initial.png");
+        sprite = new Texture("images/enemy.png");
 
         body = Box2DHelper.createBody(new Box2DBody(rectangle, false,10,world, ContactType.ENEMY));
     }

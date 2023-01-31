@@ -24,7 +24,7 @@ public class Box2DPlayer implements Disposable {
     public Box2DPlayer(Rectangle rectangle, World world) {
         bounds = rectangle;
 
-        sprite = new Texture("images/initial.png");
+        sprite = new Texture("images/ghost.png");
 
         body = Box2DHelper.createBody(new Box2DBody(rectangle, false,10,world, ContactType.PLAYER));
     }

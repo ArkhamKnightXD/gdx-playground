@@ -2,6 +2,7 @@ package knight.arkham.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -32,6 +33,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
     private final World world;
 
+    private final Texture background;
+
     public PlatformerBox2DScreen() {
         game = Playground.INSTANCE;
 
@@ -58,6 +61,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 //Debo indicarle a mi camara las dimensiones de mi pantalla divididas por mi PPM sino se veria muy pequeño
         camera = new OrthographicCamera(FULL_SCREEN_WIDTH / PIXELS_PER_METER,
                 FULL_SCREEN_HEIGHT/PIXELS_PER_METER);
+        background = new Texture("images/background.jpg");
     }
 
     private void update(){
@@ -90,6 +94,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+
+        game.batch.draw(background, -25, -15, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
 
         player.draw(game.batch);
         enemy.draw(game.batch);
