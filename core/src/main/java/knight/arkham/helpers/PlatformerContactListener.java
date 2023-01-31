@@ -1,6 +1,5 @@
 package knight.arkham.helpers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.screens.PlatformerBox2DScreen;
 
@@ -12,7 +11,6 @@ public class PlatformerContactListener implements ContactListener {
         this.gameScreen = gameScreen;
     }
 
-
     @Override
     public void beginContact(Contact contact) {
 
@@ -22,8 +20,21 @@ public class PlatformerContactListener implements ContactListener {
         if (fixtureA.getUserData() == null || fixtureB.getUserData() == null)
             return;
 
-        if (fixtureA.getUserData() == ContactType.PLAYER || fixtureB.getUserData() == ContactType.PLAYER)
-            Gdx.app.log("Player", "is on the floor");
+        if (fixtureA.getUserData() == ContactType.PLAYER || fixtureB.getUserData() == ContactType.PLAYER){
+
+            if (fixtureA.getUserData() == ContactType.TRAMPOLINE || fixtureB.getUserData() == ContactType.TRAMPOLINE)
+                gameScreen.getPlayer().isTrampolineModeActive = true;
+
+            else if (fixtureA.getUserData() == ContactType.FLOOR || fixtureB.getUserData() == ContactType.FLOOR)
+                gameScreen.getPlayer().isTrampolineModeActive = false;
+        }
+
+        if (fixtureA.getUserData() == ContactType.ENEMY || fixtureB.getUserData() == ContactType.ENEMY){
+
+            if (fixtureA.getUserData() == ContactType.PIPE || fixtureB.getUserData() == ContactType.PIPE)
+                gameScreen.getEnemy().isMovingRight = !gameScreen.getEnemy().isMovingRight;
+        }
+
     }
 
     @Override

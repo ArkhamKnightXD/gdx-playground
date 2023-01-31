@@ -1,7 +1,5 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,35 +11,32 @@ import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DPlayer implements Disposable {
-
+public class Enemy implements Disposable {
     private final Body body;
     private final Rectangle bounds;
     private final Texture sprite;
+    public boolean isMovingRight;
 
-    public boolean isTrampolineModeActive;
 
-    public Box2DPlayer(Rectangle rectangle, World world) {
+    public Enemy(Rectangle rectangle, World world) {
+
         bounds = rectangle;
+
+        isMovingRight = true;
 
         sprite = new Texture("images/initial.png");
 
-        body = Box2DHelper.createBody(new Box2DBody(rectangle, false,10,world, ContactType.PLAYER));
+        body = Box2DHelper.createBody(new Box2DBody(rectangle, false,10,world, ContactType.ENEMY));
     }
 
     public void update() {
 
-        if (isTrampolineModeActive && body.getLinearVelocity().y == 0)
-            body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
-
-        else if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
+        if (isMovingRight && body.getLinearVelocity().x <= 3)
             body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7)
+        else if(!isMovingRight && body.getLinearVelocity().x >= -3)
             body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
-            body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
     }
 
     public void draw(Batch batch) {
@@ -49,10 +44,6 @@ public class Box2DPlayer implements Disposable {
         Rectangle actualBounds = Box2DHelper.getBoundsWithPPMCalculation(body, bounds);
 
         batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
-    }
-
-    public Body getBody() {
-        return body;
     }
 
     @Override

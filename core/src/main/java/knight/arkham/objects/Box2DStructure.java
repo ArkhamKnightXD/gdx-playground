@@ -15,13 +15,13 @@ public class Box2DStructure implements Disposable {
     private final Rectangle bounds;
     private final Texture wallTexture;
 
-    public Box2DStructure(Rectangle bounds, World world) {
+    public Box2DStructure(Rectangle bounds, World world, ContactType contactType, String spritePath) {
 
         this.bounds = bounds;
 
-        wallTexture = new Texture("images/wall.png");
+        wallTexture = new Texture(spritePath);
 
-        body = Box2DHelper.createBody(new Box2DBody(bounds, true, 0, world, ContactType.STRUCTURE));
+        body = Box2DHelper.createBody(new Box2DBody(bounds, true, 0, world, contactType));
     }
 
     public void draw(SpriteBatch batch){
