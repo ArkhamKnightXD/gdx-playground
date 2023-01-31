@@ -1,5 +1,7 @@
 package knight.arkham.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -67,6 +69,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private void update(){
 
         world.step(1 / 60f, 6, 2);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F1))
+            player.getBody().setTransform(200/ PIXELS_PER_METER, 330 / PIXELS_PER_METER, 0);
 
         updateCameraPosition();
 
