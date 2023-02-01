@@ -22,10 +22,13 @@ public class PlatformerContactListener implements ContactListener {
 
         if (fixtureA.getUserData() == ContactType.PLAYER || fixtureB.getUserData() == ContactType.PLAYER){
 
+            if (fixtureA.getUserData() == ContactType.MOVINGFLOOR || fixtureB.getUserData() == ContactType.MOVINGFLOOR)
+                gameScreen.getMovingFloor().isMovingRight = true;
+
             if (fixtureA.getUserData() == ContactType.TRAMPOLINE || fixtureB.getUserData() == ContactType.TRAMPOLINE)
                 gameScreen.getPlayer().isTrampolineModeActive = true;
 
-            else if (fixtureA.getUserData() == ContactType.FLOOR || fixtureB.getUserData() == ContactType.FLOOR)
+            else
                 gameScreen.getPlayer().isTrampolineModeActive = false;
         }
 

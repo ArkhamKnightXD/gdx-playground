@@ -19,6 +19,12 @@ public class Box2DHelper {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
 
+        if (box2DBody.contactType == ContactType.SLIPPERYFLOOR)
+            fixtureDef.friction = 0.001f;
+
+        if (box2DBody.contactType == ContactType.SNOWFLOOR)
+            fixtureDef.friction = 1.2f;
+
 //        Si mi personaje tiene un dynamic body puedo jugar con la densidad, para que se mueva o caiga
 //        mas rapido o mas lento
         fixtureDef.density = box2DBody.density;
@@ -32,6 +38,7 @@ public class Box2DHelper {
         return body;
     }
 
+
     private static Body createBox2DBody(Box2DBody box2DBody) {
 
         BodyDef bodyDef = new BodyDef();
@@ -41,6 +48,36 @@ public class Box2DHelper {
         bodyDef.position.set(box2DBody.bounds.x / PIXELS_PER_METER, box2DBody.bounds.y / PIXELS_PER_METER);
 
         bodyDef.fixedRotation = true;
+
+        return box2DBody.world.createBody(bodyDef);
+    }
+
+    public static Body createKinematicBody(Box2DBody box2DBody) {
+
+        PolygonShape shape = new PolygonShape();
+
+        shape.setAsBox(box2DBody.bounds.width / 2 / PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+
+        Body body = createKinematicBox2DBody(box2DBody);
+
+        body.createFixture(fixtureDef).setUserData(box2DBody.contactType);
+
+        shape.dispose();
+
+        return body;
+    }
+
+
+    private static Body createKinematicBox2DBody(Box2DBody box2DBody) {
+
+        BodyDef bodyDef = new BodyDef();
+
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
+
+        bodyDef.position.set(box2DBody.bounds.x / PIXELS_PER_METER, box2DBody.bounds.y / PIXELS_PER_METER);
 
         return box2DBody.world.createBody(bodyDef);
     }

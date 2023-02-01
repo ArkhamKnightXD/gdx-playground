@@ -15,13 +15,28 @@ public class Box2DStructure implements Disposable {
     private final Rectangle bounds;
     private final Texture wallTexture;
 
+    public boolean isMovingRight;
+
     public Box2DStructure(Rectangle bounds, World world, ContactType contactType, String spritePath) {
+
+        isMovingRight = false;
 
         this.bounds = bounds;
 
         wallTexture = new Texture(spritePath);
 
-        body = Box2DHelper.createBody(new Box2DBody(bounds, true, 0, world, contactType));
+        if (contactType == ContactType.MOVINGFLOOR)
+            body = Box2DHelper.createKinematicBody(new Box2DBody(bounds, world, contactType));
+
+        else
+            body = Box2DHelper.createBody(new Box2DBody(bounds, true, 0, world, contactType));
+    }
+
+    public void update(){
+
+//        Para poder mover un cuerpo kinematic debemos de indicar su velocidad lineal.
+        if (isMovingRight)
+            body.setLinearVelocity(1,0);
     }
 
     public void draw(SpriteBatch batch){
@@ -29,6 +44,8 @@ public class Box2DStructure implements Disposable {
 
         batch.draw(wallTexture, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
     }
+
+    public Body getBody() {return body;}
 
     @Override
     public void dispose() {
