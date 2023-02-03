@@ -36,7 +36,6 @@ public class Enemy implements Disposable {
 
         else if(!isMovingRight && body.getLinearVelocity().x >= -3)
             body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
-
     }
 
     public void draw(Batch batch) {
@@ -45,6 +44,8 @@ public class Enemy implements Disposable {
 
         batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
     }
+
+    public Body getBody() {return body;}
 
     @Override
     public void dispose() {

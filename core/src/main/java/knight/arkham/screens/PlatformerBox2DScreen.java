@@ -32,6 +32,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Box2DStructure warpPipe2;
     private final Box2DPlayer player;
     private final Enemy enemy;
+    private final Enemy movingBlock;
     private final OrthographicCamera camera;
 
     private final Box2DDebugRenderer debugRenderer;
@@ -53,7 +54,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world);
         enemy = new Enemy(new Rectangle(0,32, 32, 32), world);
-
+        movingBlock = new Enemy(new Rectangle(-100,256, 32, 32), world);
 
         floor = new Box2DStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR, "images/wall.png");
         floor2 = new Box2DStructure(new Rectangle(400,200, 200, 32), world,ContactType.TRAMPOLINE, "images/wall.png");
@@ -63,7 +64,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         warpPipe = new Box2DStructure(new Rectangle(-300,48, 64, 64), world, ContactType.PIPE, "images/pipe.png");
         warpPipe2 = new Box2DStructure(new Rectangle(80,48, 64, 64), world, ContactType.PIPE, "images/pipe.png");
 
-        mediumSnowFloor = new Box2DStructure(new Rectangle(1250,0, 186, 182), world, ContactType.SNOWFLOOR, "images/medium-snow-floor.png");
+        mediumSnowFloor = new Box2DStructure(new Rectangle(1250,0, 281, 283), world, ContactType.SNOWFLOOR, "images/big-snow-floor.png");
         slipperySnowFloor = new Box2DStructure(new Rectangle(850,0, 374, 96), world, ContactType.SLIPPERYFLOOR, "images/cold-floor.png");
         movingFloor = new Box2DStructure(new Rectangle(750,200, 96, 91), world, ContactType.MOVINGFLOOR, "images/little-floor.png");
 
@@ -80,6 +81,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.F1)){
             player.getBody().setTransform(200/ PIXELS_PER_METER, 330 / PIXELS_PER_METER, 0);
+            movingBlock.getBody().setTransform(-100/ PIXELS_PER_METER, 128 / PIXELS_PER_METER, 0);
 
             //falla
             movingFloor.isMovingRight = false;
@@ -119,6 +121,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         player.draw(game.batch);
         enemy.draw(game.batch);
+        movingBlock.draw(game.batch);
 
         floor.draw(game.batch);
         floor2.draw(game.batch);
@@ -146,6 +149,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public void dispose() {
 
         player.dispose();
+        enemy.dispose();
         floor.dispose();
         floor2.dispose();
         floor3.dispose();
@@ -155,6 +159,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         slipperySnowFloor.dispose();
         mediumSnowFloor.dispose();
         movingFloor.dispose();
+        movingBlock.dispose();
     }
 
     public Box2DPlayer getPlayer() {return player;}

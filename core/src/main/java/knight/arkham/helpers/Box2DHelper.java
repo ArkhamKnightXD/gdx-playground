@@ -23,7 +23,7 @@ public class Box2DHelper {
             fixtureDef.friction = 0.001f;
 
         if (box2DBody.contactType == ContactType.SNOWFLOOR)
-            fixtureDef.friction = 1.2f;
+            fixtureDef.friction = 1.5f;
 
 //        Si mi personaje tiene un dynamic body puedo jugar con la densidad, para que se mueva o caiga
 //        mas rapido o mas lento
