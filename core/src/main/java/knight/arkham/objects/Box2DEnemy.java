@@ -11,14 +11,13 @@ import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.ContactType;
 
-public class Enemy implements Disposable {
+public class Box2DEnemy implements Disposable {
     private final Body body;
     private final Rectangle bounds;
     private final Texture sprite;
     public boolean isMovingRight;
 
-
-    public Enemy(Rectangle rectangle, World world) {
+    public Box2DEnemy(Rectangle rectangle, World world) {
 
         bounds = rectangle;
 

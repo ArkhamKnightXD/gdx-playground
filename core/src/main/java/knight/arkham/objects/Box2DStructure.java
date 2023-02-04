@@ -13,7 +13,7 @@ import knight.arkham.helpers.ContactType;
 public class Box2DStructure implements Disposable {
     private final Body body;
     private final Rectangle bounds;
-    private final Texture wallTexture;
+    private final Texture sprite;
 
     public boolean isMovingRight;
 
@@ -23,7 +23,7 @@ public class Box2DStructure implements Disposable {
 
         this.bounds = bounds;
 
-        wallTexture = new Texture(spritePath);
+        sprite = new Texture(spritePath);
 
         if (contactType == ContactType.MOVINGFLOOR)
             body = Box2DHelper.createKinematicBody(new Box2DBody(bounds, world, contactType));
@@ -42,13 +42,13 @@ public class Box2DStructure implements Disposable {
     public void draw(SpriteBatch batch){
         Rectangle actualBounds = Box2DHelper.getBoundsWithPPMCalculation(body, bounds);
 
-        batch.draw(wallTexture, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
+        batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
     }
 
     public Body getBody() {return body;}
 
     @Override
     public void dispose() {
-        wallTexture.dispose();
+        sprite.dispose();
     }
 }

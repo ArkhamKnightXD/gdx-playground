@@ -15,7 +15,7 @@ import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.PlatformerContactListener;
 import knight.arkham.objects.Box2DPlayer;
 import knight.arkham.objects.Box2DStructure;
-import knight.arkham.objects.Enemy;
+import knight.arkham.objects.Box2DEnemy;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -31,8 +31,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Box2DStructure warpPipe;
     private final Box2DStructure warpPipe2;
     private final Box2DPlayer player;
-    private final Enemy enemy;
-    private final Enemy movingBlock;
+    private final Box2DEnemy box2DEnemy;
+    private final Box2DEnemy movingBlock;
     private final OrthographicCamera camera;
 
     private final Box2DDebugRenderer debugRenderer;
@@ -53,8 +53,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         debugRenderer = new Box2DDebugRenderer();
 
         player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world);
-        enemy = new Enemy(new Rectangle(0,32, 32, 32), world);
-        movingBlock = new Enemy(new Rectangle(-100,256, 32, 32), world);
+        box2DEnemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world);
+        movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world);
 
         floor = new Box2DStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR, "images/wall.png");
         floor2 = new Box2DStructure(new Rectangle(400,200, 200, 32), world,ContactType.TRAMPOLINE, "images/wall.png");
@@ -91,7 +91,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         updateCameraPosition();
 
         player.update();
-        enemy.update();
+        box2DEnemy.update();
 
         movingFloor.update();
 
@@ -117,26 +117,26 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.batch.draw(background, -35, -12, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
-
-        player.draw(game.batch);
-        enemy.draw(game.batch);
-        movingBlock.draw(game.batch);
-
-        floor.draw(game.batch);
-        floor2.draw(game.batch);
-        floor3.draw(game.batch);
-        floor4.draw(game.batch);
-
-        warpPipe.draw(game.batch);
-        warpPipe2.draw(game.batch);
-        mediumSnowFloor.draw(game.batch);
-        slipperySnowFloor.draw(game.batch);
-        movingFloor.draw(game.batch);
+//        game.batch.draw(background, -35, -12, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
+//
+//        player.draw(game.batch);
+//        enemy.draw(game.batch);
+//        movingBlock.draw(game.batch);
+//
+//        floor.draw(game.batch);
+//        floor2.draw(game.batch);
+//        floor3.draw(game.batch);
+//        floor4.draw(game.batch);
+//
+//        warpPipe.draw(game.batch);
+//        warpPipe2.draw(game.batch);
+//        mediumSnowFloor.draw(game.batch);
+//        slipperySnowFloor.draw(game.batch);
+//        movingFloor.draw(game.batch);
 
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public void dispose() {
 
         player.dispose();
-        enemy.dispose();
+        box2DEnemy.dispose();
         floor.dispose();
         floor2.dispose();
         floor3.dispose();
@@ -164,7 +164,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
     public Box2DPlayer getPlayer() {return player;}
 
-    public Enemy getEnemy() {return enemy;}
+    public Box2DEnemy getEnemy() {return box2DEnemy;}
 
     public Box2DStructure getMovingFloor() {return movingFloor;}
 }

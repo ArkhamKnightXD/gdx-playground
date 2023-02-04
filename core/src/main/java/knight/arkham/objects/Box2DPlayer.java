@@ -19,8 +19,6 @@ public class Box2DPlayer implements Disposable {
     private final Rectangle bounds;
     private final Texture sprite;
 
-    public boolean isTrampolineModeActive;
-
     public Box2DPlayer(Rectangle rectangle, World world) {
         bounds = rectangle;
 
@@ -31,10 +29,7 @@ public class Box2DPlayer implements Disposable {
 
     public void update() {
 
-        if (isTrampolineModeActive && body.getLinearVelocity().y == 0)
-            body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
-
-        else if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7)
             body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
 
         else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7)
