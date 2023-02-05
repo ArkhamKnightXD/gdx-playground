@@ -3,6 +3,7 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import knight.arkham.helpers.Box2DHelper;
@@ -25,7 +26,7 @@ public class PhysicsWall implements Disposable {
         wallTexture = new Texture("images/initial.png");
 
         Box2DHelper.createBody(new Box2DBody(new Rectangle(positionX, positionY, width, height),
-                true, 0, world, contactType));
+                BodyDef.BodyType.StaticBody, 0, world, contactType));
     }
 
     public void draw(SpriteBatch batch){

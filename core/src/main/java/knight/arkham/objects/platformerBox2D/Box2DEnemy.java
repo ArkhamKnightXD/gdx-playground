@@ -1,17 +1,17 @@
-package knight.arkham.objects;
+package knight.arkham.objects.platformerBox2D;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Disposable;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DEnemy implements Disposable {
+public class Box2DEnemy {
     private final Body body;
     private final Rectangle bounds;
     private final Texture sprite;
@@ -25,7 +25,7 @@ public class Box2DEnemy implements Disposable {
 
         sprite = new Texture("images/enemy.png");
 
-        body = Box2DHelper.createBody(new Box2DBody(rectangle, false,10,world, ContactType.ENEMY));
+        body = Box2DHelper.createBody(new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10,world, ContactType.ENEMY));
     }
 
     public void update() {
@@ -46,8 +46,5 @@ public class Box2DEnemy implements Disposable {
 
     public Body getBody() {return body;}
 
-    @Override
-    public void dispose() {
-        sprite.dispose();
-    }
+    public Texture getSprite() {return sprite;}
 }

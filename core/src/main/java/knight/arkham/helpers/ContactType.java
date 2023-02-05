@@ -9,6 +9,7 @@ public enum ContactType {
     SNOWFLOOR,
     SLIPPERYFLOOR,
     MOVINGFLOOR,
+    HEAVYGRAVITYFLOOR,
     PIPE,
     TRAMPOLINE,
     ENEMY,

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
@@ -31,7 +32,7 @@ public class PhysicsBall {
         ballTexture = new Texture("images/initial.png");
 
         body = Box2DHelper.createBody(
-                    new Box2DBody(bounds, false, 100, gameScreen.getGameWorld(), ContactType.BALL)
+                    new Box2DBody(bounds, BodyDef.BodyType.DynamicBody, 100, gameScreen.getGameWorld(), ContactType.BALL)
         );
     }
 

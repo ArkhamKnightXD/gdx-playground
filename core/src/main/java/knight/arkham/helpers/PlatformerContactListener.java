@@ -24,6 +24,13 @@ public class PlatformerContactListener implements ContactListener {
 
             if (fixtureA.getUserData() == ContactType.MOVINGFLOOR || fixtureB.getUserData() == ContactType.MOVINGFLOOR)
                 gameScreen.getMovingFloor().isMovingRight = true;
+
+            if (fixtureA.getUserData() == ContactType.HEAVYGRAVITYFLOOR || fixtureB.getUserData() == ContactType.HEAVYGRAVITYFLOOR)
+                gameScreen.getPlayer().getBody().setGravityScale(2);
+
+            else
+                gameScreen.getPlayer().getBody().setGravityScale(1);
+
         }
 
         if (fixtureA.getUserData() == ContactType.ENEMY || fixtureB.getUserData() == ContactType.ENEMY){
@@ -31,7 +38,6 @@ public class PlatformerContactListener implements ContactListener {
             if (fixtureA.getUserData() == ContactType.PIPE || fixtureB.getUserData() == ContactType.PIPE)
                 gameScreen.getEnemy().isMovingRight = !gameScreen.getEnemy().isMovingRight;
         }
-
     }
 
     @Override

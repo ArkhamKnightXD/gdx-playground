@@ -1,4 +1,4 @@
-package knight.arkham.objects;
+package knight.arkham.objects.platformerBox2D;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Disposable;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DPlayer implements Disposable {
+public class Box2DPlayer {
 
     private final Body body;
     private final Rectangle bounds;
@@ -24,7 +24,7 @@ public class Box2DPlayer implements Disposable {
 
         sprite = new Texture("images/ghost.png");
 
-        body = Box2DHelper.createBody(new Box2DBody(rectangle, false,10,world, ContactType.PLAYER));
+        body = Box2DHelper.createBody(new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10,world, ContactType.PLAYER));
     }
 
     public void update() {
@@ -50,8 +50,5 @@ public class Box2DPlayer implements Disposable {
         return body;
     }
 
-    @Override
-    public void dispose() {
-        sprite.dispose();
-    }
+    public Texture getSprite() {return sprite;}
 }

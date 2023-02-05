@@ -29,10 +29,10 @@ public class Box2DHelper {
             fixtureDef.restitution = 1;
 
 //        Si mi personaje tiene un dynamic body puedo jugar con la densidad, para que se mueva o caiga
-//        mas rapido o mas lento
+//        más rápido o más lento
         fixtureDef.density = box2DBody.density;
 
-        Body body = createBox2DBody(box2DBody);
+        Body body = createBox2DBodyByType(box2DBody);
 
         body.createFixture(fixtureDef).setUserData(box2DBody.contactType);
 
@@ -41,46 +41,15 @@ public class Box2DHelper {
         return body;
     }
 
-
-    private static Body createBox2DBody(Box2DBody box2DBody) {
+    private static Body createBox2DBodyByType(Box2DBody box2DBody) {
 
         BodyDef bodyDef = new BodyDef();
 
-        bodyDef.type = box2DBody.isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
+        bodyDef.type = box2DBody.bodyType;
 
         bodyDef.position.set(box2DBody.bounds.x / PIXELS_PER_METER, box2DBody.bounds.y / PIXELS_PER_METER);
 
         bodyDef.fixedRotation = true;
-
-        return box2DBody.world.createBody(bodyDef);
-    }
-
-    public static Body createKinematicBody(Box2DBody box2DBody) {
-
-        PolygonShape shape = new PolygonShape();
-
-        shape.setAsBox(box2DBody.bounds.width / 2 / PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-
-        Body body = createKinematicBox2DBody(box2DBody);
-
-        body.createFixture(fixtureDef).setUserData(box2DBody.contactType);
-
-        shape.dispose();
-
-        return body;
-    }
-
-
-    private static Body createKinematicBox2DBody(Box2DBody box2DBody) {
-
-        BodyDef bodyDef = new BodyDef();
-
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
-
-        bodyDef.position.set(box2DBody.bounds.x / PIXELS_PER_METER, box2DBody.bounds.y / PIXELS_PER_METER);
 
         return box2DBody.world.createBody(bodyDef);
     }
