@@ -50,11 +50,11 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world);
-        enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world);
-        movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world);
+        player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world, ContactType.PLAYER);
+        enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, ContactType.ENEMY);
+        movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, ContactType.ENEMY);
 
-        floor = new Box2DStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR, "images/wall.png");
+        floor = new Box2DStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR,  "images/wall.png");
         floor2 = new Box2DStructure(new Rectangle(400,200, 200, 32), world,ContactType.TRAMPOLINE, "images/wall.png");
         floor3 = new Box2DStructure(new Rectangle(-110,120, 200, 32), world, ContactType.FLOOR, "images/wall.png");
         floor4 = new Box2DStructure(new Rectangle(0,-16, FULL_SCREEN_WIDTH, 64), world, ContactType.FLOOR, "images/wall.png");
@@ -134,7 +134,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         game.batch.end();
 
-//        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
     }
 
     @Override
@@ -157,6 +157,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         warpPipe2.getSprite().dispose();
         slipperySnowFloor.getSprite().dispose();
         slowSnowFloor.getSprite().dispose();
+        dontJumpSnowFloor.getSprite().dispose();
         movingFloor.getSprite().dispose();
         movingBlock.getSprite().dispose();
     }

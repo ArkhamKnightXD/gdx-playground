@@ -3,28 +3,20 @@ package knight.arkham.objects.platformerBox2D;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DPlayer {
+public class Box2DPlayer extends GameObject {
 
-    private final Body body;
-    private final Rectangle bounds;
-    private final Texture sprite;
-
-    public Box2DPlayer(Rectangle rectangle, World world) {
-        bounds = rectangle;
-
-        sprite = new Texture("images/ghost.png");
-
-        body = Box2DHelper.createBody(new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10,world, ContactType.PLAYER));
+    public Box2DPlayer(Rectangle rectangle, World world, ContactType contactType) {
+        super(
+                new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, contactType),
+                new Texture("images/ghost.png")
+        );
     }
 
     public void update() {
@@ -38,17 +30,4 @@ public class Box2DPlayer {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
     }
-
-    public void draw(Batch batch) {
-
-        Rectangle actualBounds = Box2DHelper.getBoundsWithPPMCalculation(body, bounds);
-
-        batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
-    }
-
-    public Body getBody() {
-        return body;
-    }
-
-    public Texture getSprite() {return sprite;}
 }

@@ -26,7 +26,7 @@ public class PlatformerContactListener implements ContactListener {
                 gameScreen.getMovingFloor().isMovingRight = true;
 
             if (fixtureA.getUserData() == ContactType.HEAVYGRAVITYFLOOR || fixtureB.getUserData() == ContactType.HEAVYGRAVITYFLOOR)
-                gameScreen.getPlayer().getBody().setGravityScale(2);
+                gameScreen.getPlayer().getBody().setGravityScale(0.5f);
 
             else
                 gameScreen.getPlayer().getBody().setGravityScale(1);
