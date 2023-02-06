@@ -24,9 +24,12 @@ public abstract class GameObject {
 
     private Rectangle getBoundsWithPPMCalculation(){
 
-        return new Rectangle(body.getPosition().x - (bounds.width / 2 / PIXELS_PER_METER),
-                body.getPosition().y - (bounds.height / 2 / PIXELS_PER_METER), bounds.width / PIXELS_PER_METER,
-                bounds.height /PIXELS_PER_METER);
+        return new Rectangle(
+                body.getPosition().x - (bounds.width / 2 / PIXELS_PER_METER),
+                body.getPosition().y - (bounds.height / 2 / PIXELS_PER_METER),
+                bounds.width / PIXELS_PER_METER,
+                bounds.height /PIXELS_PER_METER
+        );
     }
 
     public void draw(Batch batch) {

@@ -25,7 +25,8 @@ public class Box2DStructure extends GameObject {
                         contactType
                 ),
 
-                new Texture(spritePath));
+                new Texture(spritePath)
+        );
 
         isMovingRight = false;
     }

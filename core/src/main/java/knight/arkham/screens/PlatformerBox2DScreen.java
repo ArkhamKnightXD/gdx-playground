@@ -167,6 +167,4 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public Box2DEnemy getEnemy() {return enemy;}
 
     public Box2DStructure getMovingFloor() {return movingFloor;}
-
-    public World getWorld() {return world;}
 }

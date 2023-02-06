@@ -26,12 +26,12 @@ public class TileMapHelper {
 
         TiledMap tiledMap = new TmxMapLoader().load("maps/test.tmx");
 
-        parseMapObjectsToStaticBodies(tiledMap, "ground");
+        parseMapObjectsToBox2DBodies(tiledMap, "ground");
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
 
-    private void parseMapObjectsToStaticBodies(TiledMap tiledMap, String objectsName) {
+    private void parseMapObjectsToBox2DBodies(TiledMap tiledMap, String objectsName) {
 
         MapObjects mapObjects = tiledMap.getLayers().get(objectsName).getObjects();
 

@@ -46,7 +46,7 @@ public class Box2DScreen extends ScreenAdapter {
 
     private void update(){
 
-// el 1/60 es porque el juego corre a 60fps, esta línea es fundamental para que haya movimiento en nuestra scene
+// el 1/60 es porque el juego corre a 60 fps, esta línea es fundamental para que haya movimiento en nuestra scene
         gameWorld.step(1/60f, 6, 2);
 
         game.manageExitTheGame();
