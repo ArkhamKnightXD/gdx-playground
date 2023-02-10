@@ -8,7 +8,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import knight.arkham.objects.platformerBox2D.Box2DPlayer;
+import com.badlogic.gdx.utils.Array;
+import knight.arkham.objects.platformerBox2D.Box2DEnemy;
 import knight.arkham.screens.TileMapBox2DScreen;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
@@ -17,16 +18,21 @@ public class TileMapHelper {
 
     private final TileMapBox2DScreen gameScreen;
 
+    private final Array<Box2DEnemy> enemies;
+
+
     public TileMapHelper(TileMapBox2DScreen gameScreen) {
 
         this.gameScreen = gameScreen;
+        enemies = new Array<>();
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
 
         TiledMap tiledMap = new TmxMapLoader().load("maps/test.tmx");
 
-        parseMapObjectsToBox2DBodies(tiledMap, "ground");
+        parseMapObjectsToBox2DBodies(tiledMap, "collisions");
+        parseMapObjectsToBox2DBodies(tiledMap, "enemies");
 
         return new OrthogonalTiledMapRenderer(tiledMap, 1 / PIXELS_PER_METER);
     }
@@ -39,20 +45,21 @@ public class TileMapHelper {
 
             Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
 
-            if (mapObject.getName() != null && mapObject.getName().equals("player")) {
+            if (objectsName.equals("enemies")) {
 
-                Box2DPlayer actualPlayer = new Box2DPlayer(
+                Box2DEnemy actualEnemy = new Box2DEnemy(
                         new Rectangle(
                                 rectangle.x + rectangle.width / 2,
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width, rectangle.height
                         ),
-                        gameScreen.getWorld(), ContactType.PLAYER
+                        gameScreen.getWorld(), ContactType.ENEMY
                 );
 
-                gameScreen.setPlayer(actualPlayer);
+                enemies.add(actualEnemy);
+            }
 
-            } else {
+            else {
                 Box2DHelper.createBody(
 
                         new Box2DBody(
@@ -68,6 +75,8 @@ public class TileMapHelper {
                 );
             }
         }
+
+        gameScreen.setEnemies(enemies);
     }
 }
 

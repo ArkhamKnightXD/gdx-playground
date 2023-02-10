@@ -3,12 +3,16 @@ package knight.arkham.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
+import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.TileMapHelper;
+import knight.arkham.objects.platformerBox2D.Box2DEnemy;
 import knight.arkham.objects.platformerBox2D.Box2DPlayer;
 
 import static knight.arkham.helpers.Constants.*;
@@ -22,7 +26,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private final OrthogonalTiledMapRenderer mapRenderer;
 
-    private Box2DPlayer player;
+    private final Box2DPlayer player;
+    private Array<Box2DEnemy> enemies;
 
 
     public TileMapBox2DScreen() {
@@ -36,6 +41,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
                 FULL_SCREEN_HEIGHT/PIXELS_PER_METER);
 
         mapRenderer = new TileMapHelper(this).setupMap();
+        player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, ContactType.PLAYER);
     }
 
     private void update(){
@@ -74,6 +80,9 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         player.draw(game.batch);
 
+        for (Box2DEnemy enemy : enemies)
+            enemy.draw(game.batch);
+
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -89,9 +98,12 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     public void dispose() {
 
         player.getSprite().dispose();
+
+        for (Box2DEnemy enemy :enemies)
+            enemy.getSprite().dispose();
     }
 
     public World getWorld() {return world;}
 
-    public void setPlayer(Box2DPlayer player) {this.player = player;}
+    public void setEnemies(Array<Box2DEnemy> enemies) {this.enemies = enemies;}
 }
