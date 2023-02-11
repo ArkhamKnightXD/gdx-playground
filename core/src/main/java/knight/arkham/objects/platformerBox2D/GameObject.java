@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 
@@ -13,12 +14,14 @@ import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 public abstract class GameObject {
 
     protected final Body body;
+    protected final Fixture fixture;
     private final Rectangle bounds;
     private final Texture sprite;
 
     protected GameObject(Box2DBody gameObjectStructure, Texture sprite) {
-        this.body =  Box2DHelper.createBody(gameObjectStructure);
-        this.bounds = gameObjectStructure.bounds;
+        fixture =  Box2DHelper.createBody(gameObjectStructure);
+        body = fixture.getBody();
+        bounds = gameObjectStructure.bounds;
         this.sprite = sprite;
     }
 

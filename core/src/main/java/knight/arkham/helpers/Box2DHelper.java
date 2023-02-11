@@ -1,15 +1,12 @@
 package knight.arkham.helpers;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class Box2DHelper {
 
-    public static Body createBody(Box2DBody box2DBody) {
+    public static Fixture createBody(Box2DBody box2DBody) {
 
         PolygonShape shape = new PolygonShape();
 
@@ -33,11 +30,15 @@ public class Box2DHelper {
 
         Body body = createBox2DBodyByType(box2DBody);
 
-        body.createFixture(fixtureDef).setUserData(box2DBody.contactType);
+        Fixture fixture = body.createFixture(fixtureDef);
+
+        fixture.setUserData(box2DBody.contactType);
 
         shape.dispose();
 
-        return body;
+//        Tiene más utilidad tener el fixture, pues este contiene el body y
+//        más propiedades para modificar como por ejemplo la friction
+        return fixture;
     }
 
     private static Body createBox2DBodyByType(Box2DBody box2DBody) {

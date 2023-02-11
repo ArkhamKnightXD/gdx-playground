@@ -29,5 +29,9 @@ public class Box2DPlayer extends GameObject {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
+
+//        Seguiré probando para ver que cosas útiles puedo hacer con el fixture del personaje
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R))
+            fixture.setFriction(1.5f);
     }
 }
