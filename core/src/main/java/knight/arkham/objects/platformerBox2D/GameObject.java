@@ -31,7 +31,7 @@ public abstract class GameObject {
                 body.getPosition().x - (bounds.width / 2 / PIXELS_PER_METER),
                 body.getPosition().y - (bounds.height / 2 / PIXELS_PER_METER),
                 bounds.width / PIXELS_PER_METER,
-                bounds.height /PIXELS_PER_METER
+                bounds.height / PIXELS_PER_METER
         );
     }
 

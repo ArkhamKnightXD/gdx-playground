@@ -36,5 +36,8 @@ public class Box2DStructure extends GameObject {
 //        Para poder mover un cuerpo kinematic debemos de indicar su velocidad lineal.
         if (isMovingRight)
             body.setLinearVelocity(1,0);
+
+        else
+            body.setLinearVelocity(-1,0);
     }
 }

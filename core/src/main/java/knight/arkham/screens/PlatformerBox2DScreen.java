@@ -114,23 +114,23 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.batch.draw(background, -28, -12, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
-
-        player.draw(game.batch);
-        enemy.draw(game.batch);
-        movingBlock.draw(game.batch);
-
-        floor.draw(game.batch);
-        floor2.draw(game.batch);
-        floor3.draw(game.batch);
-        floor4.draw(game.batch);
-
-        warpPipe.draw(game.batch);
-        warpPipe2.draw(game.batch);
-        slowSnowFloor.draw(game.batch);
-        slipperySnowFloor.draw(game.batch);
-        dontJumpSnowFloor.draw(game.batch);
-        movingFloor.draw(game.batch);
+//        game.batch.draw(background, -28, -12, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
+//
+//        player.draw(game.batch);
+//        enemy.draw(game.batch);
+//        movingBlock.draw(game.batch);
+//
+//        floor.draw(game.batch);
+//        floor2.draw(game.batch);
+//        floor3.draw(game.batch);
+//        floor4.draw(game.batch);
+//
+//        warpPipe.draw(game.batch);
+//        warpPipe2.draw(game.batch);
+//        slowSnowFloor.draw(game.batch);
+//        slipperySnowFloor.draw(game.batch);
+//        dontJumpSnowFloor.draw(game.batch);
+//        movingFloor.draw(game.batch);
 
         game.batch.end();
 
