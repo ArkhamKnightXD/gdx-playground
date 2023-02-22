@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Playground;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.PlatformerContactListener;
@@ -38,6 +40,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Box2DDebugRenderer debugRenderer;
     private final World world;
     private final Texture background;
+    private final Viewport viewport;
+    
 
     public PlatformerBox2DScreen() {
         game = Playground.INSTANCE;
@@ -69,9 +73,19 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
 
 //Debo indicarle a mi camara las dimensiones de mi pantalla divididas por mi PPM si no se vería muy pequeño
-        camera = new OrthographicCamera(FULL_SCREEN_WIDTH / PIXELS_PER_METER,
-                FULL_SCREEN_HEIGHT/PIXELS_PER_METER);
         background = new Texture("images/background.jpg");
+
+        camera = new OrthographicCamera();
+
+// StretchViewport es el viewport más fácil de implementar, este es el que más fácil se adapta a todas las posibles
+// resoluciones, debido a que defino las dimensiones de mi viewport, no tengo que definirle las dimensiones a la cámara.
+        viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, camera);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+        viewport.update(width, height);
     }
 
     private void update(){
@@ -114,23 +128,23 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-//        game.batch.draw(background, -28, -12, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
+        game.batch.draw(background, -28, -12, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
 //
-//        player.draw(game.batch);
-//        enemy.draw(game.batch);
-//        movingBlock.draw(game.batch);
-//
-//        floor.draw(game.batch);
-//        floor2.draw(game.batch);
-//        floor3.draw(game.batch);
-//        floor4.draw(game.batch);
-//
-//        warpPipe.draw(game.batch);
-//        warpPipe2.draw(game.batch);
-//        slowSnowFloor.draw(game.batch);
-//        slipperySnowFloor.draw(game.batch);
-//        dontJumpSnowFloor.draw(game.batch);
-//        movingFloor.draw(game.batch);
+        player.draw(game.batch);
+        enemy.draw(game.batch);
+        movingBlock.draw(game.batch);
+
+        floor.draw(game.batch);
+        floor2.draw(game.batch);
+        floor3.draw(game.batch);
+        floor4.draw(game.batch);
+
+        warpPipe.draw(game.batch);
+        warpPipe2.draw(game.batch);
+        slowSnowFloor.draw(game.batch);
+        slipperySnowFloor.draw(game.batch);
+        dontJumpSnowFloor.draw(game.batch);
+        movingFloor.draw(game.batch);
 
         game.batch.end();
 

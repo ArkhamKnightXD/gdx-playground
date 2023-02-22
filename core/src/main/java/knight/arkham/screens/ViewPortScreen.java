@@ -1,25 +1,23 @@
 package knight.arkham.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Playground;
 
 import static knight.arkham.helpers.Constants.*;
 
 public class ViewPortScreen extends ScreenAdapter {
 
+//    Mediante los viewport puedo mantener la relación de aspectos de mi juego independientemente de la resolución
+//    del dispositivo en el que se esté ejecutando mi juego.
     private final Playground game;
 
-//    ScreenViewPort es ideal para pantallas de menu
+//ScreenViewPort es ideal para pantallas de menu.
     private final ScreenViewport viewport;
 
-    private final float PPM = 32;
-
+    //en las pantallas de menu, no hay necesidad de cámaras, pues en su mayoría son statics.
     private final Texture img;
 
     public ViewPortScreen() {
@@ -28,7 +26,7 @@ public class ViewPortScreen extends ScreenAdapter {
 
         viewport = new ScreenViewport();
 
-        viewport.setUnitsPerPixel(1/PPM);
+        viewport.setUnitsPerPixel(1/PIXELS_PER_METER);
 
         viewport.update(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
 
@@ -50,9 +48,9 @@ public class ViewPortScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.batch.draw(img, 0, 0, 64/PPM, 64/PPM);
-        game.batch.end();
+        game.batch.draw(img, 0, 0, 64/PIXELS_PER_METER, 64/PIXELS_PER_METER);
 
+        game.batch.end();
     }
 
     @Override
@@ -65,5 +63,6 @@ public class ViewPortScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
+        img.dispose();
     }
 }

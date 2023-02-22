@@ -9,6 +9,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Playground;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.TileMapHelper;
@@ -21,6 +23,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     private final Playground game;
 
     private final OrthographicCamera camera;
+
+    private final Viewport viewport;
     private final Box2DDebugRenderer debugRenderer;
     private final World world;
 
@@ -37,11 +41,18 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        camera = new OrthographicCamera(FULL_SCREEN_WIDTH / PIXELS_PER_METER,
-                FULL_SCREEN_HEIGHT/PIXELS_PER_METER);
-
         mapRenderer = new TileMapHelper(this).setupMap();
+
         player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, ContactType.PLAYER);
+
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, camera);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+        viewport.update(width, height);
     }
 
     private void update(){
@@ -57,7 +68,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition().x, player.getBody().getPosition().y, 0);
+        camera.position.set(player.getBody().getPosition().x, player.getBody().getPosition().y +5, 0);
 
         camera.update();
 
