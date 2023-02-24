@@ -1,10 +1,12 @@
 package knight.arkham.objects.platformerBox2D;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Array;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 
@@ -43,6 +45,16 @@ public abstract class GameObject {
         Rectangle actualBounds = getBoundsWithPPMCalculation();
 
         batch.draw(actualRegion, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
+    }
+
+    protected Animation<TextureRegion> makeAnimationByFrameRange(TextureRegion characterRegion, int initialFrame, int finalFrame, float frameDuration) {
+
+        Array<TextureRegion> animationFrames = new Array<>();
+
+        for (int i = initialFrame; i <= finalFrame; i++)
+            animationFrames.add(new TextureRegion(characterRegion, i * 16, 0, 16, 16));
+
+        return new Animation<>(frameDuration, animationFrames);
     }
 
     public Body getBody() {return body;}

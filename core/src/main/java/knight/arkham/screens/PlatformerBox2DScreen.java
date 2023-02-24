@@ -43,8 +43,6 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Texture background;
     private final Viewport viewport;
 
-    private final TextureAtlas textureAtlas;
-    
 
     public PlatformerBox2DScreen() {
         game = Playground.INSTANCE;
@@ -57,12 +55,11 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
-
+        TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world, ContactType.PLAYER, textureAtlas);
-        enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, ContactType.ENEMY);
-        movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, ContactType.ENEMY);
+        enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, ContactType.ENEMY, textureAtlas);
+        movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, ContactType.ENEMY, textureAtlas);
 
         floor = new Box2DStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR,  "images/wall.png");
         floor2 = new Box2DStructure(new Rectangle(400,200, 200, 32), world,ContactType.TRAMPOLINE, "images/wall.png");
@@ -108,7 +105,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         player.update(deltaTime);
 
-        enemy.update();
+        enemy.update(deltaTime);
 
         movingFloor.update();
 

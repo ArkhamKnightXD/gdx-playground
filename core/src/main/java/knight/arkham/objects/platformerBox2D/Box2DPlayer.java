@@ -9,15 +9,17 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
 
 public class Box2DPlayer extends GameObject {
 
-    private final TextureRegion characterRegion;
+    private final TextureRegion jumpingRegion;
+    private final TextureRegion standingRegion;
+    private PlayerAnimationState currentState;
+    private PlayerAnimationState previousState;
 
-    private Animation<TextureRegion> runningAnimation;
+    private final Animation<TextureRegion> runningAnimation;
 
     private float animationTimer;
 
@@ -29,67 +31,89 @@ public class Box2DPlayer extends GameObject {
                 new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, contactType),
                 new TextureRegion(textureAtlas.findRegion("little_mario") ,0, 0, 16, 16)
         );
-        characterRegion = textureAtlas.findRegion("little_mario");
 
+        previousState = PlayerAnimationState.STANDING;
+        currentState = PlayerAnimationState.STANDING;
         animationTimer = 0;
 
-        makePlayerAnimations();
+        TextureRegion characterRegion = textureAtlas.findRegion("little_mario");
+
+        jumpingRegion = new TextureRegion(characterRegion, 80, 0, 16, 16);
+        standingRegion = new TextureRegion(characterRegion, 0, 0, 16, 16);
+
+        runningAnimation = makeAnimationByFrameRange(characterRegion, 1, 3, 0.1f);
     }
 
-    private void makePlayerAnimations() {
-
-        Array<TextureRegion> animationFrames = new Array<>();
-
-        for (int i = 1; i < 4; i++)
-            animationFrames.add(new TextureRegion(characterRegion, i * 16, 0, 16, 16));
-
-        runningAnimation = new Animation<>(0.1f, animationFrames);
-
-        animationFrames.clear();
-    }
 
     public void update(float deltaTime) {
+
+        setActualRegion(getActualRegion(deltaTime));
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 7){
 
             body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
 
-            TextureRegion runningRegion = runningAnimation.getKeyFrame(animationTimer, true);
-
             isPlayerRunningRight = true;
-
-            flipPlayerOnXAxis(runningRegion);
-
-            setActualRegion(runningRegion);
         }
 
         else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -7){
 
             body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
 
-            TextureRegion runningRegion = runningAnimation.getKeyFrame(animationTimer, true);
-
             isPlayerRunningRight = false;
-
-            flipPlayerOnXAxis(runningRegion);
-
-            setActualRegion(runningRegion);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0){
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && body.getLinearVelocity().y == 0)
             body.applyLinearImpulse(new Vector2(0, 85), body.getWorldCenter(), true);
-
-            TextureRegion jumpRegion = new TextureRegion(characterRegion, 80, 0, 16, 16);
-
-            setActualRegion(jumpRegion);
-        }
 
 //        Seguiré probando para ver que cosas útiles puedo hacer con el fixture del personaje
         if (Gdx.input.isKeyJustPressed(Input.Keys.R))
             fixture.setFriction(1.5f);
+    }
 
-        animationTimer = animationTimer + deltaTime;
+    private TextureRegion getActualRegion(float deltaTime) {
+
+        currentState = getPlayerCurrentState();
+
+        TextureRegion region;
+
+        switch (currentState) {
+
+            case JUMPING:
+                region = jumpingRegion;
+                break;
+
+            case RUNNING:
+                region = runningAnimation.getKeyFrame(animationTimer, true);
+                break;
+
+            case FALLING:
+            case STANDING:
+            default:
+                region = standingRegion;
+        }
+
+        flipPlayerOnXAxis(region);
+
+        animationTimer = currentState == previousState ? animationTimer + deltaTime : 0;
+        previousState = currentState;
+
+        return region;
+    }
+
+    private PlayerAnimationState getPlayerCurrentState() {
+
+        if (body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == PlayerAnimationState.JUMPING))
+            return PlayerAnimationState.JUMPING;
+
+        else if (body.getLinearVelocity().x != 0)
+            return PlayerAnimationState.RUNNING;
+
+        else if (body.getLinearVelocity().y < 0)
+            return PlayerAnimationState.FALLING;
+
+        else
+            return PlayerAnimationState.STANDING;
     }
 
     private void flipPlayerOnXAxis(TextureRegion region) {

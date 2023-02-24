@@ -53,7 +53,6 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, ContactType.PLAYER, textureAtlas);
-
     }
 
     @Override
@@ -98,7 +97,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         player.draw(game.batch);
 
-        for (Box2DEnemy enemy : enemies)
+        for (Box2DEnemy enemy : enemies.iterator())
             enemy.draw(game.batch);
 
         game.batch.end();
