@@ -97,7 +97,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         player.draw(game.batch);
 
-        for (Box2DEnemy enemy : enemies.iterator())
+        for (Box2DEnemy enemy : enemies)
             enemy.draw(game.batch);
 
         game.batch.end();

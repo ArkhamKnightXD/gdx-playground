@@ -34,12 +34,13 @@ public class Box2DPlayer extends GameObject {
 
         previousState = PlayerAnimationState.STANDING;
         currentState = PlayerAnimationState.STANDING;
+
         animationTimer = 0;
 
         TextureRegion characterRegion = textureAtlas.findRegion("little_mario");
 
-        jumpingRegion = new TextureRegion(characterRegion, 80, 0, 16, 16);
         standingRegion = new TextureRegion(characterRegion, 0, 0, 16, 16);
+        jumpingRegion = new TextureRegion(characterRegion, 80, 0, 16, 16);
 
         runningAnimation = makeAnimationByFrameRange(characterRegion, 1, 3, 0.1f);
     }
@@ -71,6 +72,22 @@ public class Box2DPlayer extends GameObject {
             fixture.setFriction(1.5f);
     }
 
+    private PlayerAnimationState getPlayerCurrentState() {
+
+        if (body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == PlayerAnimationState.JUMPING))
+            return PlayerAnimationState.JUMPING;
+
+        else if (body.getLinearVelocity().x != 0)
+            return PlayerAnimationState.RUNNING;
+
+        else if (body.getLinearVelocity().y < 0)
+            return PlayerAnimationState.FALLING;
+
+        else
+            return PlayerAnimationState.STANDING;
+    }
+
+
     private TextureRegion getActualRegion(float deltaTime) {
 
         currentState = getPlayerCurrentState();
@@ -99,21 +116,6 @@ public class Box2DPlayer extends GameObject {
         previousState = currentState;
 
         return region;
-    }
-
-    private PlayerAnimationState getPlayerCurrentState() {
-
-        if (body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == PlayerAnimationState.JUMPING))
-            return PlayerAnimationState.JUMPING;
-
-        else if (body.getLinearVelocity().x != 0)
-            return PlayerAnimationState.RUNNING;
-
-        else if (body.getLinearVelocity().y < 0)
-            return PlayerAnimationState.FALLING;
-
-        else
-            return PlayerAnimationState.STANDING;
     }
 
     private void flipPlayerOnXAxis(TextureRegion region) {
