@@ -1,6 +1,7 @@
 package knight.arkham.objects.platformerBox2D;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,7 +15,7 @@ public class Box2DEnemy extends GameObject {
     public Box2DEnemy(Rectangle rectangle, World world, ContactType contactType) {
         super(
                 new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, contactType),
-                new Texture("images/enemy.png")
+                new TextureRegion(new Texture("images/enemy.png"))
         );
 
         isMovingRight = true;

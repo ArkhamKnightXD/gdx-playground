@@ -1,7 +1,7 @@
 package knight.arkham.objects.platformerBox2D;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -16,13 +16,16 @@ public abstract class GameObject {
     protected final Body body;
     protected final Fixture fixture;
     private final Rectangle bounds;
-    private final Texture sprite;
 
-    protected GameObject(Box2DBody gameObjectStructure, Texture sprite) {
+//    Debido a que en mi textureRegion se puede comportar como un texture normal, utilizaré el region mejor,
+//    ya que el region me brinda la posibilidad de hacer animaciones para mis personajes.
+    private TextureRegion actualRegion;
+
+    protected GameObject(Box2DBody gameObjectStructure, TextureRegion region) {
         fixture =  Box2DHelper.createBody(gameObjectStructure);
         body = fixture.getBody();
         bounds = gameObjectStructure.bounds;
-        this.sprite = sprite;
+        actualRegion = region;
     }
 
     private Rectangle getBoundsWithPPMCalculation(){
@@ -39,10 +42,12 @@ public abstract class GameObject {
 
         Rectangle actualBounds = getBoundsWithPPMCalculation();
 
-        batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
+        batch.draw(actualRegion, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
     }
 
     public Body getBody() {return body;}
 
-    public Texture getSprite() {return sprite;}
+    public TextureRegion getActualRegion() {return actualRegion;}
+
+    protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}
 }

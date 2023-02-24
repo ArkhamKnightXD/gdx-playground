@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -41,6 +42,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final World world;
     private final Texture background;
     private final Viewport viewport;
+
+    private final TextureAtlas textureAtlas;
     
 
     public PlatformerBox2DScreen() {
@@ -54,7 +57,10 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world, ContactType.PLAYER);
+        textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
+
+
+        player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world, ContactType.PLAYER, textureAtlas);
         enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, ContactType.ENEMY);
         movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, ContactType.ENEMY);
 
@@ -88,7 +94,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         viewport.update(width, height);
     }
 
-    private void update(){
+    private void update(float deltaTime){
 
         world.step(1 / 60f, 6, 2);
 
@@ -100,7 +106,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         updateCameraPosition();
 
-        player.update();
+        player.update(deltaTime);
 
         enemy.update();
 
@@ -120,7 +126,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        update();
+        update(delta);
 
         ScreenUtils.clear(0,0,0,0);
 
@@ -161,19 +167,19 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public void dispose() {
 
         background.dispose();
-        player.getSprite().dispose();
-        enemy.getSprite().dispose();
-        floor.getSprite().dispose();
-        floor2.getSprite().dispose();
-        floor3.getSprite().dispose();
-        floor4.getSprite().dispose();
-        warpPipe.getSprite().dispose();
-        warpPipe2.getSprite().dispose();
-        slipperySnowFloor.getSprite().dispose();
-        slowSnowFloor.getSprite().dispose();
-        dontJumpSnowFloor.getSprite().dispose();
-        movingFloor.getSprite().dispose();
-        movingBlock.getSprite().dispose();
+        player.getActualRegion().getTexture().dispose();
+        enemy.getActualRegion().getTexture().dispose();
+        floor.getActualRegion().getTexture().dispose();
+        floor2.getActualRegion().getTexture().dispose();
+        floor3.getActualRegion().getTexture().dispose();
+        floor4.getActualRegion().getTexture().dispose();
+        warpPipe.getActualRegion().getTexture().dispose();
+        warpPipe2.getActualRegion().getTexture().dispose();
+        slipperySnowFloor.getActualRegion().getTexture().dispose();
+        slowSnowFloor.getActualRegion().getTexture().dispose();
+        dontJumpSnowFloor.getActualRegion().getTexture().dispose();
+        movingFloor.getActualRegion().getTexture().dispose();
+        movingBlock.getActualRegion().getTexture().dispose();
     }
 
     public Box2DPlayer getPlayer() {return player;}

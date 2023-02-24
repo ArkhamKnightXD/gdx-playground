@@ -2,6 +2,7 @@ package knight.arkham.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -33,6 +34,9 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     private final Box2DPlayer player;
     private Array<Box2DEnemy> enemies;
 
+    private final TextureAtlas textureAtlas;
+
+
 
     public TileMapBox2DScreen() {
         game = Playground.INSTANCE;
@@ -43,10 +47,13 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         mapRenderer = new TileMapHelper(this).setupMap();
 
-        player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, ContactType.PLAYER);
-
         camera = new OrthographicCamera();
         viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, camera);
+
+        textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
+
+        player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, ContactType.PLAYER, textureAtlas);
+
     }
 
     @Override
@@ -55,13 +62,13 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         viewport.update(width, height);
     }
 
-    private void update(){
+    private void update(float deltaTime){
 
         world.step(1 / 60f, 6, 2);
 
         updateCameraPosition();
 
-        player.update();
+        player.update(deltaTime);
 
         game.manageExitTheGame();
     }
@@ -79,7 +86,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        update();
+        update(delta);
 
         ScreenUtils.clear(0,0,0,0);
 
@@ -108,13 +115,15 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
-        player.getSprite().dispose();
+        player.getActualRegion().getTexture().dispose();
 
         for (Box2DEnemy enemy :enemies)
-            enemy.getSprite().dispose();
+            enemy.getActualRegion().getTexture().dispose();
     }
 
     public World getWorld() {return world;}
 
     public void setEnemies(Array<Box2DEnemy> enemies) {this.enemies = enemies;}
+
+    public TextureAtlas getTextureAtlas() {return textureAtlas;}
 }

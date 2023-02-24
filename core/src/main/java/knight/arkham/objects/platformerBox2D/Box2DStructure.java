@@ -1,6 +1,7 @@
 package knight.arkham.objects.platformerBox2D;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -25,7 +26,7 @@ public class Box2DStructure extends GameObject {
                         contactType
                 ),
 
-                new Texture(spritePath)
+                new TextureRegion(new Texture(spritePath))
         );
 
         isMovingRight = false;
