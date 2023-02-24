@@ -53,7 +53,7 @@ public class TileMapHelper {
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width, rectangle.height
                         ),
-                        gameScreen.getWorld(), ContactType.ENEMY, gameScreen.getTextureAtlas());
+                        gameScreen.getWorld(), gameScreen.getTextureAtlas());
 
                 enemies.add(actualEnemy);
             }

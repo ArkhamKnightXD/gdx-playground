@@ -16,9 +16,9 @@ public class Box2DEnemy extends GameObject {
     private float animationTimer;
     public boolean isMovingRight;
 
-    public Box2DEnemy(Rectangle rectangle, World world, ContactType contactType, TextureAtlas textureAtlas) {
+    public Box2DEnemy(Rectangle rectangle, World world, TextureAtlas textureAtlas) {
         super(
-                new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, contactType),
+                new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, ContactType.ENEMY),
                 new TextureRegion(textureAtlas.findRegion("goomba") ,0, 0, 16, 16)
         );
 
@@ -33,9 +33,9 @@ public class Box2DEnemy extends GameObject {
 
     public void update(float deltaTime) {
 
-        setActualRegion(runningAnimation.getKeyFrame(animationTimer, true));
-
         animationTimer += deltaTime;
+
+        setActualRegion(runningAnimation.getKeyFrame(animationTimer, true));
 
         if (isMovingRight && body.getLinearVelocity().x <= 3)
             body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);

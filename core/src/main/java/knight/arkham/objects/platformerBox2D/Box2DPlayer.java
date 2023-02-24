@@ -26,9 +26,9 @@ public class Box2DPlayer extends GameObject {
     private boolean isPlayerRunningRight;
 
 
-    public Box2DPlayer(Rectangle rectangle, World world, ContactType contactType, TextureAtlas textureAtlas) {
+    public Box2DPlayer(Rectangle rectangle, World world, TextureAtlas textureAtlas) {
         super(
-                new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, contactType),
+                new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, ContactType.PLAYER),
                 new TextureRegion(textureAtlas.findRegion("little_mario") ,0, 0, 16, 16)
         );
 

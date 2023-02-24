@@ -45,14 +45,14 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        mapRenderer = new TileMapHelper(this).setupMap();
-
         camera = new OrthographicCamera();
         viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, camera);
 
         textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
-        player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, ContactType.PLAYER, textureAtlas);
+        player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, textureAtlas);
+
+        mapRenderer = new TileMapHelper(this).setupMap();
     }
 
     @Override
