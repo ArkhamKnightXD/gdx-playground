@@ -16,24 +16,25 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Playground;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.PlatformerContactListener;
+import knight.arkham.objects.platformerBox2D.Box2DKinematicStructure;
 import knight.arkham.objects.platformerBox2D.Box2DPlayer;
-import knight.arkham.objects.platformerBox2D.Box2DStructure;
+import knight.arkham.objects.platformerBox2D.Box2DStaticStructure;
 import knight.arkham.objects.platformerBox2D.Box2DEnemy;
 
 import static knight.arkham.helpers.Constants.*;
 
 public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Playground game;
-    private final Box2DStructure floor;
-    private final Box2DStructure floor2;
-    private final Box2DStructure floor3;
-    private final Box2DStructure floor4;
-    private final Box2DStructure slowSnowFloor;
-    private final Box2DStructure dontJumpSnowFloor;
-    private final Box2DStructure slipperySnowFloor;
-    private final Box2DStructure movingFloor;
-    private final Box2DStructure warpPipe;
-    private final Box2DStructure warpPipe2;
+    private final Box2DStaticStructure floor;
+    private final Box2DStaticStructure floor2;
+    private final Box2DStaticStructure floor3;
+    private final Box2DStaticStructure floor4;
+    private final Box2DStaticStructure slowSnowFloor;
+    private final Box2DStaticStructure dontJumpSnowFloor;
+    private final Box2DStaticStructure slipperySnowFloor;
+    private final Box2DKinematicStructure movingFloor;
+    private final Box2DStaticStructure warpPipe;
+    private final Box2DStaticStructure warpPipe2;
     private final Box2DPlayer player;
     private final Box2DEnemy enemy;
     private final Box2DEnemy movingBlock;
@@ -61,19 +62,18 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, textureAtlas);
         movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, textureAtlas);
 
-        floor = new Box2DStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR,  "images/wall.png");
-        floor2 = new Box2DStructure(new Rectangle(400,200, 200, 32), world,ContactType.TRAMPOLINE, "images/wall.png");
-        floor3 = new Box2DStructure(new Rectangle(-110,120, 200, 32), world, ContactType.FLOOR, "images/wall.png");
-        floor4 = new Box2DStructure(new Rectangle(0,-16, FULL_SCREEN_WIDTH, 64), world, ContactType.FLOOR, "images/wall.png");
+        floor = new Box2DStaticStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR,  "images/wall.png");
+        floor2 = new Box2DStaticStructure(new Rectangle(400,200, 200, 32), world,ContactType.TRAMPOLINE, "images/wall.png");
+        floor3 = new Box2DStaticStructure(new Rectangle(-110,120, 200, 32), world, ContactType.FLOOR, "images/wall.png");
+        floor4 = new Box2DStaticStructure(new Rectangle(0,-16, FULL_SCREEN_WIDTH, 64), world, ContactType.FLOOR, "images/wall.png");
 
-        warpPipe = new Box2DStructure(new Rectangle(-300,46, 64, 64), world, ContactType.PIPE, "images/pipe.png");
-        warpPipe2 = new Box2DStructure(new Rectangle(80,46, 64, 64), world, ContactType.PIPE, "images/pipe.png");
+        warpPipe = new Box2DStaticStructure(new Rectangle(-300,46, 64, 64), world, ContactType.PIPE, "images/pipe.png");
+        warpPipe2 = new Box2DStaticStructure(new Rectangle(80,46, 64, 64), world, ContactType.PIPE, "images/pipe.png");
 
-        slowSnowFloor = new Box2DStructure(new Rectangle(1250,-50, 281, 283), world, ContactType.SNOWFLOOR, "images/big-snow-floor.png");
-        dontJumpSnowFloor = new Box2DStructure(new Rectangle(1500,0, 186, 182), world, ContactType.HEAVYGRAVITYFLOOR, "images/medium-snow-floor.png");
-        slipperySnowFloor = new Box2DStructure(new Rectangle(850,-25, 374, 96), world, ContactType.SLIPPERYFLOOR, "images/cold-floor.png");
-        movingFloor = new Box2DStructure(new Rectangle(750,175, 96, 91), world, ContactType.MOVINGFLOOR, "images/little-floor.png");
-
+        slowSnowFloor = new Box2DStaticStructure(new Rectangle(1250,-50, 281, 283), world, ContactType.SNOWFLOOR, "images/big-snow-floor.png");
+        dontJumpSnowFloor = new Box2DStaticStructure(new Rectangle(1500,0, 186, 182), world, ContactType.HEAVYGRAVITYFLOOR, "images/medium-snow-floor.png");
+        slipperySnowFloor = new Box2DStaticStructure(new Rectangle(850,-25, 374, 96), world, ContactType.SLIPPERYFLOOR, "images/cold-floor.png");
+        movingFloor = new Box2DKinematicStructure(new Rectangle(750,175, 96, 91), world, "images/little-floor.png");
 
 //Debo indicarle a mi camara las dimensiones de mi pantalla divididas por mi PPM si no se vería muy pequeño
         background = new Texture("images/background.jpg");
@@ -114,7 +114,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition().x, player.getBody().getPosition().y, 0);
+        camera.position.set(player.getBody().getPosition(), 0);
 
         camera.update();
     }
@@ -164,24 +164,24 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public void dispose() {
 
         background.dispose();
-        player.getActualRegion().getTexture().dispose();
-        enemy.getActualRegion().getTexture().dispose();
-        floor.getActualRegion().getTexture().dispose();
-        floor2.getActualRegion().getTexture().dispose();
-        floor3.getActualRegion().getTexture().dispose();
-        floor4.getActualRegion().getTexture().dispose();
-        warpPipe.getActualRegion().getTexture().dispose();
-        warpPipe2.getActualRegion().getTexture().dispose();
-        slipperySnowFloor.getActualRegion().getTexture().dispose();
-        slowSnowFloor.getActualRegion().getTexture().dispose();
-        dontJumpSnowFloor.getActualRegion().getTexture().dispose();
-        movingFloor.getActualRegion().getTexture().dispose();
-        movingBlock.getActualRegion().getTexture().dispose();
+        player.getSprite().dispose();
+        enemy.getSprite().dispose();
+        floor.getSprite().dispose();
+        floor2.getSprite().dispose();
+        floor3.getSprite().dispose();
+        floor4.getSprite().dispose();
+        warpPipe.getSprite().dispose();
+        warpPipe2.getSprite().dispose();
+        slipperySnowFloor.getSprite().dispose();
+        slowSnowFloor.getSprite().dispose();
+        dontJumpSnowFloor.getSprite().dispose();
+        movingFloor.getSprite().dispose();
+        movingBlock.getSprite().dispose();
     }
 
     public Box2DPlayer getPlayer() {return player;}
 
     public Box2DEnemy getEnemy() {return enemy;}
 
-    public Box2DStructure getMovingFloor() {return movingFloor;}
+    public Box2DKinematicStructure getMovingFloor() {return movingFloor;}
 }

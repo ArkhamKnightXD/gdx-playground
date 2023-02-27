@@ -8,24 +8,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DStructure extends GameObject {
+public class Box2DKinematicStructure extends GameObject {
 
     public boolean isMovingRight;
 
-    public Box2DStructure(Rectangle rectangle, World world, ContactType contactType, String spritePath) {
+    public Box2DKinematicStructure(Rectangle rectangle, World world, String spritePath) {
 
         super(
-                new Box2DBody(
-                        rectangle,
-// Determinando si quiero que el body sea kinematic o static
-                        contactType == ContactType.MOVINGFLOOR ?
-                                BodyDef.BodyType.KinematicBody
-                                : BodyDef.BodyType.StaticBody,
-                        0,
-                        world,
-                        contactType
-                ),
-
+                new Box2DBody(rectangle, BodyDef.BodyType.KinematicBody, 0, world, ContactType.MOVINGFLOOR),
                 new TextureRegion(new Texture(spritePath))
         );
 

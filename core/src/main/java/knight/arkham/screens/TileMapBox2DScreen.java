@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Playground;
-import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.platformerBox2D.Box2DEnemy;
 import knight.arkham.objects.platformerBox2D.Box2DPlayer;
@@ -74,7 +73,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition().x, player.getBody().getPosition().y +5, 0);
+        camera.position.set(player.getBody().getPosition(), 0);
 
         camera.update();
 
@@ -114,10 +113,10 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
-        player.getActualRegion().getTexture().dispose();
+        player.getSprite().dispose();
 
-        for (Box2DEnemy enemy :enemies)
-            enemy.getActualRegion().getTexture().dispose();
+        for (Box2DEnemy enemy : enemies)
+            enemy.getSprite().dispose();
     }
 
     public World getWorld() {return world;}

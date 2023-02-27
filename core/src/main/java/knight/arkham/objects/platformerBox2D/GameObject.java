@@ -1,5 +1,6 @@
 package knight.arkham.objects.platformerBox2D;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -59,7 +60,7 @@ public abstract class GameObject {
 
     public Body getBody() {return body;}
 
-    public TextureRegion getActualRegion() {return actualRegion;}
+    public Texture getSprite() {return actualRegion.getTexture();}
 
     protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}
 }
