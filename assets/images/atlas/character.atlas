@@ -1,0 +1,55 @@
+
+character.png
+size: 2048, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Attack-01-Sheet
+  rotate: false
+  xy: 2, 84
+  size: 768, 80
+  orig: 768, 80
+  offset: 0, 0
+  index: -1
+Dead-Sheet
+  rotate: false
+  xy: 964, 166
+  size: 640, 64
+  orig: 640, 64
+  offset: 0, 0
+  index: -1
+Idle-Sheet
+  rotate: false
+  xy: 772, 84
+  size: 256, 80
+  orig: 256, 80
+  offset: 0, 0
+  index: -1
+Jump-All-Sheet
+  rotate: false
+  xy: 2, 166
+  size: 960, 64
+  orig: 960, 64
+  offset: 0, 0
+  index: -1
+Jump-End-Sheet
+  rotate: false
+  xy: 1606, 166
+  size: 192, 64
+  orig: 192, 64
+  offset: 0, 0
+  index: -1
+Jump-Start-Sheet
+  rotate: false
+  xy: 644, 18
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
+  index: -1
+Run-Sheet
+  rotate: false
+  xy: 2, 2
+  size: 640, 80
+  orig: 640, 80
+  offset: 0, 0
+  index: -1
