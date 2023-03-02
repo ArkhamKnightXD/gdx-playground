@@ -3,6 +3,7 @@ package knight.arkham.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -49,7 +50,9 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
-        player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, textureAtlas);
+        TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
+
+        player = new Box2DPlayer(new Rectangle(100, 75, 32, 32), world, playerRegion);
 
         mapRenderer = new TileMapHelper(this).setupMap();
     }
@@ -96,7 +99,9 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         player.draw(game.batch);
 
-        for (Box2DEnemy enemy : enemies)
+//        Agregar el new Array. ArraIterator resuelve el molesto warning, pero hace el código mós complejo de leer,
+//        investigaré si vale la pena, de todas formas el foreach sigue funcionando igual
+        for (Box2DEnemy enemy : new Array.ArrayIterator<>(enemies))
             enemy.draw(game.batch);
 
         game.batch.end();
@@ -115,7 +120,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         player.getSprite().dispose();
 
-        for (Box2DEnemy enemy : enemies)
+        for (Box2DEnemy enemy : new Array.ArrayIterator<>(enemies))
             enemy.getSprite().dispose();
     }
 

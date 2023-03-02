@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -58,9 +59,12 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
-        player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world, textureAtlas);
-        enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, textureAtlas);
-        movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, textureAtlas);
+        TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
+        TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
+
+        player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world, playerRegion);
+        enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, enemyRegion);
+        movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, enemyRegion);
 
         floor = new Box2DStaticStructure(new Rectangle(120,300, 200, 32), world, ContactType.FLOOR,  "images/wall.png");
         floor2 = new Box2DStaticStructure(new Rectangle(400,200, 200, 32), world,ContactType.TRAMPOLINE, "images/wall.png");

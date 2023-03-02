@@ -53,7 +53,7 @@ public class TileMapHelper {
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width, rectangle.height
                         ),
-                        gameScreen.getWorld(), gameScreen.getTextureAtlas());
+                        gameScreen.getWorld(), gameScreen.getTextureAtlas().findRegion("goomba"));
 
                 enemies.add(actualEnemy);
             }
@@ -78,6 +78,3 @@ public class TileMapHelper {
         gameScreen.setEnemies(enemies);
     }
 }
-
-
-

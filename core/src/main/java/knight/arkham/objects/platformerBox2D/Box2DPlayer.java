@@ -3,7 +3,6 @@ package knight.arkham.objects.platformerBox2D;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -26,10 +25,10 @@ public class Box2DPlayer extends GameObject {
     private boolean isPlayerRunningRight;
 
 
-    public Box2DPlayer(Rectangle rectangle, World world, TextureAtlas textureAtlas) {
+    public Box2DPlayer(Rectangle rectangle, World world, TextureRegion actualRegion) {
         super(
                 new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody,10, world, ContactType.PLAYER),
-                new TextureRegion(textureAtlas.findRegion("little_mario") ,0, 0, 16, 16)
+                new TextureRegion(actualRegion ,0, 0, 16, 16)
         );
 
         previousState = PlayerAnimationState.STANDING;
@@ -37,12 +36,10 @@ public class Box2DPlayer extends GameObject {
 
         animationTimer = 0;
 
-        TextureRegion characterRegion = textureAtlas.findRegion("little_mario");
+        standingRegion = new TextureRegion(actualRegion, 0, 0, 16, 16);
+        jumpingRegion = new TextureRegion(actualRegion, 80, 0, 16, 16);
 
-        standingRegion = new TextureRegion(characterRegion, 0, 0, 16, 16);
-        jumpingRegion = new TextureRegion(characterRegion, 80, 0, 16, 16);
-
-        runningAnimation = makeAnimationByFrameRange(characterRegion, 1, 3, 0.1f);
+        runningAnimation = makeAnimationByFrameRange(actualRegion, 1, 3, 0.1f);
     }
 
 
