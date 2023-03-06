@@ -79,9 +79,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         slipperySnowFloor = new Box2DStaticStructure(new Rectangle(850,-25, 374, 96), world, ContactType.SLIPPERYFLOOR, "images/cold-floor.png");
         movingFloor = new Box2DKinematicStructure(new Rectangle(750,175, 96, 91), world, "images/little-floor.png");
 
-//Debo indicarle a mi camara las dimensiones de mi pantalla divididas por mi PPM si no se vería muy pequeño
         background = new Texture("images/background.jpg");
 
+//Debo indicarle a mi camara las dimensiones de mi pantalla divididas por mi PPM si no se vería muy pequeño
         camera = new OrthographicCamera();
 
 // StretchViewport es el viewport más fácil de implementar, este es el que más fácil se adapta a todas las posibles
