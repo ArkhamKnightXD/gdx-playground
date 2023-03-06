@@ -3,7 +3,6 @@ package knight.arkham.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-//import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -37,14 +36,10 @@ public class BasicScreen extends ScreenAdapter {
 
     private boolean isUpAndDownMovementActive;
 
-//	private final OrthographicCamera camera;
 
-
-    public BasicScreen(/*OrthographicCamera globalCamera*/) {
+    public BasicScreen() {
 
         game = Playground.INSTANCE;
-
-        //		camera = globalCamera;
 
         playerTexture = new Texture("images/initial.png");
 
@@ -72,8 +67,6 @@ public class BasicScreen extends ScreenAdapter {
 
         if (isUpAndDownMovementActive) {
 
-//            yAxisMovement();
-
             upAndDownMovement(deltaTime);
         }
     }
@@ -85,8 +78,6 @@ public class BasicScreen extends ScreenAdapter {
         update(delta);
 
         ScreenUtils.clear(0, 0, 0, 0);
-
-//		camera.update();
 
         game.batch.begin();
 
@@ -114,7 +105,7 @@ public class BasicScreen extends ScreenAdapter {
                 FULL_SCREEN_WIDTH - 300, FULL_SCREEN_HEIGHT - 140);
 
 
-        for (Rectangle rectangle : randomRectangles) {
+        for (Rectangle rectangle :  new Array.ArrayIterator<>(randomRectangles)) {
 
             game.batch.draw(playerTexture, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 
