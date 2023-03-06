@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import knight.arkham.screens.MainMenuScreen;
-import knight.arkham.screens.PlatformerScreen;
+import knight.arkham.screens.PlatformerBox2DScreen;
 
 public class Playground extends Game {
 	public static Playground INSTANCE;
@@ -31,7 +31,7 @@ public class Playground extends Game {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 
-		setScreen(new PlatformerScreen());
+		setScreen(new PlatformerBox2DScreen());
 	}
 
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -36,6 +37,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Box2DKinematicStructure movingFloor;
     private final Box2DStaticStructure warpPipe;
     private final Box2DStaticStructure warpPipe2;
+
+    private final Array<Box2DStaticStructure> structures;
     private final Box2DPlayer player;
     private final Box2DEnemy enemy;
     private final Box2DEnemy movingBlock;
@@ -77,6 +80,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         slowSnowFloor = new Box2DStaticStructure(new Rectangle(1250,-50, 281, 283), world, ContactType.SNOWFLOOR, "images/big-snow-floor.png");
         dontJumpSnowFloor = new Box2DStaticStructure(new Rectangle(1500,0, 186, 182), world, ContactType.HEAVYGRAVITYFLOOR, "images/medium-snow-floor.png");
         slipperySnowFloor = new Box2DStaticStructure(new Rectangle(850,-25, 374, 96), world, ContactType.SLIPPERYFLOOR, "images/cold-floor.png");
+
+        structures = getStructures();
+
         movingFloor = new Box2DKinematicStructure(new Rectangle(750,175, 96, 91), world, "images/little-floor.png");
 
         background = new Texture("images/background.jpg");
@@ -93,6 +99,25 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public void resize(int width, int height) {
 
         viewport.update(width, height);
+    }
+
+    private Array<Box2DStaticStructure> getStructures() {
+
+        final Array<Box2DStaticStructure> structures;
+
+        structures = new Array<>();
+
+        structures.add(floor);
+        structures.add(floor2);
+        structures.add(floor3);
+        structures.add(floor4);
+        structures.add(warpPipe);
+        structures.add(warpPipe2);
+        structures.add(slowSnowFloor);
+        structures.add(slipperySnowFloor);
+        structures.add(dontJumpSnowFloor);
+
+        return structures;
     }
 
     private void update(float deltaTime){
@@ -136,21 +161,13 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         game.batch.begin();
 
         game.batch.draw(background, -28, -12, background.getWidth()/ PIXELS_PER_METER, background.getHeight() / PIXELS_PER_METER);
-//
         player.draw(game.batch);
         enemy.draw(game.batch);
         movingBlock.draw(game.batch);
 
-        floor.draw(game.batch);
-        floor2.draw(game.batch);
-        floor3.draw(game.batch);
-        floor4.draw(game.batch);
+        for (Box2DStaticStructure structure :new Array.ArrayIterator<>(structures))
+            structure.draw(game.batch);
 
-        warpPipe.draw(game.batch);
-        warpPipe2.draw(game.batch);
-        slowSnowFloor.draw(game.batch);
-        slipperySnowFloor.draw(game.batch);
-        dontJumpSnowFloor.draw(game.batch);
         movingFloor.draw(game.batch);
 
         game.batch.end();
@@ -170,17 +187,12 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         background.dispose();
         player.getSprite().dispose();
         enemy.getSprite().dispose();
-        floor.getSprite().dispose();
-        floor2.getSprite().dispose();
-        floor3.getSprite().dispose();
-        floor4.getSprite().dispose();
-        warpPipe.getSprite().dispose();
-        warpPipe2.getSprite().dispose();
-        slipperySnowFloor.getSprite().dispose();
-        slowSnowFloor.getSprite().dispose();
-        dontJumpSnowFloor.getSprite().dispose();
+
         movingFloor.getSprite().dispose();
         movingBlock.getSprite().dispose();
+
+        for (Box2DStaticStructure structure :new Array.ArrayIterator<>(structures))
+            structure.getSprite().dispose();
     }
 
     public Box2DPlayer getPlayer() {return player;}
