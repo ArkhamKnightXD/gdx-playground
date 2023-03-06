@@ -5,10 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
-import knight.arkham.objects.Player;
-import knight.arkham.objects.Structure;
+import knight.arkham.objects.platformer.Player;
+import knight.arkham.objects.platformer.Structure;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -22,6 +23,8 @@ public class PlatformerScreen extends ScreenAdapter {
     private final Player player;
     private final OrthographicCamera camera;
 
+    private final Array<Structure> structures;
+
     public PlatformerScreen() {
         game = Playground.INSTANCE;
 
@@ -34,8 +37,25 @@ public class PlatformerScreen extends ScreenAdapter {
 
         warpPipe = new Structure(new Rectangle(80, 30, 128, 128), "images/pipe.png");
 
+        structures = getStructures();
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
+    }
+
+    private Array<Structure> getStructures() {
+
+        final Array<Structure> structures;
+
+        structures = new Array<>();
+
+        structures.add(floor);
+        structures.add(floor2);
+        structures.add(floor3);
+        structures.add(floor4);
+        structures.add(warpPipe);
+
+        return structures;
     }
 
     private void update(){
@@ -55,7 +75,7 @@ public class PlatformerScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().x, player.getBody().y, 0);
+        camera.position.set(player.getBounds().x, player.getBounds().y, 0);
 
         camera.update();
     }
@@ -63,57 +83,53 @@ public class PlatformerScreen extends ScreenAdapter {
     private void resetGamePositions() {
         if (Gdx.input.isKeyPressed(Input.Keys.F1)){
 
-            player.getBody().setPosition(200, 600);
+            player.getBounds().setPosition(200, 600);
 
-            floor2.getBody().x = 400;
-            floor3.getBody().y = 0;
+            floor2.getBounds().x = 400;
+            floor3.getBounds().y = 75;
         }
     }
 
     private void managePlayerFloorCollision() {
 
-        if (player.getBody().overlaps(floor.getBody()))
-            player.setPlayerGrounded(true);
+        if (player.getBounds().overlaps(floor.getBounds()))
+            player.isPlayerGrounded = true;
 
-        else if (player.getBody().overlaps(floor2.getBody())){
+        else if (player.getBounds().overlaps(floor2.getBounds())){
 
-            player.setPlayerGrounded(true);
+            player.isPlayerGrounded = true;
 
-            floor2.floorXAxisMovement(player.getBody());
+            floor2.floorXAxisMovement(player.getBounds());
         }
 
-        else if (player.getBody().overlaps(floor3.getBody())){
+        else if (player.getBounds().overlaps(floor3.getBounds())){
 
-            player.setPlayerGrounded(true);
+            player.isPlayerGrounded = true;
 
-            floor3.floorYAxisMovement(player.getBody());
+            floor3.floorYAxisMovement(player.getBounds());
         }
 
-        else if (player.getBody().overlaps(floor4.getBody())){
+        else if (player.getBounds().overlaps(floor4.getBounds()))
+            player.isPlayerGrounded = true;
 
-            player.setPlayerGrounded(true);
-
-            player.setCanPlayerMoveLeft(!player.getBody().overlaps(warpPipe.getBody()));
-        }
-
-        else if (player.getBody().overlaps(warpPipe.getBody())){
-            player.setPlayerGrounded(true);
+        else if (player.getBounds().overlaps(warpPipe.getBounds())){
+            player.isPlayerGrounded = true;
 
             if (Gdx.input.isKeyPressed(Input.Keys.S))
-                player.getBody().setPosition(floor.getBody().x,floor.getBody().y + player.getBody().height);
+                player.getBounds().setPosition(floor.getBounds().x,floor.getBounds().y + player.getBounds().height);
         }
 
         else
-            player.setPlayerGrounded(false);
+            player.isPlayerGrounded = false;
     }
 
     private void manageCollisionBetweenFloors() {
 
-        if (floor3.getBody().overlaps(floor.getBody()))
-            floor3.getBody().y = floor.getBody().y - floor.getBody().height;
+        if (floor3.getBounds().overlaps(floor.getBounds()))
+            floor3.getBounds().y = floor.getBounds().y - floor.getBounds().height;
 
-        if (floor3.getBody().overlaps(floor2.getBody()))
-            floor3.getBody().y = floor2.getBody().y - floor2.getBody().height;
+        if (floor3.getBounds().overlaps(floor2.getBounds()))
+            floor3.getBounds().y = floor2.getBounds().y - floor2.getBounds().height;
     }
 
 
@@ -128,17 +144,13 @@ public class PlatformerScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.font.draw(game.batch, "Is player Grounded? " + player.isPlayerGrounded(),
-                player.getBody().x, player.getBody().y + 64);
+        game.font.draw(game.batch, "Is player Grounded? " + player.isPlayerGrounded,
+                player.getBounds().x, player.getBounds().y + 64);
 
         player.draw(game.batch);
 
-        floor.draw(game.batch);
-        floor2.draw(game.batch);
-        floor3.draw(game.batch);
-        floor4.draw(game.batch);
-
-        warpPipe.draw(game.batch);
+        for (Structure structure : new Array.ArrayIterator<>(structures))
+            structure.draw(game.batch);
 
         game.batch.end();
     }
@@ -152,10 +164,9 @@ public class PlatformerScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
-        player.dispose();
-        floor.dispose();
-        floor2.dispose();
-        floor3.dispose();
-        warpPipe.dispose();
+        player.getSprite().dispose();
+
+        for (Structure structure : new Array.ArrayIterator<>(structures))
+            structure.getSprite().dispose();
     }
 }

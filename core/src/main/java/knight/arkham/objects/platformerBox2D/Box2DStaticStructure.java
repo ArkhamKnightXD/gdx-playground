@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DStaticStructure extends GameObject {
+public class Box2DStaticStructure extends Box2DGameObject {
 
     public Box2DStaticStructure(Rectangle rectangle, World world, ContactType contactType, String spritePath) {
 

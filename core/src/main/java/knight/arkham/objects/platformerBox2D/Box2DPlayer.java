@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DPlayer extends GameObject {
+public class Box2DPlayer extends Box2DGameObject {
 
     private final TextureRegion jumpingRegion;
     private final TextureRegion standingRegion;

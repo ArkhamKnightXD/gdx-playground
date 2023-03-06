@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.ContactType;
 
-public class Box2DEnemy extends GameObject {
+public class Box2DEnemy extends Box2DGameObject {
 
     private final Animation<TextureRegion> runningAnimation;
     private float animationTimer;

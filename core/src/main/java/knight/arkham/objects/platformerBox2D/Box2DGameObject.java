@@ -14,7 +14,7 @@ import knight.arkham.helpers.Box2DHelper;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 //Probaré aplicar herencias
-public abstract class GameObject {
+public abstract class Box2DGameObject {
 
     protected final Body body;
     protected final Fixture fixture;
@@ -24,7 +24,7 @@ public abstract class GameObject {
 //    ya que el region me brinda la posibilidad de hacer animaciones para mis personajes.
     private TextureRegion actualRegion;
 
-    protected GameObject(Box2DBody gameObjectStructure, TextureRegion region) {
+    protected Box2DGameObject(Box2DBody gameObjectStructure, TextureRegion region) {
         fixture =  Box2DHelper.createBody(gameObjectStructure);
         body = fixture.getBody();
         bounds = gameObjectStructure.bounds;
