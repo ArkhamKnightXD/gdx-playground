@@ -8,7 +8,6 @@ import static knight.arkham.helpers.Constants.FULL_SCREEN_WIDTH;
 
 public class Structure extends GameObject {
 
-
     public Structure(Rectangle actualBounds, String spritePath) {
         super(actualBounds, new Texture(spritePath), 1);
     }
