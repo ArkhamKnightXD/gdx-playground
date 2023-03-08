@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -18,14 +16,9 @@ import knight.arkham.objects.platformerBox2D.Box2DPlayer;
 
 public class TileMapBox2DScreen extends ScreenAdapter {
     private final Playground game;
-
     private final OrthographicCamera camera;
-
-    private final Box2DDebugRenderer debugRenderer;
     private final World world;
-
     private final OrthogonalTiledMapRenderer mapRenderer;
-
     private final Box2DPlayer player;
     private final Array<Box2DEnemy> enemies;
 
@@ -33,9 +26,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     public TileMapBox2DScreen() {
         game = Playground.INSTANCE;
 
-        world = new World(new Vector2(0, -10), true);
-
-        debugRenderer = new Box2DDebugRenderer();
+        world = game.globalWorld;
 
         TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
@@ -101,7 +92,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+        game.debugRenderer.render(world, camera.combined);
     }
 
     @Override

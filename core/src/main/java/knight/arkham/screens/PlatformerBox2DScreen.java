@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -41,7 +40,6 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Box2DEnemy enemy;
     private final Box2DEnemy movingBlock;
     private final OrthographicCamera camera;
-    private final Box2DDebugRenderer debugRenderer;
     private final World world;
     private final Texture background;
 
@@ -49,13 +47,11 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public PlatformerBox2DScreen() {
         game = Playground.INSTANCE;
 
-        world = new World(new Vector2(0, -10), true);
+        world = game.globalWorld;
 
         PlatformerContactListener contactListener = new PlatformerContactListener(this);
 
         world.setContactListener(contactListener);
-
-        debugRenderer = new Box2DDebugRenderer();
 
         TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
@@ -164,7 +160,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
+        game.debugRenderer.render(world, camera.combined);
     }
 
     @Override
