@@ -13,8 +13,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Playground;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.PlatformerContactListener;
@@ -46,7 +44,6 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final Box2DDebugRenderer debugRenderer;
     private final World world;
     private final Texture background;
-    private final Viewport viewport;
 
 
     public PlatformerBox2DScreen() {
@@ -87,18 +84,13 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         background = new Texture("images/background.jpg");
 
-//Debo indicarle a mi camara las dimensiones de mi pantalla divididas por mi PPM si no se vería muy pequeño
-        camera = new OrthographicCamera();
-
-// StretchViewport es el viewport más fácil de implementar, este es el que más fácil se adapta a todas las posibles
-// resoluciones, debido a que defino las dimensiones de mi viewport, no tengo que definirle las dimensiones a la cámara.
-        viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, camera);
+        camera = game.globalCamera;
     }
 
     @Override
     public void resize(int width, int height) {
 
-        viewport.update(width, height);
+        game.viewport.update(width, height);
     }
 
     private Array<Box2DStaticStructure> getStructures() {

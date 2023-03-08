@@ -1,10 +1,27 @@
 package knight.arkham.helpers;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class Box2DHelper {
+
+    public static void createCollisionBody(Rectangle floorBounds, World world) {
+
+        Box2DBody box2DBody = new Box2DBody(
+
+                new Rectangle(
+                        floorBounds.x + floorBounds.width / 2,
+                        floorBounds.y + floorBounds.height / 2,
+                        floorBounds.width, floorBounds.height
+                ),
+                BodyDef.BodyType.StaticBody, 0,
+                world, ContactType.FLOOR
+        );
+
+        createBody(box2DBody);
+    }
 
     public static Fixture createBody(Box2DBody box2DBody) {
 
