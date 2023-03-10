@@ -1,9 +1,11 @@
 package knight.arkham.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
@@ -62,7 +64,21 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 75 && player.getActualPixelPosition().x < 1090;
+
+        MapProperties prop = mapRenderer.getMap().getProperties();
+
+        int mapWidth = prop.get("width", Integer.class);
+        int mapHeight = prop.get("height", Integer.class);
+        int tilePixelWidth = prop.get("tilewidth", Integer.class);
+        int tilePixelHeight = prop.get("tileheight", Integer.class);
+
+        int mapPixelWidth = mapWidth * tilePixelWidth;
+        int mapPixelHeight = mapHeight * tilePixelHeight;
+
+        Gdx.app.log("map width", String.valueOf(mapPixelWidth));
+        Gdx.app.log("map height", String.valueOf(mapPixelHeight));
+
+        boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 75 && player.getActualPixelPosition().x < mapPixelWidth-510;
 
         if (isPlayerInsideMapBounds)
             camera.position.set(player.getBody().getPosition().x,9.5f, 0);
