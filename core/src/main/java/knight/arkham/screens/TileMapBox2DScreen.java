@@ -62,7 +62,10 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition(), 0);
+        boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 75 && player.getActualPixelPosition().x < 1090;
+
+        if (isPlayerInsideMapBounds)
+            camera.position.set(player.getBody().getPosition().x,9.5f, 0);
 
         camera.update();
 
