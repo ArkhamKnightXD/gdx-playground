@@ -12,12 +12,23 @@ public class Box2DBody {
     public float density;
     public World world;
     public ContactType contactType;
+    public Object userData;
+
 
     public Box2DBody(Rectangle bounds, BodyDef.BodyType bodyType, float density, World world, ContactType contactType) {
 
         this.bounds = bounds;
         this.bodyType = bodyType;
         this.density = density;
+        this.world = world;
+        this.contactType = contactType;
+    }
+
+    public Box2DBody(Rectangle bounds, World world, ContactType contactType) {
+
+        this.bounds = bounds;
+        this.bodyType = BodyDef.BodyType.StaticBody;
+        this.density = 0;
         this.world = world;
         this.contactType = contactType;
     }
