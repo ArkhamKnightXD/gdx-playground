@@ -21,4 +21,13 @@ public class Box2DBody {
         this.world = world;
         this.contactType = contactType;
     }
+
+    public Box2DBody(Rectangle bounds, World world, ContactType contactType) {
+
+        this.bounds = bounds;
+        this.bodyType = BodyDef.BodyType.StaticBody;
+        this.density = 0;
+        this.world = world;
+        this.contactType = contactType;
+    }
 }

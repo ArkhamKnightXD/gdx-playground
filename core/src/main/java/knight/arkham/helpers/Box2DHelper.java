@@ -15,9 +15,7 @@ public class Box2DHelper {
                         floorBounds.x + floorBounds.width / 2,
                         floorBounds.y + floorBounds.height / 2,
                         floorBounds.width, floorBounds.height
-                ),
-                BodyDef.BodyType.StaticBody, 0,
-                world, ContactType.FLOOR
+                ), world, ContactType.FLOOR
         );
 
         createBody(box2DBody);
