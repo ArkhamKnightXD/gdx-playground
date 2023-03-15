@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.screens.MainMenuScreen;
 import knight.arkham.screens.PlatformerBox2DScreen;
@@ -53,7 +54,7 @@ public class Playground extends Game {
 
 		// StretchViewport es el viewport más fácil de implementar, este es el que más fácil se adapta a todas las posibles
 // resoluciones, debido a que defino las dimensiones de mi viewport, no tengo que definirle las dimensiones a la cámara.
-		viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, globalCamera);
+		viewport = new StretchViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, globalCamera);
 
 		debugRenderer = new Box2DDebugRenderer();
 

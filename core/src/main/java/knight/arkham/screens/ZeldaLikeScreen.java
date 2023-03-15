@@ -15,6 +15,8 @@ import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.box2D.Box2DEnemy;
 import knight.arkham.objects.box2D.ZeldaLikePlayer;
 
+import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
+
 public class ZeldaLikeScreen extends ScreenAdapter {
     private final Playground game;
     private final OrthographicCamera camera;
@@ -31,7 +33,7 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
         TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
-        player = new ZeldaLikePlayer(new Rectangle(100, 75, 32, 32), world);
+        player = new ZeldaLikePlayer(new Rectangle(500, 500, 32, 32), world);
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
@@ -61,10 +63,13 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-//        boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 75 && player.getActualPixelPosition().x < mapPixelWidth-510;
+        boolean isPlayerXPositionInsideMapBounds = player.getActualPixelPosition().x > 400;
 
-//        if (isPlayerInsideMapBounds)
+        if (isPlayerXPositionInsideMapBounds)
             camera.position.set(player.getBody().getPosition(), 0);
+
+        else
+            camera.position.set(400/PIXELS_PER_METER,player.getBody().getPosition().y, 0);
 
         camera.update();
 
