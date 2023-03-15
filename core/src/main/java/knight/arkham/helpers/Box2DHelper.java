@@ -3,11 +3,11 @@ package knight.arkham.helpers;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
-import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
+import static knight.arkham.helpers.Constants.*;
 
 public class Box2DHelper {
 
-    public static void createCollisionBody(Rectangle floorBounds, World world) {
+    public static void createStaticBody(Rectangle floorBounds, World world) {
 
         Box2DBody box2DBody = new Box2DBody(
 

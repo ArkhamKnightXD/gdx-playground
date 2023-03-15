@@ -15,10 +15,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.helpers.PlatformerContactListener;
-import knight.arkham.objects.platformerBox2D.Box2DKinematicStructure;
-import knight.arkham.objects.platformerBox2D.Box2DPlayer;
-import knight.arkham.objects.platformerBox2D.Box2DStaticStructure;
-import knight.arkham.objects.platformerBox2D.Box2DEnemy;
+import knight.arkham.objects.box2D.Box2DKinematicStructure;
+import knight.arkham.objects.box2D.Box2DPlayer;
+import knight.arkham.objects.box2D.Box2DStaticStructure;
+import knight.arkham.objects.box2D.Box2DEnemy;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -47,7 +47,7 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     public PlatformerBox2DScreen() {
         game = Playground.INSTANCE;
 
-        world = game.globalWorld;
+        world = new World(new Vector2(0, -10), true);
 
         PlatformerContactListener contactListener = new PlatformerContactListener(this);
 

@@ -6,13 +6,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.screens.MainMenuScreen;
+import knight.arkham.screens.PlatformerBox2DScreen;
 import knight.arkham.screens.TileMapBox2DScreen;
+import knight.arkham.screens.ZeldaLikeScreen;
 
 import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_HEIGHT;
 import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_WIDTH;
@@ -30,8 +30,6 @@ public class Playground extends Game {
 
 	public Box2DDebugRenderer debugRenderer;
 
-	public World globalWorld;
-
 
 	private int screenWidth;
 	private int screenHeight;
@@ -43,8 +41,6 @@ public class Playground extends Game {
 
 	@Override
 	public void create() {
-
-		globalWorld = new World(new Vector2(0, -10), true);
 
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
@@ -61,7 +57,7 @@ public class Playground extends Game {
 
 		debugRenderer = new Box2DDebugRenderer();
 
-		setScreen(new TileMapBox2DScreen());
+		setScreen(new ZeldaLikeScreen());
 	}
 
 

@@ -1,4 +1,4 @@
-package knight.arkham.objects.platformerBox2D;
+package knight.arkham.objects.box2D;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;

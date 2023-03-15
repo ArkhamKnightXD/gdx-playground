@@ -1,4 +1,4 @@
-package knight.arkham.objects.platformerBox2D;
+package knight.arkham.objects.box2D;
 
 public enum PlayerAnimationState {
 

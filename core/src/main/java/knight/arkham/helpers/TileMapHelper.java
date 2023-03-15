@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import knight.arkham.objects.platformerBox2D.Box2DEnemy;
+import knight.arkham.objects.box2D.Box2DEnemy;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
@@ -49,7 +49,7 @@ public class TileMapHelper {
                 createEnemyBody(rectangle);
 
             else
-                Box2DHelper.createCollisionBody(rectangle, world);
+                Box2DHelper.createStaticBody(rectangle, world);
         }
     }
 
