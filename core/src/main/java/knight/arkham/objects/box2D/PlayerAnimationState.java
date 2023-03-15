@@ -6,5 +6,6 @@ public enum PlayerAnimationState {
     JUMPING,
     STANDING,
     RUNNING,
-//    DEAD
+    DEAD,
+    GROWING
 }

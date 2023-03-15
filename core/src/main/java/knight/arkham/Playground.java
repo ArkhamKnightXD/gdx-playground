@@ -58,7 +58,7 @@ public class Playground extends Game {
 
 		debugRenderer = new Box2DDebugRenderer();
 
-		setScreen(new ZeldaLikeScreen());
+		setScreen(new TileMapBox2DScreen());
 	}
 
 

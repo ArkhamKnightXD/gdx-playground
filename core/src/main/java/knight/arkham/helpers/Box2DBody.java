@@ -32,4 +32,14 @@ public class Box2DBody {
         this.world = world;
         this.contactType = contactType;
     }
+
+    public Box2DBody(Rectangle bounds, World world, Object userData) {
+
+        this.bodyType = BodyDef.BodyType.DynamicBody;
+        this.density = 10;
+        this.bounds = bounds;
+        this.world = world;
+        this.userData = userData;
+    }
+
 }

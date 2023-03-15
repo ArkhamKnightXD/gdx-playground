@@ -16,6 +16,7 @@ import knight.arkham.Playground;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.box2D.Box2DEnemy;
 import knight.arkham.objects.box2D.Box2DPlayer;
+import knight.arkham.objects.sprites.Mario;
 
 public class TileMapBox2DScreen extends ScreenAdapter {
     private final Playground game;
@@ -24,6 +25,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DPlayer player;
     private final Array<Box2DEnemy> enemies;
+
+    private final Mario mario;
 
 
     public TileMapBox2DScreen() {
@@ -34,6 +37,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         TextureRegion playerRegion = textureAtlas.findRegion("little_mario");
+
+        mario = new Mario(world, playerRegion);
 
         player = new Box2DPlayer(new Rectangle(500, 75, 32, 32), world, playerRegion);
 
@@ -58,7 +63,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         updateCameraPosition();
 
-        player.update(deltaTime);
+//        player.update(deltaTime);
+        mario.update(deltaTime);
 
         game.manageExitTheGame();
     }
@@ -104,6 +110,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         game.batch.begin();
 
         player.draw(game.batch);
+
+        mario.draw(game.batch);
 
 //        Agregar el new Array. ArraIterator resuelve el molesto warning, pero hace el código mós complejo de leer,
 //        investigaré si vale la pena, de todas formas el foreach sigue funcionando igual
