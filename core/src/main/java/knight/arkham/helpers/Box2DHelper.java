@@ -1,15 +1,13 @@
 package knight.arkham.helpers;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 import static knight.arkham.helpers.Constants.*;
-import static knight.arkham.helpers.Constants.MARIO_HEAD_BIT;
 
 public class Box2DHelper {
 
-    public static void createCollisionBody(Rectangle floorBounds, World world) {
+    public static void createStaticBody(Rectangle floorBounds, World world) {
 
         Box2DBody box2DBody = new Box2DBody(
 
@@ -22,52 +20,6 @@ public class Box2DHelper {
 
         createBody(box2DBody);
     }
-
-
-    public static Body createPlayerBody(Box2DBody box2DBody){
-
-        CircleShape circleShape = new CircleShape();
-
-        FixtureDef fixtureDef = new FixtureDef();
-
-        circleShape.setRadius(6 / PIXELS_PER_METER);
-
-        fixtureDef.shape = circleShape;
-        fixtureDef.density = box2DBody.density;
-
-        fixtureDef.filter.categoryBits = MARIO_BIT;
-
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | ITEM_BIT | COIN_BIT | BRICK_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
-
-        Body body = createBox2DBodyByType(box2DBody);
-
-        body.createFixture(fixtureDef).setUserData(box2DBody.userData);
-
-        EdgeShape headCollider = makePlayerHeadCollider(fixtureDef);
-
-        body.createFixture(fixtureDef).setUserData(box2DBody.userData);
-
-        headCollider.dispose();
-
-        return body;
-    }
-
-    private static EdgeShape makePlayerHeadCollider(FixtureDef fixtureDefinition) {
-
-        EdgeShape headCollider = new EdgeShape();
-
-        headCollider.set(new Vector2(-2 / PIXELS_PER_METER, 7 / PIXELS_PER_METER),
-                new Vector2(2 / PIXELS_PER_METER, 7 / PIXELS_PER_METER));
-
-        fixtureDefinition.shape = headCollider;
-
-        fixtureDefinition.isSensor = true;
-
-        fixtureDefinition.filter.categoryBits = MARIO_HEAD_BIT;
-
-        return headCollider;
-    }
-
 
     public static Fixture createBody(Box2DBody box2DBody) {
 
