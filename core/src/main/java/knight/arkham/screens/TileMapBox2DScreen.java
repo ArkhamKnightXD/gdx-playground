@@ -63,7 +63,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         updateCameraPosition();
 
-//        player.update(deltaTime);
+        player.update(deltaTime);
         mario.update(deltaTime);
 
         game.manageExitTheGame();
@@ -86,6 +86,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         Gdx.app.log("map height", String.valueOf(mapPixelHeight));
 
         boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 400 && player.getActualPixelPosition().x < mapPixelWidth-400;
+
+//        camera.zoom = 0.8f;
 
         if (isPlayerInsideMapBounds)
             camera.position.set(player.getBody().getPosition().x,9.5f, 0);
@@ -110,7 +112,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         game.batch.begin();
 
         player.draw(game.batch);
-
+//
         mario.draw(game.batch);
 
 //        Agregar el new Array. ArraIterator resuelve el molesto warning, pero hace el código mós complejo de leer,

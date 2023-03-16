@@ -33,10 +33,10 @@ public class Box2DBody {
         this.contactType = contactType;
     }
 
-    public Box2DBody(Rectangle bounds, World world, Object userData) {
+    public Box2DBody(Rectangle bounds, World world, float density, Object userData) {
 
         this.bodyType = BodyDef.BodyType.DynamicBody;
-        this.density = 10;
+        this.density = density;
         this.bounds = bounds;
         this.world = world;
         this.userData = userData;

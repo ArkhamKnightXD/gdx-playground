@@ -12,22 +12,19 @@ public class Box2DHelper {
 
         Body body = createBox2DBodyByType(box2DBody);
 
-        CircleShape circleShape = new CircleShape();
+        PolygonShape shape = new PolygonShape();
+
+        shape.setAsBox(box2DBody.bounds.width / 2 / PIXELS_PER_METER, box2DBody.bounds.height / 2 / PIXELS_PER_METER);
 
         FixtureDef fixtureDef = new FixtureDef();
 
-        circleShape.setRadius(12 / PIXELS_PER_METER);
-
-        fixtureDef.shape = circleShape;
+        fixtureDef.shape = shape;
 
         fixtureDef.density = box2DBody.density;
-        fixtureDef.friction = 0.1f;
 
-        fixtureDef.filter.categoryBits = MARIO_BIT;
+        fixtureDef.filter.categoryBits = PLAYER_BIT;
 
         fixtureDef.filter.maskBits = (short) (GROUND_BIT | ITEM_BIT | COIN_BIT | BRICK_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
-
-        circleShape.dispose();
 
         body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
@@ -37,6 +34,8 @@ public class Box2DHelper {
 
         headCollider.dispose();
 
+        shape.dispose();
+
         return body;
     }
 
@@ -45,8 +44,8 @@ public class Box2DHelper {
 
         EdgeShape headCollider = new EdgeShape();
 
-        headCollider.set(new Vector2(-2 / PIXELS_PER_METER, 7 / PIXELS_PER_METER),
-                new Vector2(2 / PIXELS_PER_METER, 7 / PIXELS_PER_METER));
+        headCollider.set(new Vector2(-8 / PIXELS_PER_METER, 19 / PIXELS_PER_METER),
+                new Vector2(8 / PIXELS_PER_METER, 19 / PIXELS_PER_METER));
 
         fixtureDefinition.shape = headCollider;
 
@@ -117,10 +116,5 @@ public class Box2DHelper {
         bodyDef.fixedRotation = true;
 
         return box2DBody.world.createBody(bodyDef);
-    }
-
-    public static Vector2 getSimplifiedCurrentPosition(Body body) {
-
-        return new Vector2(body.getPosition().x * PIXELS_PER_METER, body.getPosition().y * PIXELS_PER_METER);
     }
 }
