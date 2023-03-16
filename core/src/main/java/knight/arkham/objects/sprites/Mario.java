@@ -16,7 +16,6 @@ import knight.arkham.objects.box2D.PlayerAnimationState;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
-//La clase sprite nos hereda un conjunto de funcionalidades encargadas de manejar sprites.
 public class Mario extends Sprite {
 
     private PlayerAnimationState currentState;
@@ -26,7 +25,6 @@ public class Mario extends Sprite {
 
     private Animation<TextureRegion> playerRunning;
     private TextureRegion playerJumping;
-    private boolean isPlayerRunningRight;
     private final Body body;
 
     private final TextureRegion playerStand;
@@ -34,6 +32,9 @@ public class Mario extends Sprite {
     private TextureRegion dyingPlayer;
 
     private final boolean isMarioDead;
+
+    private boolean isPlayerRunningRight;
+
 
 
     public Mario(World world, TextureRegion textureRegion) {
@@ -68,7 +69,6 @@ public class Mario extends Sprite {
         for (int i = 1; i < 4; i++)
             animationFrames.add(new TextureRegion(getTexture(), i * 16, 10, 16, 16));
 
-
         playerRunning = new Animation<>(0.1f, animationFrames);
 
         animationFrames.clear();
@@ -92,15 +92,34 @@ public class Mario extends Sprite {
         if (currentState != PlayerAnimationState.DEAD) {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && body.getLinearVelocity().y == 0)
-                body.applyLinearImpulse(new Vector2(0, 4f), body.getWorldCenter(), true);
+                body.applyLinearImpulse(new Vector2(0, 4.3f), body.getWorldCenter(), true);
 
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x <= 2)
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x <= 4)
                 body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x >= -2)
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x >= -4)
                 body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
         }
     }
+
+    private PlayerAnimationState getPlayerCurrentState() {
+
+        if (isMarioDead)
+            return PlayerAnimationState.DEAD;
+
+        else if (body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == PlayerAnimationState.JUMPING))
+            return PlayerAnimationState.JUMPING;
+
+        else if (body.getLinearVelocity().y < 0)
+            return PlayerAnimationState.FALLING;
+
+        else if (body.getLinearVelocity().x != 0)
+            return PlayerAnimationState.RUNNING;
+
+        else
+            return PlayerAnimationState.STANDING;
+    }
+
 
     private TextureRegion getActualRegion(float deltaTime) {
 
@@ -148,21 +167,11 @@ public class Mario extends Sprite {
         }
     }
 
-    private PlayerAnimationState getPlayerCurrentState() {
 
-        if (isMarioDead)
-            return PlayerAnimationState.DEAD;
+    public Body getBody() {return body;}
 
-        else if (body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == PlayerAnimationState.JUMPING))
-            return PlayerAnimationState.JUMPING;
+    public Vector2 getActualPixelPosition() {
 
-        else if (body.getLinearVelocity().y < 0)
-            return PlayerAnimationState.FALLING;
-
-        else if (body.getLinearVelocity().x != 0)
-            return PlayerAnimationState.RUNNING;
-
-        else
-            return PlayerAnimationState.STANDING;
+        return new Vector2(body.getPosition().x * PIXELS_PER_METER, body.getPosition().y * PIXELS_PER_METER);
     }
 }

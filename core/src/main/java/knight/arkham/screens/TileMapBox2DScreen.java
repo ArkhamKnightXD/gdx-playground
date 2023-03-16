@@ -71,13 +71,12 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
+        MapProperties properties = mapRenderer.getMap().getProperties();
 
-        MapProperties prop = mapRenderer.getMap().getProperties();
-
-        int mapWidth = prop.get("width", Integer.class);
-        int mapHeight = prop.get("height", Integer.class);
-        int tilePixelWidth = prop.get("tilewidth", Integer.class);
-        int tilePixelHeight = prop.get("tileheight", Integer.class);
+        int mapWidth = properties.get("width", Integer.class);
+        int mapHeight = properties.get("height", Integer.class);
+        int tilePixelWidth = properties.get("tilewidth", Integer.class);
+        int tilePixelHeight = properties.get("tileheight", Integer.class);
 
         int mapPixelWidth = mapWidth * tilePixelWidth;
         int mapPixelHeight = mapHeight * tilePixelHeight;
@@ -85,12 +84,10 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         Gdx.app.log("map width", String.valueOf(mapPixelWidth));
         Gdx.app.log("map height", String.valueOf(mapPixelHeight));
 
-        boolean isPlayerInsideMapBounds = player.getActualPixelPosition().x > 400 && player.getActualPixelPosition().x < mapPixelWidth-400;
-
-//        camera.zoom = 0.8f;
+        boolean isPlayerInsideMapBounds = mario.getActualPixelPosition().x > 400 && mario.getActualPixelPosition().x < mapPixelWidth-400;
 
         if (isPlayerInsideMapBounds)
-            camera.position.set(player.getBody().getPosition().x,9.5f, 0);
+            camera.position.set(mario.getBody().getPosition().x,9.5f, 0);
 
         camera.update();
 
