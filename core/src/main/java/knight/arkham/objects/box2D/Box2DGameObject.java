@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
+import knight.arkham.helpers.ContactType;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
@@ -26,10 +27,21 @@ public abstract class Box2DGameObject {
     private TextureRegion actualRegion;
 
     protected Box2DGameObject(Box2DBody gameObjectStructure, TextureRegion region) {
-        fixture =  Box2DHelper.createBody(gameObjectStructure);
+
+        fixture = getFixtureByContactType(gameObjectStructure);
         body = fixture.getBody();
         bounds = gameObjectStructure.bounds;
         actualRegion = region;
+    }
+
+    private Fixture getFixtureByContactType(Box2DBody gameObjectStructure){
+
+        boolean isPlayer = gameObjectStructure.contactType == ContactType.PLAYER;
+
+        if (isPlayer)
+            return Box2DHelper.createPlayerBody(gameObjectStructure);
+
+        return Box2DHelper.createBody(gameObjectStructure);
     }
 
     private Rectangle getBoundsWithPPMCalculation(){
@@ -58,6 +70,11 @@ public abstract class Box2DGameObject {
 
         return new Animation<>(frameDuration, animationFrames);
     }
+    protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}
+
+    public void setActualPosition(float positionX, float positionY) {
+        body.setTransform(positionX / PIXELS_PER_METER, positionY / PIXELS_PER_METER, 0);
+    }
 
     public Body getBody() {return body;}
 
@@ -67,6 +84,4 @@ public abstract class Box2DGameObject {
     }
 
     public Texture getSprite() {return actualRegion.getTexture();}
-
-    protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}
 }

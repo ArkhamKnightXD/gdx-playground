@@ -16,7 +16,7 @@ import knight.arkham.objects.box2D.PlayerAnimationState;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
-public class Mario extends Sprite {
+public class SpritePlayer extends Sprite {
 
     private PlayerAnimationState currentState;
     private PlayerAnimationState previousState;
@@ -36,10 +36,15 @@ public class Mario extends Sprite {
     private boolean isPlayerRunningRight;
 
 
+    public SpritePlayer(Rectangle bounds, World world, TextureRegion textureRegion) {
 
-    public Mario(World world, TextureRegion textureRegion) {
+        body = Box2DHelper.createPlayerBody(new Box2DBody(bounds, world,0.5f, this)).getBody();
 
-        super(textureRegion);
+        setBounds(0, 0, bounds.width / PIXELS_PER_METER, bounds.height / PIXELS_PER_METER);
+
+        playerStand = new TextureRegion(textureRegion, 0, 0, 16, 16);
+
+        setRegion(playerStand);
 
         currentState = PlayerAnimationState.STANDING;
         previousState = PlayerAnimationState.STANDING;
@@ -47,17 +52,6 @@ public class Mario extends Sprite {
 
         isPlayerRunningRight = true;
         isMarioDead = false;
-
-        body = Box2DHelper.createPlayerBody(
-
-                new Box2DBody(new Rectangle(450, 75, 32, 32), world,0.5f, this)
-        );
-
-        playerStand = new TextureRegion(getTexture(), 0, 10, 16, 16);
-
-        setRegion(playerStand);
-
-        setBounds(0, 0, 32 / PIXELS_PER_METER, 32 / PIXELS_PER_METER);
 
         makePlayerAnimations();
     }
@@ -94,11 +88,11 @@ public class Mario extends Sprite {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && body.getLinearVelocity().y == 0)
                 body.applyLinearImpulse(new Vector2(0, 4.3f), body.getWorldCenter(), true);
 
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x <= 4)
-                body.applyLinearImpulse(new Vector2(1, 0), body.getWorldCenter(), true);
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x <= 3)
+                body.applyLinearImpulse(new Vector2(1.5f, 0), body.getWorldCenter(), true);
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x >= -4)
-                body.applyLinearImpulse(new Vector2(-1, 0), body.getWorldCenter(), true);
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x >= -3)
+                body.applyLinearImpulse(new Vector2(-1.5f, 0), body.getWorldCenter(), true);
         }
     }
 

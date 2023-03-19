@@ -8,7 +8,7 @@ import static knight.arkham.helpers.Constants.*;
 
 public class Box2DHelper {
 
-    public static Body createPlayerBody(Box2DBody box2DBody){
+    public static Fixture createPlayerBody(Box2DBody box2DBody){
 
         Body body = createBox2DBodyByType(box2DBody);
 
@@ -32,13 +32,15 @@ public class Box2DHelper {
 
         EdgeShape headCollider = makePlayerHeadCollider(fixtureDef);
 
-        body.createFixture(fixtureDef).setUserData(box2DBody.userData);
+        Fixture fixture = body.createFixture(fixtureDef);
+
+        fixture.setUserData(box2DBody.userData);
 
         headCollider.dispose();
 
         shape.dispose();
 
-        return body;
+        return fixture;
     }
 
 
