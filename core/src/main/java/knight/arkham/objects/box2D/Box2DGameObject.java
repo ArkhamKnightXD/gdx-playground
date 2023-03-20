@@ -70,13 +70,13 @@ public abstract class Box2DGameObject {
 
         return new Animation<>(frameDuration, animationFrames);
     }
+
     protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}
+
 
     public void setActualPosition(float positionX, float positionY) {
         body.setTransform(positionX / PIXELS_PER_METER, positionY / PIXELS_PER_METER, 0);
     }
-
-    public Body getBody() {return body;}
 
     public Vector2 getActualPixelPosition() {
 
@@ -84,4 +84,6 @@ public abstract class Box2DGameObject {
     }
 
     public Texture getSprite() {return actualRegion.getTexture();}
+
+    public Body getBody() {return body;}
 }
