@@ -7,11 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.screens.MainMenuScreen;
-import knight.arkham.screens.PlatformerBox2DScreen;
 import knight.arkham.screens.TileMapBox2DScreen;
 import knight.arkham.screens.ZeldaLikeScreen;
 
@@ -58,7 +56,7 @@ public class Playground extends Game {
 
 		debugRenderer = new Box2DDebugRenderer();
 
-		setScreen(new TileMapBox2DScreen());
+		setScreen(new ZeldaLikeScreen());
 	}
 
 

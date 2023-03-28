@@ -13,25 +13,35 @@ import knight.arkham.helpers.ContactType;
 
 public class ZeldaLikePlayer extends Box2DGameObject {
 
+    private final Vector2 velocity;
+
+    private final float speed;
+
     public ZeldaLikePlayer(Rectangle rectangle, World world) {
         super(
                 new Box2DBody(rectangle, BodyDef.BodyType.DynamicBody, 10, world, ContactType.PLAYER),
                 new TextureRegion(new Texture("images/ghost.png"))
         );
+        velocity = new Vector2(0,0);
+        speed = 2;
     }
 
     public void update() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 2)
-            body.applyLinearImpulse(new Vector2(0.5f, 0), body.getWorldCenter(), true);
+            velocity.x = 2;
 
         else if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -2)
-            body.applyLinearImpulse(new Vector2(-0.5f, 0), body.getWorldCenter(), true);
+            velocity.x = -2;
 
         else if (Gdx.input.isKeyPressed(Input.Keys.W) && body.getLinearVelocity().y <= 2)
-            body.applyLinearImpulse(new Vector2(0, 0.5f), body.getWorldCenter(), true);
+            velocity.y = 2;
 
         else if (Gdx.input.isKeyPressed(Input.Keys.S) && body.getLinearVelocity().y >= -2)
-            body.applyLinearImpulse(new Vector2(0, -0.5f), body.getWorldCenter(), true);
+            velocity.y = -2;
+
+        body.setLinearVelocity(velocity.x * speed, velocity.y * speed);
+
+        velocity.set(0,0);
     }
 }
