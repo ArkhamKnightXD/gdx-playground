@@ -27,6 +27,7 @@ public class ZeldaLikeScreen extends ScreenAdapter {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final ZeldaLikePlayer player;
     private final Array<Box2DEnemy> enemies;
+    public static final String GAME_DATA_FILENAME = "zelda-like-player";
 
 
     public ZeldaLikeScreen() {
@@ -37,6 +38,8 @@ public class ZeldaLikeScreen extends ScreenAdapter {
         TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         player = new ZeldaLikePlayer(new Rectangle(500, 500, 32, 32), world);
+
+        GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
@@ -68,10 +71,10 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
     private void manageGameData() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(), 0);
+            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME), 0);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            GameDataHelper.savePlayerPosition(player.toString());
+            GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
     }
 
     private void updateCameraPosition(){

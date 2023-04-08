@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 import knight.arkham.helpers.ContactType;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.helpers.PlatformerContactListener;
 import knight.arkham.objects.box2D.Box2DKinematicStructure;
 import knight.arkham.objects.box2D.Box2DPlayer;
@@ -43,6 +44,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
     private final World world;
     private final Texture background;
 
+    public static final String GAME_DATA_FILENAME = "platformer-like-player";
+
+
 
     public PlatformerBox2DScreen() {
         game = Playground.INSTANCE;
@@ -59,6 +63,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
         player = new Box2DPlayer(new Rectangle(200, 600, 32, 32), world, playerRegion);
+
+        GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
+
         enemy = new Box2DEnemy(new Rectangle(0,32, 32, 32), world, enemyRegion);
         movingBlock = new Box2DEnemy(new Rectangle(-100,256, 32, 32), world, enemyRegion);
 
@@ -112,11 +119,11 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         world.step(1 / 60f, 6, 2);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
-            player.getBody().setTransform(200/ PIXELS_PER_METER, 330 / PIXELS_PER_METER, 0);
-            movingBlock.getBody().setTransform(-100/ PIXELS_PER_METER, 150 / PIXELS_PER_METER, 0);
-            movingFloor.getBody().setTransform(750/ PIXELS_PER_METER, 200 / PIXELS_PER_METER, 0);
-        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
+//            player.getBody().setTransform(200/ PIXELS_PER_METER, 330 / PIXELS_PER_METER, 0);
+//            movingBlock.getBody().setTransform(-100/ PIXELS_PER_METER, 150 / PIXELS_PER_METER, 0);
+//            movingFloor.getBody().setTransform(750/ PIXELS_PER_METER, 200 / PIXELS_PER_METER, 0);
+//        }
 
         updateCameraPosition();
 
@@ -126,6 +133,8 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         movingFloor.update();
 
+        manageGameData();
+
         game.manageExitTheGame();
     }
 
@@ -134,6 +143,14 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         camera.position.set(player.getBody().getPosition(), 0);
 
         camera.update();
+    }
+
+    private void manageGameData() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME), 0);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
+            GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
     }
 
 
