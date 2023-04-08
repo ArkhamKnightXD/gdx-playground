@@ -1,5 +1,7 @@
 package knight.arkham.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.box2D.Box2DEnemy;
 import knight.arkham.objects.box2D.ZeldaLikePlayer;
@@ -58,7 +61,17 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
         player.update();
 
+        manageGameData();
+
         game.manageExitTheGame();
+    }
+
+    private void manageGameData() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(), 0);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
+            GameDataHelper.savePlayerPosition(player.toString());
     }
 
     private void updateCameraPosition(){
@@ -84,20 +97,20 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
         ScreenUtils.clear(0,0,0,0);
 
-        mapRenderer.render();
+//        mapRenderer.render();
 
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
 
-        player.draw(game.batch);
+//        player.draw(game.batch);
 
-        for (Box2DEnemy enemy : new Array.ArrayIterator<>(enemies))
-            enemy.draw(game.batch);
+//        for (Box2DEnemy enemy : new Array.ArrayIterator<>(enemies))
+//            enemy.draw(game.batch);
 
         game.batch.end();
 
-//        game.debugRenderer.render(world, camera.combined);
+        game.debugRenderer.render(world, camera.combined);
     }
 
     @Override

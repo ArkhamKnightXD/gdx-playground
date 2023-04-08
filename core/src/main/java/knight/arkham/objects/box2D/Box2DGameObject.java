@@ -86,4 +86,9 @@ public abstract class Box2DGameObject {
     public Texture getSprite() {return actualRegion.getTexture();}
 
     public Body getBody() {return body;}
+
+    @Override
+    public String toString() {
+        return "PositionX: " + body.getPosition().x + "\n" + "PositionY: " + body.getPosition().y;
+    }
 }

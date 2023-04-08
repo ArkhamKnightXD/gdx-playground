@@ -109,6 +109,27 @@ public class Box2DHelper {
         return fixture;
     }
 
+    public static Body createBullet(Box2DBody box2DBody) {
+
+        CircleShape shape = new CircleShape();
+
+        shape.setRadius(8/ PIXELS_PER_METER);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+
+        fixtureDef.density = 2;
+
+        Body body = createBox2DBodyByType(box2DBody);
+
+        body.createFixture(fixtureDef).setUserData(box2DBody.contactType);
+
+        shape.dispose();
+
+        return body;
+    }
+
+
     private static Body createBox2DBodyByType(Box2DBody box2DBody) {
 
         BodyDef bodyDef = new BodyDef();

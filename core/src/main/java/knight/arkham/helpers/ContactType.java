@@ -14,4 +14,5 @@ public enum ContactType {
     TRAMPOLINE,
     ENEMY,
     SIDEWALL,
+    BULLET,
 }
