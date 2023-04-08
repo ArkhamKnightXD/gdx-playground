@@ -1,6 +1,5 @@
 package knight.arkham.helpers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import java.io.*;
@@ -8,12 +7,12 @@ import java.util.Scanner;
 
 public class GameDataHelper {
 
-    public static void savePlayerPosition(String playerData, String filenameToSave){
+    public static void savePlayerPosition(String playerPosition, String filenameToSave){
 
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter("data/" + filenameToSave + ".txt"));
-            writer.write(playerData);
+            writer.write(playerPosition);
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -44,8 +43,7 @@ public class GameDataHelper {
 
             int lastCharacter = position.length();
 
-            Gdx.app.log("test", position);
-
+//  Todo evitar tener hard coded el valor al que asigno el 11
             if (position.contains("PositionX:"))
                 savedPosition.x = Float.parseFloat(position.substring(11, lastCharacter));
 

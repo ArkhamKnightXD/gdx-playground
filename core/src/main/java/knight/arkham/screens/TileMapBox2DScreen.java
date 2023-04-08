@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.box2D.Box2DEnemy;
 import knight.arkham.objects.box2D.Box2DPlayer;
@@ -30,6 +31,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private final TileMapHelper tileMap;
 
+    public static final String GAME_DATA_FILENAME = "tiled-player";
+
 
     public TileMapBox2DScreen() {
         game = Playground.INSTANCE;
@@ -42,6 +45,8 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         mario = new SpritePlayer(new Rectangle(500, 75, 32, 32), world, playerRegion);
         player = new Box2DPlayer(new Rectangle(450, 75, 32, 32), world, playerRegion);
+
+        GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
@@ -64,13 +69,15 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         world.step(1 / 60f, 6, 2);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F1))
+        if (Gdx.input.isKeyPressed(Input.Keys.F3))
             player.setActualPosition(450, 75);
 
         updateCameraPosition();
 
         mario.update(deltaTime);
         player.update(deltaTime);
+
+        manageGameData();
 
         game.manageExitTheGame();
     }
@@ -85,6 +92,14 @@ public class TileMapBox2DScreen extends ScreenAdapter {
         camera.update();
 
         mapRenderer.setView(camera);
+    }
+
+    private void manageGameData() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME), 0);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
+            GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
     }
 
 
