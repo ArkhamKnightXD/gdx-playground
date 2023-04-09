@@ -27,6 +27,7 @@ public class GameDataPreferencesHelper {
 
         float positionX = preferences.getFloat("positionX");
         float positionY = preferences.getFloat("positionY");
+
         String screenName = preferences.getString("screenName");
 
         return new GameData(screenName, new Vector2(positionX, positionY));
