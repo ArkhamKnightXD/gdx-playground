@@ -1,10 +1,10 @@
 package knight.arkham.helpers;
 
 import com.badlogic.gdx.math.Vector2;
-
 import java.io.*;
 import java.util.Scanner;
 
+// Save and load system using my own implementation.
 public class GameDataHelper {
 
     public static void savePlayerPosition(String playerPosition, String filenameToSave){
@@ -41,18 +41,44 @@ public class GameDataHelper {
 
             String position = playerData.nextLine();
 
-            int lastCharacter = position.length();
+            int valueStartingIndex = getValueStartingIndex(position);
 
-//  Todo evitar tener hard coded el valor al que asigno el 11
+            int lastCharacterIndex = position.length();
+
+            float saveDataValue = Float.parseFloat(position.substring(valueStartingIndex, lastCharacterIndex));
+
             if (position.contains("PositionX:"))
-                savedPosition.x = Float.parseFloat(position.substring(11, lastCharacter));
+                savedPosition.x = saveDataValue;
 
             else
-                savedPosition.y = Float.parseFloat(position.substring(11, lastCharacter));
+                savedPosition.y = saveDataValue;
         }
 
         playerData.close();
 
         return savedPosition;
+    }
+
+    private static char[] convertStringToCharArray(String content) {
+
+        char[] items = new char[content.length()];
+
+        for (int i = 0; i < content.length(); i++)
+            items[i] = content.charAt(i);
+
+        return items;
+    }
+
+    private static int getValueStartingIndex(String content) {
+
+        char[] items = convertStringToCharArray(content);
+
+        for (int index = 0; index < items.length; index++){
+
+            if (items[index] == ' ')
+                return index + 1;
+        }
+
+        return 0;
     }
 }

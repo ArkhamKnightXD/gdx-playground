@@ -119,11 +119,11 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
         world.step(1 / 60f, 6, 2);
 
-//        if (Gdx.input.isKeyPressed(Input.Keys.F1)){
-//            player.getBody().setTransform(200/ PIXELS_PER_METER, 330 / PIXELS_PER_METER, 0);
-//            movingBlock.getBody().setTransform(-100/ PIXELS_PER_METER, 150 / PIXELS_PER_METER, 0);
-//            movingFloor.getBody().setTransform(750/ PIXELS_PER_METER, 200 / PIXELS_PER_METER, 0);
-//        }
+        if (Gdx.input.isKeyPressed(Input.Keys.F3)){
+            player.getBody().setTransform(200/ PIXELS_PER_METER, 330 / PIXELS_PER_METER, 0);
+            movingBlock.getBody().setTransform(-100/ PIXELS_PER_METER, 150 / PIXELS_PER_METER, 0);
+            movingFloor.getBody().setTransform(750/ PIXELS_PER_METER, 200 / PIXELS_PER_METER, 0);
+        }
 
         updateCameraPosition();
 

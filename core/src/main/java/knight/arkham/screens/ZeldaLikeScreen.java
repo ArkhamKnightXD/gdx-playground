@@ -13,7 +13,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
-import knight.arkham.helpers.GameDataHelper;
+import knight.arkham.helpers.GameData;
+import knight.arkham.helpers.GameDataPreferencesHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.box2D.Box2DEnemy;
 import knight.arkham.objects.box2D.ZeldaLikePlayer;
@@ -27,7 +28,7 @@ public class ZeldaLikeScreen extends ScreenAdapter {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final ZeldaLikePlayer player;
     private final Array<Box2DEnemy> enemies;
-    public static final String GAME_DATA_FILENAME = "zelda-like-player";
+    public static final String GAME_DATA_FILENAME = "zelda-like";
 
 
     public ZeldaLikeScreen() {
@@ -38,8 +39,6 @@ public class ZeldaLikeScreen extends ScreenAdapter {
         TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         player = new ZeldaLikePlayer(new Rectangle(500, 500, 32, 32), world);
-
-        GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
 
         TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
 
@@ -70,11 +69,20 @@ public class ZeldaLikeScreen extends ScreenAdapter {
     }
 
     private void manageGameData() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME), 0);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+
+            GameData gameDataToSave = new GameData("ZeldaLikeScreen", player.getBody().getPosition());
+
+            GameDataPreferencesHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
+        }
+
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)){
+
+            Vector2 position = GameDataPreferencesHelper.loadGameData(GAME_DATA_FILENAME).position;
+
+            player.getBody().setTransform(position, 0);
+        }
     }
 
     private void updateCameraPosition(){
