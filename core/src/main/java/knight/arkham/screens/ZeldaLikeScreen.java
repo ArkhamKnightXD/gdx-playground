@@ -36,15 +36,17 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
         world = new World(new Vector2(0, 0), true);
 
-        TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
-
         player = new ZeldaLikePlayer(new Rectangle(500, 500, 32, 32), world);
 
-        TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
+        TextureAtlas textureAtlas = new TextureAtlas("images/atlas/Mario_and_Enemies.pack");
 
         enemies = new Array<>();
 
-        mapRenderer = new TileMapHelper(world, enemyRegion, enemies).setupMap("maps/zelda-like/testing.tmx");
+        TextureRegion enemyRegion = textureAtlas.findRegion("goomba");
+
+        TileMapHelper tileMapHelper = new TileMapHelper(world, enemyRegion, enemies, "maps/zelda-like/testing.tmx");
+
+        mapRenderer = tileMapHelper.setupMap();
 
         camera = game.globalCamera;
     }
@@ -108,7 +110,7 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
         ScreenUtils.clear(0,0,0,0);
 
-//        mapRenderer.render();
+        mapRenderer.render();
 
         game.batch.setProjectionMatrix(camera.combined);
 

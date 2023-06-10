@@ -1,2 +1,2 @@
-PositionX: 1499.3604
-PositionY: 82.479996
+PositionX: 450.0
+PositionY: 75.0

@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 import knight.arkham.helpers.GameDataHelper;
-import knight.arkham.helpers.GameDataPreferencesHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.box2D.Box2DEnemy;
 import knight.arkham.objects.box2D.Box2DPlayer;
@@ -53,9 +52,9 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
         enemies = new Array<>();
 
-        tileMap = new TileMapHelper(world, enemyRegion, enemies);
+        tileMap = new TileMapHelper(world, enemyRegion, enemies, "maps/test.tmx");
 
-        mapRenderer = tileMap.setupMap("maps/test.tmx");
+        mapRenderer = tileMap.setupMap();
 
         camera = game.globalCamera;
     }
@@ -85,7 +84,7 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition() {
 
-        boolean isPlayerInsideMapBounds = tileMap.checkIfPlayerIsInsideMapBounds(player.getPixelPosition());
+        boolean isPlayerInsideMapBounds = tileMap.isPlayerInsideMapBounds(player.getPixelPosition());
 
         if (isPlayerInsideMapBounds)
             camera.position.set(player.getWorldPosition().x, 9.5f, 0);
@@ -101,7 +100,6 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
             player.setActualPosition(position.x, position.y);
         }
-
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
             GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);

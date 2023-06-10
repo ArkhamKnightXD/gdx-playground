@@ -23,18 +23,18 @@ public class TileMapHelper {
     private final TextureRegion enemyRegion;
     private final Array<Box2DEnemy> enemies;
 
-    private TiledMap tiledMap;
+    private final TiledMap tiledMap;
 
-    public TileMapHelper(World world, TextureRegion enemyRegion, Array<Box2DEnemy> enemies) {
+    public TileMapHelper(World world, TextureRegion enemyRegion, Array<Box2DEnemy> enemies, String mapFilePath) {
+
+        tiledMap = new TmxMapLoader().load(mapFilePath);
 
         this.world = world;
         this.enemyRegion = enemyRegion;
         this.enemies = enemies;
     }
 
-    public OrthogonalTiledMapRenderer setupMap(String mapFilePath) {
-
-        tiledMap = new TmxMapLoader().load(mapFilePath);
+    public OrthogonalTiledMapRenderer setupMap() {
 
         parseMapObjectsToBox2DBodies(tiledMap, "Collisions");
         parseMapObjectsToBox2DBodies(tiledMap, "Enemies");
@@ -72,7 +72,7 @@ public class TileMapHelper {
         enemies.add(actualEnemy);
     }
 
-    public boolean checkIfPlayerIsInsideMapBounds(Vector2 playerPixelPosition){
+    public boolean isPlayerInsideMapBounds(Vector2 playerPixelPosition){
         MapProperties properties = tiledMap.getProperties();
 
         int mapWidth = properties.get("width", Integer.class);
