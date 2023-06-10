@@ -120,9 +120,9 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
         world.step(1 / 60f, 6, 2);
 
         if (Gdx.input.isKeyPressed(Input.Keys.F3)){
-            player.getBody().setTransform(200/ PIXELS_PER_METER, 330 / PIXELS_PER_METER, 0);
-            movingBlock.getBody().setTransform(-100/ PIXELS_PER_METER, 150 / PIXELS_PER_METER, 0);
-            movingFloor.getBody().setTransform(750/ PIXELS_PER_METER, 200 / PIXELS_PER_METER, 0);
+            player.setActualPosition(200, 330);
+            movingBlock.setActualPosition(-100, 150);
+            movingFloor.setActualPosition(750, 200);
         }
 
         updateCameraPosition();
@@ -140,14 +140,17 @@ public class PlatformerBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition(){
 
-        camera.position.set(player.getBody().getPosition(), 0);
+        camera.position.set(player.getWorldPosition(), 0);
 
         camera.update();
     }
 
     private void manageGameData() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME), 0);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+            Vector2 playerPosition = GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME);
+
+            player.setActualPosition(playerPosition.x, playerPosition.y);
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
             GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);

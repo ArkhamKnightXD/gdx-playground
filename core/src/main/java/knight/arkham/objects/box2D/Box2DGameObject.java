@@ -74,21 +74,23 @@ public abstract class Box2DGameObject {
     protected void setActualRegion(TextureRegion actualRegion) {this.actualRegion = actualRegion;}
 
 
+    public Body getBody() {return body;}
+
     public void setActualPosition(float positionX, float positionY) {
         body.setTransform(positionX / PIXELS_PER_METER, positionY / PIXELS_PER_METER, 0);
     }
 
-    public Vector2 getActualPixelPosition() {
+    public Vector2 getPixelPosition() {
 
         return new Vector2(body.getPosition().x * PIXELS_PER_METER, body.getPosition().y * PIXELS_PER_METER);
     }
 
-    public Texture getSprite() {return actualRegion.getTexture();}
+    public Vector2 getWorldPosition() {return body.getPosition();}
 
-    public Body getBody() {return body;}
+    public Texture getSprite() {return actualRegion.getTexture();}
 
     @Override
     public String toString() {
-        return "PositionX: " + body.getPosition().x + "\n" + "PositionY: " + body.getPosition().y;
+        return "PositionX: " + getPixelPosition().x + "\n" + "PositionY: " + getPixelPosition().y;
     }
 }

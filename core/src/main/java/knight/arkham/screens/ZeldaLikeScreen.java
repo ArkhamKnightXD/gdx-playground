@@ -72,7 +72,7 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1)){
 
-            GameData gameDataToSave = new GameData("ZeldaLikeScreen", player.getBody().getPosition());
+            GameData gameDataToSave = new GameData("ZeldaLikeScreen", player.getPixelPosition());
 
             GameDataPreferencesHelper.saveGameData(GAME_DATA_FILENAME, gameDataToSave);
         }
@@ -81,19 +81,19 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
             Vector2 position = GameDataPreferencesHelper.loadGameData(GAME_DATA_FILENAME).position;
 
-            player.getBody().setTransform(position, 0);
+            player.setActualPosition(position.x, position.y);
         }
     }
 
     private void updateCameraPosition(){
 
-        boolean isPlayerXPositionInsideMapBounds = player.getActualPixelPosition().x > 400;
+        boolean isPlayerXPositionInsideMapBounds = player.getPixelPosition().x > 400;
 
         if (isPlayerXPositionInsideMapBounds)
-            camera.position.set(player.getBody().getPosition(), 0);
+            camera.position.set(player.getWorldPosition(), 0);
 
         else
-            camera.position.set(400/PIXELS_PER_METER,player.getBody().getPosition().y, 0);
+            camera.position.set(400/PIXELS_PER_METER, player.getWorldPosition().y, 0);
 
         camera.update();
 

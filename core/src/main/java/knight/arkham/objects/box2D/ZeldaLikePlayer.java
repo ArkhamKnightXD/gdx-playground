@@ -78,8 +78,8 @@ public class ZeldaLikePlayer extends Box2DGameObject {
         Body bullet =  Box2DHelper.createBullet(
                 new Box2DBody(
                         new Rectangle(
-                                getActualPixelPosition().x,
-                                getActualPixelPosition().y,
+                                getPixelPosition().x,
+                                getPixelPosition().y,
                                 0, 0
                         ),
                         world

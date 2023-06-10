@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Playground;
 import knight.arkham.helpers.GameDataHelper;
+import knight.arkham.helpers.GameDataPreferencesHelper;
 import knight.arkham.helpers.TileMapHelper;
 import knight.arkham.objects.box2D.Box2DEnemy;
 import knight.arkham.objects.box2D.Box2DPlayer;
@@ -84,10 +85,10 @@ public class TileMapBox2DScreen extends ScreenAdapter {
 
     private void updateCameraPosition() {
 
-        boolean isPlayerInsideMapBounds = tileMap.checkIfPlayerIsInsideMapBounds(player.getActualPixelPosition());
+        boolean isPlayerInsideMapBounds = tileMap.checkIfPlayerIsInsideMapBounds(player.getPixelPosition());
 
         if (isPlayerInsideMapBounds)
-            camera.position.set(player.getBody().getPosition().x, 9.5f, 0);
+            camera.position.set(player.getWorldPosition().x, 9.5f, 0);
 
         camera.update();
 
@@ -95,8 +96,12 @@ public class TileMapBox2DScreen extends ScreenAdapter {
     }
 
     private void manageGameData() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            player.getBody().setTransform(GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME), 0);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+            Vector2 position = GameDataHelper.loadPlayerPosition(GAME_DATA_FILENAME);
+
+            player.setActualPosition(position.x, position.y);
+        }
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
             GameDataHelper.savePlayerPosition(player.toString(), GAME_DATA_FILENAME);

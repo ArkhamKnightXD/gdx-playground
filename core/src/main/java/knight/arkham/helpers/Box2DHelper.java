@@ -22,11 +22,11 @@ public class Box2DHelper {
 
         fixtureDef.density = box2DBody.density;
 
-        fixtureDef.friction = 0.01f;
+//        fixtureDef.friction = 0.01f;
 
-        fixtureDef.filter.categoryBits = PLAYER_BIT;
+//        fixtureDef.filter.categoryBits = PLAYER_BIT;
 
-        fixtureDef.filter.maskBits = (short) (GROUND_BIT | ITEM_BIT | COIN_BIT | BRICK_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
+//        fixtureDef.filter.maskBits = (short) (GROUND_BIT | ITEM_BIT | COIN_BIT | BRICK_BIT | OBJECT_BIT | ENEMY_BIT | ENEMY_HEAD_BIT);
 
         body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
