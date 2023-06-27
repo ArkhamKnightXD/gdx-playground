@@ -61,16 +61,16 @@ public class ZeldaLikePlayer extends Box2DGameObject {
 
     private void playerShootControl() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
-            shootBulletByDirection(new Vector2(5,0));
+            shootBulletByDirection(new Vector2(10,0));
 
         else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
-            shootBulletByDirection(new Vector2(-5,0));
+            shootBulletByDirection(new Vector2(-10,0));
 
         else if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
-            shootBulletByDirection(new Vector2(0,5));
+            shootBulletByDirection(new Vector2(0,10));
 
         else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
-            shootBulletByDirection(new Vector2(0,-5));
+            shootBulletByDirection(new Vector2(0,-10));
     }
 
     private void shootBulletByDirection(Vector2 direction){
@@ -80,13 +80,10 @@ public class ZeldaLikePlayer extends Box2DGameObject {
                         new Rectangle(
                                 getPixelPosition().x,
                                 getPixelPosition().y,
-                                0, 0
-                        ),
-                        world
+                                32, 32
+                        ), world
                 )
         );
-
-        bullet.setBullet(true);
 
         bullet.setLinearVelocity(direction);
     }

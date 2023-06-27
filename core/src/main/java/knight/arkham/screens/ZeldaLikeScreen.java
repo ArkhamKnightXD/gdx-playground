@@ -110,18 +110,18 @@ public class ZeldaLikeScreen extends ScreenAdapter {
 
         ScreenUtils.clear(0,0,0,0);
 
-        mapRenderer.render();
+//        mapRenderer.render();
 
-        game.batch.setProjectionMatrix(camera.combined);
+//        game.batch.setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
+//        game.batch.begin();
 
 //        player.draw(game.batch);
 
 //        for (Box2DEnemy enemy : new Array.ArrayIterator<>(enemies))
 //            enemy.draw(game.batch);
-
-        game.batch.end();
+//
+//        game.batch.end();
 
         game.debugRenderer.render(world, camera.combined);
     }
