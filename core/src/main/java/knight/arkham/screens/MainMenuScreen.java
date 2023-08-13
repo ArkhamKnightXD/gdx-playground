@@ -31,7 +31,8 @@ public class MainMenuScreen extends ScreenAdapter {
         game.font.draw(game.batch, "Press F4 Platformer Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-60);
         game.font.draw(game.batch, "Press F5 Box2D Platformer Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-80);
         game.font.draw(game.batch, "Press F6 TiledMap Platformer Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-100);
-        game.font.draw(game.batch, "Press ESC To Close The App", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-120);
+        game.font.draw(game.batch, "Press F7 Zelda Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-120);
+        game.font.draw(game.batch, "Press ESC To Close The App", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-140);
 
         game.batch.end();
 
@@ -57,6 +58,9 @@ public class MainMenuScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.F6))
             game.setScreen(new TileMapBox2DScreen());
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F7))
+            game.setScreen(new ZeldaLikeScreen());
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
