@@ -58,11 +58,11 @@ public class PlatformerScreen extends ScreenAdapter {
         return structures;
     }
 
-    private void update(){
+    private void update(float delta){
 
         updateCameraPosition();
 
-        player.update();
+        player.update(delta);
 
         resetGamePositions();
 
@@ -136,7 +136,7 @@ public class PlatformerScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        update();
+        update(delta);
 
         ScreenUtils.clear(0,0,0,0);
 

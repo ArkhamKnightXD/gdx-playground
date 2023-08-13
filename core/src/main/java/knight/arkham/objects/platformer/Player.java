@@ -10,23 +10,23 @@ public class Player extends GameObject {
     public boolean isPlayerGrounded;
 
     public Player(Rectangle bounds) {
-        super(bounds, new Texture("images/initial.png"), 3);
+        super(bounds, new Texture("images/initial.png"), 350);
 
         isPlayerGrounded = false;
     }
 
-    public void update() {
+    public void update(float delta) {
 
         if (!isPlayerGrounded)
-            bounds.y -= speed;
+            bounds.y -= speed * delta;
 
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            bounds.x += speed;
+            bounds.x += speed * delta;
 
         else if (Gdx.input.isKeyPressed(Input.Keys.A))
-            bounds.x -= speed;
+            bounds.x -= speed * delta;
 
-        if (isPlayerGrounded && Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            bounds.y += 100;
+        if (isPlayerGrounded && Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+            bounds.y += 4000 * delta;
     }
 }

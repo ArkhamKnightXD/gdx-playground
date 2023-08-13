@@ -17,7 +17,7 @@ public class PlatformerContactListener implements ContactListener {
        Fixture fixtureA = contact.getFixtureA();
        Fixture fixtureB = contact.getFixtureB();
 
-//       Todo check collisions
+//       Todo the collisions are failing
         if (fixtureA.getUserData() == ContactType.PLAYER || fixtureB.getUserData() == ContactType.PLAYER){
 
             if (fixtureA.getUserData() == ContactType.MOVINGFLOOR || fixtureB.getUserData() == ContactType.MOVINGFLOOR)

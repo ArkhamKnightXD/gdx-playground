@@ -1,2 +1,2 @@
-PositionX: 6.25
-PositionY: 18.75
+PositionX: 200.0
+PositionY: 600.0
