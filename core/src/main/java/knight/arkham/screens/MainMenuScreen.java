@@ -1,68 +1,162 @@
 package knight.arkham.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Playground;
-import static knight.arkham.helpers.Constants.MID_SCREEN_HEIGHT;
-import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
+
+import static knight.arkham.helpers.Constants.*;
+import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
 
 public class MainMenuScreen extends ScreenAdapter {
 
     private final Playground game;
-
+    private final Skin skin;
+    private final Stage stage;
+    private final Table table;
+    private final Viewport viewport;
     public MainMenuScreen() {
 
         game = Playground.INSTANCE;
+
+        AssetManager assetManager = new AssetManager();
+
+        AssetDescriptor<Skin> uiSkin = new AssetDescriptor<>("ui/uiskin.json", Skin.class, new SkinLoader.SkinParameter("ui/uiskin.atlas"));
+
+        assetManager.load(uiSkin);
+
+        assetManager.finishLoading();
+
+        skin = assetManager.get(uiSkin);
+
+        viewport = new ExtendViewport(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
+
+        stage = new Stage(viewport);
+
+        table = new Table();
+
+        table.setFillParent(true);
+
+        Label pauseLabel = new Label("Main Menu", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+        table.add(pauseLabel).expandX().padBottom(15);
+        table.row();
+
+        stage.addActor(table);
+
+        addButton("Basic Screen").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new BasicScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        addButton("Basic Shape Renderer").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new ShapeRendererScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        addButton("Basic Platformer").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new PlatformerScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        addButton("Basic Box2D").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Box2DScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        addButton("Basic Box 2D Platformer").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new PlatformerBox2DScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        addButton("Basic Tile Map Platformer").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new TileMapBox2DScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        addButton("Basic Zelda Like").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new ZeldaLikeScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        addButton("Quit").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    private TextButton addButton(String buttonName) {
+
+        TextButton textButton = new TextButton(buttonName, skin);
+
+        table.add(textButton).width(400).height(50).padBottom(15);
+        table.row();
+
+        return textButton;
+    }
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
     }
 
     @Override
     public void render(float delta) {
 
-//        El elemento ScreenUtils.clear limpia la pantalla en cada renderizado
-        ScreenUtils.clear(0,0,0,0);
+        ScreenUtils.clear(0, 0, 0, 0);
 
-        game.batch.begin();
-
-        game.font.draw(game.batch, "Press F1 Basic Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT);
-        game.font.draw(game.batch, "Press F2 Shape Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-20);
-        game.font.draw(game.batch, "Press F3 Box2D Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-40);
-        game.font.draw(game.batch, "Press F4 Platformer Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-60);
-        game.font.draw(game.batch, "Press F5 Box2D Platformer Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-80);
-        game.font.draw(game.batch, "Press F6 TiledMap Platformer Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-100);
-        game.font.draw(game.batch, "Press F7 Zelda Playground", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-120);
-        game.font.draw(game.batch, "Press ESC To Close The App", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-140);
-
-        game.batch.end();
-
-        manageScreenSelection();
+        stage.act();
+        stage.draw();
     }
 
-    private void manageScreenSelection() {
+    @Override
+    public void hide() {
+        dispose();
+    }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F1))
-            game.setScreen(new BasicScreen());
+    @Override
+    public void dispose() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F2))
-            game.setScreen(new ShapeRendererScreen());
-
-        if (Gdx.input.isKeyPressed(Input.Keys.F3))
-            game.setScreen(new Box2DScreen());
-
-        if (Gdx.input.isKeyPressed(Input.Keys.F4))
-            game.setScreen(new PlatformerScreen());
-
-        if (Gdx.input.isKeyPressed(Input.Keys.F5))
-            game.setScreen(new PlatformerBox2DScreen());
-
-        if (Gdx.input.isKeyPressed(Input.Keys.F6))
-            game.setScreen(new TileMapBox2DScreen());
-
-        if (Gdx.input.isKeyPressed(Input.Keys.F7))
-            game.setScreen(new ZeldaLikeScreen());
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
-            Gdx.app.exit();
+        stage.dispose();
+        skin.dispose();
     }
 }
