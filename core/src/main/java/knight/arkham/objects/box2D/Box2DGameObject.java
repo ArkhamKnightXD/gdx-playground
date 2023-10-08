@@ -46,6 +46,8 @@ public abstract class Box2DGameObject {
 
     private Rectangle getBoundsWithPPMCalculation(){
 
+//        Debido a que la posición de mi body toma como referencia el centro del rectángulo debo de restar
+//        la altura y ancho entre 2 para centrar el nuevo rectángulo que renderizaré con el rectángulo box2D.
         return new Rectangle(
                 body.getPosition().x - (bounds.width / 2 / PIXELS_PER_METER),
                 body.getPosition().y - (bounds.height / 2 / PIXELS_PER_METER),
