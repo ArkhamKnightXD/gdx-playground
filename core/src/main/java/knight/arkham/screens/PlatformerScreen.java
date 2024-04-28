@@ -92,35 +92,25 @@ public class PlatformerScreen extends ScreenAdapter {
 
     private void managePlayerFloorCollision() {
 
-        if (player.getBounds().overlaps(floor.getBounds()))
-            player.isPlayerGrounded = true;
+        for (Structure currentFloor : structures) {
 
-        else if (player.getBounds().overlaps(floor2.getBounds())){
+            if (player.getBounds().overlaps(currentFloor.getBounds())) {
 
-            player.isPlayerGrounded = true;
+                player.isPlayerGrounded = true;
 
-            floor2.floorXAxisMovement(player.getBounds());
+                // Handle specific floor movements or actions
+                if (currentFloor == floor2) {
+                    floor2.floorXAxisMovement(player.getBounds());
+                } else if (currentFloor == floor3) {
+                    floor3.floorYAxisMovement(player.getBounds());
+                } else if (currentFloor == warpPipe && Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    player.getBounds().setPosition(currentFloor.getBounds().x, currentFloor.getBounds().y + player.getBounds().height);
+                }
+                break; // Exit the loop once a collision is detected
+            } else {
+                player.isPlayerGrounded = false;
+            }
         }
-
-        else if (player.getBounds().overlaps(floor3.getBounds())){
-
-            player.isPlayerGrounded = true;
-
-            floor3.floorYAxisMovement(player.getBounds());
-        }
-
-        else if (player.getBounds().overlaps(floor4.getBounds()))
-            player.isPlayerGrounded = true;
-
-        else if (player.getBounds().overlaps(warpPipe.getBounds())){
-            player.isPlayerGrounded = true;
-
-            if (Gdx.input.isKeyPressed(Input.Keys.S))
-                player.getBounds().setPosition(floor.getBounds().x,floor.getBounds().y + player.getBounds().height);
-        }
-
-        else
-            player.isPlayerGrounded = false;
     }
 
     private void manageCollisionBetweenFloors() {
@@ -149,7 +139,7 @@ public class PlatformerScreen extends ScreenAdapter {
 
         player.draw(game.batch);
 
-        for (Structure structure : new Array.ArrayIterator<>(structures))
+        for (Structure structure : structures)
             structure.draw(game.batch);
 
         game.batch.end();

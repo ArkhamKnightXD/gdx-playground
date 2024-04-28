@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.screens.MainMenuScreen;
+import knight.arkham.screens.PlatformerScreen;
 
 import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_HEIGHT;
 import static knight.arkham.helpers.Constants.BOX2D_FULL_SCREEN_WIDTH;
@@ -54,7 +55,7 @@ public class Playground extends Game {
 
 		debugRenderer = new Box2DDebugRenderer();
 
-		setScreen(new MainMenuScreen());
+		setScreen(new PlatformerScreen());
 	}
 
 
