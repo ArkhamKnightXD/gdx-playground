@@ -12,18 +12,17 @@ public class Player extends GameObject {
     public final Vector2 velocity = new Vector2(0,0);
 
     public Player(Rectangle bounds) {
-        super(bounds, new Texture("images/initial.png"), 350);
-
+        super(bounds, new Texture("images/initial.png"), 50);
     }
 
     public void update(float deltaTime) {
 
         //gravity
         bounds.y = bounds.y + velocity.y;
-        velocity.y -= 0.4f;
+        velocity.y -= 20.8f * deltaTime;
 
         if (isPlayerGrounded && Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            velocity.y = 10;
+            velocity.y = 500 * deltaTime;
 
         if(bounds.y < 0) {
 
@@ -36,10 +35,10 @@ public class Player extends GameObject {
 //                -- Increase the player's speed
 
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            velocity.x += 1;
+            velocity.x += speed * deltaTime;
 
         else if (Gdx.input.isKeyPressed(Input.Keys.A))
-            velocity.x -= 1;
+            velocity.x -= speed * deltaTime;
 
 //        To avoid that my player keep going forward infinitely, I multiply the velocity, but my coefficient of friction 0.9
 //        This will subtract 10% of the player's speed every frame, eventually bringing the player to a stop.
