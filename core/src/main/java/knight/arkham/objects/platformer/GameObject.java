@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public abstract class GameObject {
 
-    protected final Rectangle bounds;
+    public final Rectangle bounds;
     private final Texture sprite;
     protected int speed;
 

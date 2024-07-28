@@ -14,6 +14,7 @@ import knight.arkham.objects.platformer.Structure;
 import static knight.arkham.helpers.Constants.*;
 
 public class PlatformerScreen extends ScreenAdapter {
+
     private final Playground game;
     private final Structure floor;
     private final Structure floor2;
@@ -28,7 +29,7 @@ public class PlatformerScreen extends ScreenAdapter {
     public PlatformerScreen() {
         game = Playground.INSTANCE;
 
-        player = new Player(new Rectangle(200, 600, 32, 32));
+        player = new Player(new Rectangle(200, 200, 32, 32));
 
         floor = new Structure(new Rectangle(100, 400, 200, 32), "images/wall.png");
         floor2 = new Structure(new Rectangle(400, 200, 200, 32), "images/wall.png");
@@ -96,19 +97,18 @@ public class PlatformerScreen extends ScreenAdapter {
 
             if (player.getBounds().overlaps(currentFloor.getBounds())) {
 
-                player.isPlayerGrounded = true;
+                player.bounds.y = currentFloor.bounds.y + player.bounds.height;
+                player.velocity.y = 0;
 
                 // Handle specific floor movements or actions
-                if (currentFloor == floor2) {
-                    floor2.floorXAxisMovement(player.getBounds());
-                } else if (currentFloor == floor3) {
-                    floor3.floorYAxisMovement(player.getBounds());
-                } else if (currentFloor == warpPipe && Gdx.input.isKeyPressed(Input.Keys.S)) {
-                    player.getBounds().setPosition(currentFloor.getBounds().x, currentFloor.getBounds().y + player.getBounds().height);
-                }
+//                if (currentFloor == floor2) {
+//                    floor2.floorXAxisMovement(player.getBounds());
+//                } else if (currentFloor == floor3) {
+//                    floor3.floorYAxisMovement(player.getBounds());
+//                } else if (currentFloor == warpPipe && Gdx.input.isKeyPressed(Input.Keys.S)) {
+//                    player.getBounds().setPosition(currentFloor.getBounds().x, currentFloor.getBounds().y + player.getBounds().height);
+//                }
                 break; // Exit the loop once a collision is detected
-            } else {
-                player.isPlayerGrounded = false;
             }
         }
     }
@@ -156,7 +156,7 @@ public class PlatformerScreen extends ScreenAdapter {
 
         player.getSprite().dispose();
 
-        for (Structure structure : new Array.ArrayIterator<>(structures))
+        for (Structure structure : structures)
             structure.getSprite().dispose();
     }
 }
