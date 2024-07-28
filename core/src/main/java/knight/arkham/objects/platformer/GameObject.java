@@ -23,5 +23,7 @@ public abstract class GameObject {
 
     public Rectangle getBounds() {return bounds;}
 
-    public Texture getSprite() {return sprite;}
+    public void dispose() {
+        sprite.dispose();
+    }
 }

@@ -27,9 +27,10 @@ public class PlatformerScreen extends ScreenAdapter {
     private final Array<Structure> structures;
 
     public PlatformerScreen() {
+
         game = Playground.INSTANCE;
 
-        player = new Player(new Rectangle(200, 200, 32, 32));
+        player = new Player(new Rectangle(400, 200, 32, 32));
 
         floor = new Structure(new Rectangle(100, 400, 200, 32), "images/wall.png");
         floor2 = new Structure(new Rectangle(400, 200, 200, 32), "images/wall.png");
@@ -61,27 +62,12 @@ public class PlatformerScreen extends ScreenAdapter {
 
     private void update(float delta){
 
-        updateCameraPosition();
-
         player.update(delta);
-
-        resetGamePositions();
-
-        managePlayerFloorCollision();
-
-        manageCollisionBetweenFloors();
-
-        game.manageExitTheGame();
-    }
-
-    private void updateCameraPosition(){
 
         camera.position.set(player.getBounds().x, player.getBounds().y, 0);
 
         camera.update();
-    }
 
-    private void resetGamePositions() {
         if (Gdx.input.isKeyPressed(Input.Keys.F1)){
 
             player.getBounds().setPosition(200, 600);
@@ -89,6 +75,12 @@ public class PlatformerScreen extends ScreenAdapter {
             floor2.getBounds().x = 400;
             floor3.getBounds().y = 75;
         }
+
+        managePlayerFloorCollision();
+
+        manageCollisionBetweenFloors();
+
+        game.manageExitTheGame();
     }
 
     private void managePlayerFloorCollision() {
@@ -137,9 +129,6 @@ public class PlatformerScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.font.draw(game.batch, "Is player Grounded? " + player.isPlayerGrounded,
-                player.getBounds().x, player.getBounds().y + 64);
-
         player.draw(game.batch);
 
         for (Structure structure : structures)
@@ -150,16 +139,15 @@ public class PlatformerScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
-
         dispose();
     }
 
     @Override
     public void dispose() {
 
-        player.getSprite().dispose();
+        player.dispose();
 
         for (Structure structure : structures)
-            structure.getSprite().dispose();
+            structure.dispose();
     }
 }
