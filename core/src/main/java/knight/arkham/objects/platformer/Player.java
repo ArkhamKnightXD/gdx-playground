@@ -22,7 +22,7 @@ public class Player extends GameObject {
         bounds.y = bounds.y + velocity.y;
         velocity.y -= 0.4f;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+        if (isPlayerGrounded && Gdx.input.isKeyPressed(Input.Keys.SPACE))
             velocity.y = 10;
 
         if(bounds.y < 0) {

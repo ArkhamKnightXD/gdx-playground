@@ -97,6 +97,7 @@ public class PlatformerScreen extends ScreenAdapter {
 
             if (player.getBounds().overlaps(currentFloor.getBounds())) {
 
+                player.isPlayerGrounded = true;
                 player.bounds.y = currentFloor.bounds.y + player.bounds.height;
                 player.velocity.y = 0;
 
@@ -110,6 +111,8 @@ public class PlatformerScreen extends ScreenAdapter {
 //                }
                 break; // Exit the loop once a collision is detected
             }
+            else
+                player.isPlayerGrounded = false;
         }
     }
 
