@@ -18,30 +18,35 @@ public class Player extends GameObject {
     public void update(float deltaTime) {
 
         //gravity
-        bounds.y = bounds.y + velocity.y;
         velocity.y -= 20.8f * deltaTime;
-
-        if (isPlayerGrounded && Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            velocity.y = 500 * deltaTime;
+        bounds.y = bounds.y + velocity.y;
 
         if(bounds.y < 0) {
 
             bounds.y = 600 - bounds.height;
+            bounds.x = 200;
             velocity.y = 0;
         }
 
 //        -- Update the player's position
         bounds.x = bounds.x + velocity.x;
 //                -- Increase the player's speed
-
         if (Gdx.input.isKeyPressed(Input.Keys.D))
             velocity.x += speed * deltaTime;
 
         else if (Gdx.input.isKeyPressed(Input.Keys.A))
             velocity.x -= speed * deltaTime;
 
-//        To avoid that my player keep going forward infinitely, I multiply the velocity, but my coefficient of friction 0.9
+//        To avoid that my player keep going forward infinitely, I multiply the velocity, by my coefficient of friction 0.9
 //        This will subtract 10% of the player's speed every frame, eventually bringing the player to a stop.
         velocity.x *= 0.9f;
+    }
+
+    public Rectangle getPreviousPosition() {
+
+        float positionX = bounds.x - velocity.x;
+        float positionY = bounds.y - velocity.y;
+
+        return new Rectangle(positionX, positionY, bounds.width, bounds.height);
     }
 }

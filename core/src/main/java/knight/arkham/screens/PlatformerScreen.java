@@ -20,7 +20,6 @@ public class PlatformerScreen extends ScreenAdapter {
     private final Structure floor2;
     private final Structure floor3;
     private final Structure floor4;
-    private final Structure warpPipe;
     private final Player player;
     private final OrthographicCamera camera;
 
@@ -33,11 +32,9 @@ public class PlatformerScreen extends ScreenAdapter {
         player = new Player(new Rectangle(400, 200, 32, 32));
 
         floor = new Structure(new Rectangle(100, 400, 200, 32), "images/wall.png");
-        floor2 = new Structure(new Rectangle(400, 200, 200, 32), "images/wall.png");
-        floor3 = new Structure(new Rectangle(225, 75, 200, 32), "images/wall.png");
+        floor2 = new Structure(new Rectangle(400, 175, 200, 32), "images/wall.png");
+        floor3 = new Structure(new Rectangle(225, 85, 200, 32), "images/wall.png");
         floor4 = new Structure(new Rectangle(0, 0, FULL_SCREEN_WIDTH, 32), "images/wall.png");
-
-        warpPipe = new Structure(new Rectangle(80, 30, 128, 128), "images/pipe.png");
 
         structures = getStructures();
 
@@ -55,14 +52,11 @@ public class PlatformerScreen extends ScreenAdapter {
         structures.add(floor2);
         structures.add(floor3);
         structures.add(floor4);
-        structures.add(warpPipe);
 
         return structures;
     }
 
     private void update(float delta){
-
-        player.update(delta);
 
         camera.position.set(player.getBounds().x, player.getBounds().y, 0);
 
@@ -76,31 +70,67 @@ public class PlatformerScreen extends ScreenAdapter {
             floor3.getBounds().y = 75;
         }
 
-        managePlayerFloorCollision();
+        player.update(delta);
+
+        managePlayerFloorCollision(delta);
 
         manageCollisionBetweenFloors();
 
         game.manageExitTheGame();
     }
 
-    private void managePlayerFloorCollision() {
+    private boolean checkCollisionInX(Rectangle player, Rectangle platform) {
+        return player.x + player.width > platform.x && player.x < platform.x + platform.width;
+    }
+
+    private boolean checkCollisionInY(Rectangle player, Rectangle platform) {
+        return player.y + player.height > platform.y && player.y < platform.y + platform.height;
+    }
+
+
+    private void managePlayerFloorCollision(float deltaTime) {
 
         for (Structure currentFloor : structures) {
 
             if (player.getBounds().overlaps(currentFloor.getBounds())) {
 
-                player.isPlayerGrounded = true;
-                player.bounds.y = currentFloor.bounds.y + player.bounds.height;
-                player.velocity.y = 0;
+                if (checkCollisionInX(player.getPreviousPosition(), currentFloor.getBounds())) {
+
+                    if (player.velocity.y < 0) {
+
+                        player.bounds.y = currentFloor.bounds.y + player.bounds.height;
+                        player.velocity.y = 0;
+
+                        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+                            player.velocity.y = 500 * deltaTime;
+                    }
+                    else {
+
+                        player.bounds.y = currentFloor.bounds.y - player.bounds.height;
+                        player.velocity.y = 0;
+                    }
+                }
+                else if (checkCollisionInY(player.getPreviousPosition(), currentFloor.getBounds())) {
+
+                    if (player.velocity.x > 0)
+                        player.bounds.x = currentFloor.bounds.x - player.bounds.width;
+                    else
+                        player.bounds.x = currentFloor.bounds.x + player.bounds.width;
+
+                    player.velocity.x = 0;
+                }
+
 
                 // Handle specific floor movements or actions
-//                if (currentFloor == floor2) {
+//                if (currentFloor == floor2)
 //                    floor2.floorXAxisMovement(player.getBounds());
-//                } else if (currentFloor == floor3) {
+//
+//                 else if (currentFloor == floor3)
 //                    floor3.floorYAxisMovement(player.getBounds());
-//                } else if (currentFloor == warpPipe && Gdx.input.isKeyPressed(Input.Keys.S)) {
+//
+//                 else if (currentFloor == warpPipe && Gdx.input.isKeyPressed(Input.Keys.S))
 //                    player.getBounds().setPosition(currentFloor.getBounds().x, currentFloor.getBounds().y + player.getBounds().height);
-//                }
+
                 break; // Exit the loop once a collision is detected
             }
             else
