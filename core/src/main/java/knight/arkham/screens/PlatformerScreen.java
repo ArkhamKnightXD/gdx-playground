@@ -85,6 +85,8 @@ public class PlatformerScreen extends ScreenAdapter {
 
             if (player.getBounds().overlaps(platform.getBounds())) {
 
+//                If the player previous position is within the x bounds of the platform,
+//                then we need to resolve the collision by changing the y value
                 if (checkCollisionInX(player.getPreviousPosition(), platform.getBounds())) {
 
 //                    Player was falling downwards. Resolve upwards.
@@ -97,6 +99,8 @@ public class PlatformerScreen extends ScreenAdapter {
 
                     player.velocity.y = 0;
                 }
+                //  If the player previous position is within the y bounds of the platform,
+//                then we need to resolve the collision by changing the x value
                 else if (checkCollisionInY(player.getPreviousPosition(), platform.getBounds())) {
 
 //                     Player was traveling right. Resolve to the left
