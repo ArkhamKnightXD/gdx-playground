@@ -19,7 +19,6 @@ public class PlatformerScreen extends ScreenAdapter {
     private final Structure floor;
     private final Structure floor2;
     private final Structure floor3;
-    private final Structure floor4;
     private final Player player;
     private final OrthographicCamera camera;
 
@@ -34,17 +33,8 @@ public class PlatformerScreen extends ScreenAdapter {
         floor = new Structure(new Rectangle(100, 400, 200, 32), "images/wall.png");
         floor2 = new Structure(new Rectangle(400, 175, 200, 32), "images/wall.png");
         floor3 = new Structure(new Rectangle(225, 85, 200, 32), "images/wall.png");
-        floor4 = new Structure(new Rectangle(0, 0, FULL_SCREEN_WIDTH, 32), "images/wall.png");
-
-        structures = getStructures();
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
-    }
-
-    private Array<Structure> getStructures() {
-
-        final Array<Structure> structures;
+        Structure floor4 = new Structure(new Rectangle(700, 30, 150, 32), "images/wall.png");
+        Structure floor5 = new Structure(new Rectangle(0, 0, FULL_SCREEN_WIDTH, 32), "images/wall.png");
 
         structures = new Array<>();
 
@@ -52,8 +42,10 @@ public class PlatformerScreen extends ScreenAdapter {
         structures.add(floor2);
         structures.add(floor3);
         structures.add(floor4);
+        structures.add(floor5);
 
-        return structures;
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
     }
 
     private void update(float delta){
@@ -114,6 +106,7 @@ public class PlatformerScreen extends ScreenAdapter {
 
                     if (player.velocity.x > 0)
                         player.bounds.x = currentFloor.bounds.x - player.bounds.width;
+                    //left side collision is failing.
                     else
                         player.bounds.x = currentFloor.bounds.x + player.bounds.width;
 
