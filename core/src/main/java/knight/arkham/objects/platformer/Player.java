@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends GameObject {
 
-    public boolean isPlayerGrounded = false;
     public final Vector2 velocity = new Vector2(0,0);
 
     public Player(Rectangle bounds) {
@@ -19,7 +18,22 @@ public class Player extends GameObject {
 
         //gravity
         velocity.y -= 20.8f * deltaTime;
+
+        //        -- Update the player's position
         bounds.y = bounds.y + velocity.y;
+        bounds.x = bounds.x + velocity.x;
+
+        //        To avoid that my player keep going forward infinitely, I multiply the velocity, by my coefficient of friction 0.9
+//        This will subtract 10% of the player's speed every frame, eventually bringing the player to a stop.
+        velocity.x *= 0.9f;
+
+//                -- Increase the player's x speed
+        if (Gdx.input.isKeyPressed(Input.Keys.D))
+            velocity.x += speed * deltaTime;
+
+        else if (Gdx.input.isKeyPressed(Input.Keys.A))
+            velocity.x -= speed * deltaTime;
+
 
         if(bounds.y < 0) {
 
@@ -27,19 +41,6 @@ public class Player extends GameObject {
             bounds.x = 200;
             velocity.y = 0;
         }
-
-//        -- Update the player's position
-        bounds.x = bounds.x + velocity.x;
-//                -- Increase the player's speed
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
-            velocity.x += speed * deltaTime;
-
-        else if (Gdx.input.isKeyPressed(Input.Keys.A))
-            velocity.x -= speed * deltaTime;
-
-//        To avoid that my player keep going forward infinitely, I multiply the velocity, by my coefficient of friction 0.9
-//        This will subtract 10% of the player's speed every frame, eventually bringing the player to a stop.
-        velocity.x *= 0.9f;
     }
 
     public Rectangle getPreviousPosition() {

@@ -21,7 +21,6 @@ public class PlatformerScreen extends ScreenAdapter {
     private final Structure floor3;
     private final Player player;
     private final OrthographicCamera camera;
-
     private final Array<Structure> structures;
 
     public PlatformerScreen() {
@@ -82,37 +81,37 @@ public class PlatformerScreen extends ScreenAdapter {
 
     private void managePlayerFloorCollision(float deltaTime) {
 
-        for (Structure currentFloor : structures) {
+        for (Structure platform : structures) {
 
-            if (player.getBounds().overlaps(currentFloor.getBounds())) {
+            if (player.getBounds().overlaps(platform.getBounds())) {
 
-                if (checkCollisionInX(player.getPreviousPosition(), currentFloor.getBounds())) {
+                if (checkCollisionInX(player.getPreviousPosition(), platform.getBounds())) {
 
-                    if (player.velocity.y < 0) {
+//                    Player was falling downwards. Resolve upwards.
+                    if (player.velocity.y < 0)
+                        player.bounds.y = platform.bounds.y + player.bounds.height;
 
-                        player.bounds.y = currentFloor.bounds.y + player.bounds.height;
-                        player.velocity.y = 0;
-
-                        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
-                            player.velocity.y = 500 * deltaTime;
-                    }
-                    else {
-
-                        player.bounds.y = currentFloor.bounds.y - player.bounds.height;
-                        player.velocity.y = 0;
-                    }
-                }
-                else if (checkCollisionInY(player.getPreviousPosition(), currentFloor.getBounds())) {
-
-                    if (player.velocity.x > 0)
-                        player.bounds.x = currentFloor.bounds.x - player.bounds.width;
-                    //left side collision is failing.
+//                     Player was moving upwards. Resolve downwards
                     else
-                        player.bounds.x = currentFloor.bounds.x + player.bounds.width;
+                        player.bounds.y = platform.bounds.y - player.bounds.height;
+
+                    player.velocity.y = 0;
+                }
+                else if (checkCollisionInY(player.getPreviousPosition(), platform.getBounds())) {
+
+//                     Player was traveling right. Resolve to the left
+                    if (player.velocity.x > 0)
+                        player.bounds.x = platform.bounds.x - player.bounds.width;
+
+//                     Player was traveling left. Resolve to the right
+                    else
+                        player.bounds.x = platform.bounds.x + platform.bounds.width;
 
                     player.velocity.x = 0;
                 }
 
+                if (player.velocity.y == 0 && Gdx.input.isKeyPressed(Input.Keys.SPACE))
+                    player.velocity.y = 500 * deltaTime;
 
                 // Handle specific floor movements or actions
 //                if (currentFloor == floor2)
@@ -123,11 +122,7 @@ public class PlatformerScreen extends ScreenAdapter {
 //
 //                 else if (currentFloor == warpPipe && Gdx.input.isKeyPressed(Input.Keys.S))
 //                    player.getBounds().setPosition(currentFloor.getBounds().x, currentFloor.getBounds().y + player.getBounds().height);
-
-                break; // Exit the loop once a collision is detected
             }
-            else
-                player.isPlayerGrounded = false;
         }
     }
 
